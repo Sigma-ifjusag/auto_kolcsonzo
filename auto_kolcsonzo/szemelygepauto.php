@@ -1,7 +1,6 @@
 <?php
 include 'config.php';
 
-
 $where = [];
 $where[] = "selejt = 'nem'";
 $where[] = "tipus = 'szemelygepauto'";
@@ -46,55 +45,45 @@ $result = $conn->query($sql);
 <head>
 <meta charset="UTF-8">
 <title>Autók szűrése</title>
-
 <style>
 body {
     font-family: Arial, sans-serif;
 }
-
 .container {
     display: flex;
 }
-
 .sidebar {
     width: 260px;
     padding: 15px;
     border-right: 1px solid #ccc;
     background: #f9f9f9;
 }
-
 .content {
     flex: 1;
     padding: 15px;
 }
-
 label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
 }
-
 input, select, button {
     width: 100%;
     padding: 6px;
     margin-top: 5px;
 }
-
 button {
     margin-top: 15px;
     cursor: pointer;
 }
-
 table {
     border-collapse: collapse;
     width: 100%;
 }
-
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
 }
-
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
@@ -105,46 +94,39 @@ tr:nth-child(even) {
     --text-dark: #1e1e1e;
     --orange: #ff8102ff;
 }
-
 body {
     font-family: Arial, sans-serif;
     background-color: var(--gray-bg);
     color: var(--text-dark);
     margin: 0;
 }
-
 .container {
     display: flex;
     min-height: 100vh;
 }
-
 .sidebar {
     width: 270px;
     background-color: var(--gray-panel);
     padding: 20px;
     border-right: 2px solid var(--gray-border);
 }
-
 .sidebar label {
     margin-top: 12px;
     font-size: 14px;
     color: #333;
 }
-
 input, select {
     background-color: #fafafa;
     border: 1px solid var(--gray-border);
     border-radius: 4px;
     transition: border 0.2s, box-shadow 0.2s;
 }
-
 input:focus,
 select:focus {
     outline: none;
     border-color: var(--orange);
     box-shadow: 0 0 0 2px rgba(255, 128, 0, 0.2);
 }
-
 button {
     background-color: var(--orange);
     border: none;
@@ -154,41 +136,38 @@ button {
     border-radius: 4px;
     transition: background 0.2s;
 }
-
 button:hover {
     background-color: #ff8400ff;
     cursor: pointer;
 }
-
 .content {
     flex: 1;
     padding: 20px;
 }
-
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
 }
-
 th {
     background-color: #3a3a3a;
     color: #fff;
     text-transform: uppercase;
     font-size: 13px;
 }
-
 th, td {
     padding: 10px;
     border: 1px solid var(--gray-border);
 }
-
 tr:nth-child(even) {
     background-color: #f5f5f5;
 }
-
 tr:hover {
     background-color: rgba(255, 128, 0, 0.08);
+}
+img.car-img {
+    max-width: 100px;
+    border-radius: 5px;
 }
 </style>
 </head>
@@ -199,7 +178,6 @@ tr:hover {
 
 <div class="sidebar">
 <form method="GET">
-
     <label>Márka</label>
     <input type="text" name="marka" value="<?= $_GET['marka'] ?? '' ?>">
 
@@ -246,7 +224,7 @@ tr:hover {
 <div class="content">
 <table>
 <tr>
-    <th>ID</th>
+    <th>Kép</th>
     <th>Rendszám</th>
     <th>Márka</th>
     <th>Modell</th>
@@ -259,8 +237,9 @@ tr:hover {
 <?php
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        $kepHtml = $row['kep'] ? "<img src='".htmlspecialchars($row['kep'])."' class='car-img'>" : "-";
         echo "<tr>
-            <td>{$row['ItemsID']}</td>
+            <td>$kepHtml</td>
             <td>{$row['R/U']}</td>
             <td>{$row['marka']}</td>
             <td>{$row['modell']}</td>
@@ -271,11 +250,10 @@ if ($result && $result->num_rows > 0) {
         </tr>";
     }
 } else {
-    echo "<tr><td colspan='8'>Nincs találat</td></tr>";
+    echo "<tr><td colspan='9'>Nincs találat</td></tr>";
 }
 $conn->close();
 ?>
-
 </table>
 </div>
 </div>

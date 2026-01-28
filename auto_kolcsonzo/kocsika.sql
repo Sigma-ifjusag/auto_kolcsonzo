@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 28. 13:49
+-- Létrehozás ideje: 2026. Jan 28. 15:13
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -56,15 +56,16 @@ CREATE TABLE `items` (
   `loero` int(11) NOT NULL,
   `nyomatek` int(11) NOT NULL,
   `selejt` enum('igen','nem') NOT NULL,
-  `UserID` int(11) NOT NULL
+  `UserID` int(11) NOT NULL,
+  `kep` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `items`
 --
 
-INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`) VALUES
-(8, 'abc-123', 'szemelygepauto', 'Benzin', 'lada', '2000', 'Sedan', 5, 120, 4, 1000, 80, 20, 'nem', 5);
+INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`) VALUES
+(11, 'abc-123', 'szemelygepauto', 'Benzin', 'lada', '2000', 'Sedan', 5, 100, 4, 1000, 80, 70, 'nem', 5, 'uploads/1769609599_lada.jpg');
 
 -- --------------------------------------------------------
 
@@ -144,7 +145,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `items`
 --
 ALTER TABLE `items`
-  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `users`
