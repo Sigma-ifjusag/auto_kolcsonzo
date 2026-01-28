@@ -80,7 +80,6 @@ $cars = $stmt->get_result();
 <head>
 <meta charset="UTF-8">
 <title>Saját autóim</title>
-<a href="index.php" class="back-btn">⬅ Vissza a főoldalra</a>
 <style>
 body { font-family: Arial; background:#f4f4f4; padding:40px; }
 h1 { color:#ff8102; }
@@ -90,20 +89,6 @@ button { padding:10px; background:#2b2b2b; color:white; border:none; cursor:poin
 button:hover { background:#ff8102; }
 .car-box { background:#fff; padding:15px; margin-bottom:15px; border-radius:8px; }
 .success { color:green; font-weight:bold; }
-.back-btn {
-    display: inline-block;
-    margin-bottom: 20px;
-    padding: 10px 15px;
-    background: #2b2b2b;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-}
-
-.back-btn:hover {
-    background: #ff8102;
-}
 </style>
 </head>
 <body>
