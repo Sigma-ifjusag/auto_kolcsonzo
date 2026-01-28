@@ -143,8 +143,6 @@ form, .car-box {
     flex-direction:column;
 }
 
-.form-full { grid-column:1 / -1; }
-
 label {
     font-size:13px;
     font-weight:600;
@@ -283,7 +281,7 @@ function toggleEdit(id) {
 <div class="form-group"><label>Ár / nap</label><input type="number" name="ar" min="0" required></div>
 <div class="form-group"><label>Lóerő</label><input type="number" name="loero" min="1" required></div>
 <div class="form-group"><label>Nyomaték</label><input type="number" name="nyomatek" min="1" required></div>
-<div class="form-group form-full"><label>Állapot</label>
+<div class="form-group"><label>Állapot</label>
     <select name="selejt">
         <option value="nem">Nem selejt</option>
         <option value="igen">Selejt</option>

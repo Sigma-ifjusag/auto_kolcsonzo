@@ -173,7 +173,6 @@ h1 {
     flex-direction:column;
 }
 
-.form-full { grid-column:1 / -1; }
 
 label {
     font-size:13px;
@@ -284,7 +283,7 @@ function toggleEdit(id) {
                 <div class="form-group"><label>Ár / nap</label><input type="number" name="ar" value="<?= $car['ar/nap'] ?>"></div>
                 <div class="form-group"><label>Lóerő</label><input type="number" name="loero" value="<?= $car['loero'] ?>"></div>
                 <div class="form-group"><label>Nyomaték</label><input type="number" name="nyomatek" value="<?= $car['nyomatek'] ?>"></div>
-                <div class="form-group form-full"><label>Selejt</label>
+                <div class="form-group"><label>Selejt</label>
                     <select name="selejt">
                         <option value="nem" <?= $car['selejt']=='nem'?'selected':'' ?>>Nem</option>
                         <option value="igen" <?= $car['selejt']=='igen'?'selected':'' ?>>Igen</option>
