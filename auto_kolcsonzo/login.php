@@ -6,7 +6,7 @@ $hiba = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $login = trim($_POST['login'] ?? ''); // username VAGY email
+    $login = trim($_POST['login'] ?? '');
     $password = $_POST['password'] ?? '';
 
     if (!$login || !$password) {
@@ -32,7 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['jogosultsag'] = $user['jogosultsag'];
 
-                header("Location: index.php");
+                // 🔀 Átirányítás jogosultság alapján
+                if ($user['jogosultsag'] == 1) {
+                    header("Location: add_cars_admin.php"); // admin
+                } else {
+                    header("Location: add_cars_user.php"); // normál user
+                }
                 exit;
 
             } else {

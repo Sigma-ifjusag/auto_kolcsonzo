@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 22. 14:15
+-- Létrehozás ideje: 2026. Jan 28. 11:53
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -92,7 +92,7 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `szig` int(11) NOT NULL,
   `lakc` varchar(255) NOT NULL,
   `jogosultsag` int(1) NOT NULL
@@ -103,8 +103,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `password`, `szig`, `lakc`, `jogosultsag`) VALUES
-(1, 'mc doktorúr', 'mc istvániusz', 'mcpityu@gmail.com', 'darko', 55555, 'miskolc', 1),
-(2, 'kili_boss', 'kili', 'kili@gmail.com', '$2y$10$zmATMjHzdVI/9ujfvqcEyeM14iP1qIpbyBYoYw7VD2W', 4444, 'kili haz', 0);
+(3, 'kili_boss', 'kili', 'kili@gmail.com', '$2y$10$yW8gPv5YCPUXO1dOvQpWJO2HCePwr/oW85pNgubJ9PfhIOP.aS3tS', 4444, 'kili haz', 1),
+(4, 'skibidifan', 'zwik_skibidi', 'noki@gmail.com', '$2y$10$C4MA3Jby4FUVQ6kguVDXdO5uBn8m76DRqS7QbJxAE9q1648k57bHa', 1231, 'zwik haz', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -150,7 +150,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Megkötések a kiírt táblákhoz
