@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -82,7 +81,7 @@ img {
     background-color: black;
     transform: scale(1.05);
 }
-#logo{
+.logo{
     position:fixed;
     top: 0px;
     left: 10px;  
@@ -92,12 +91,14 @@ img {
     border: 2px solid var(--gray-border);
     z-index: 1000;
 }
-
+.logo:hover {
+    transform: scale(1.05);
+    border-color: var(--orange);
+}
     </style>
 </head>
 <body>
-    <nav>
-        <img id="logo" src="images/logo.png">
+<img src="images/placeholder_logo.png" alt="Logó" class="logo">
         <button id="loginBtn" onclick="location.href='http://localhost/auto_kolcsonzo/login.php'">Bejelentkezés</button>
     <div class="navbar">
         <img src="images/trabi.jfif">

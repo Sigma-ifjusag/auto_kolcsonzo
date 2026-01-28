@@ -10,7 +10,7 @@ if (!isset($_SESSION['userid']) || $_SESSION['jogosultsag'] != 1) {
 $uzenet = "";
 
 /* =========================
-   AUTÓ MÓDOSÍTÁS ADMIN ÁLTAL
+   AUTÓ MÓDOSÍTÁS
 ========================= */
 if (isset($_POST['edit_car_admin'])) {
 
@@ -29,7 +29,8 @@ if (isset($_POST['edit_car_admin'])) {
     $nyomatek  = (int)$_POST['nyomatek'];
     $selejt    = $_POST['selejt'];
 
-    $stmt = $conn->prepare("UPDATE items SET
+    $stmt = $conn->prepare("
+        UPDATE items SET
         `R/U`=?,
         tipus=?,
         uzemanyag=?,
@@ -43,7 +44,8 @@ if (isset($_POST['edit_car_admin'])) {
         loero=?,
         nyomatek=?,
         selejt=?
-        WHERE ItemsID=?");
+        WHERE ItemsID=?
+    ");
 
     $stmt->bind_param(
         "ssssssiiiiissi",
@@ -52,42 +54,67 @@ if (isset($_POST['edit_car_admin'])) {
     );
 
     $stmt->execute();
-    $uzenet = "Autó adatai frissítve!";
+    $uzenet = "✅ Autó adatai frissítve!";
 }
 
 /* =========================
-   ÖSSZES AUTÓ LEKÉRÉSE
+   AUTÓK LEKÉRÉSE
 ========================= */
 $cars = $conn->query("SELECT * FROM items ORDER BY ItemsID DESC");
 ?>
-
-<script>
-function autoLogout() {
-    navigator.sendBeacon("logout.php");
-}
-window.addEventListener("unload", autoLogout);
-</script>
 
 <!DOCTYPE html>
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
 <title>Admin – Autók kezelése</title>
+
 <style>
 body { font-family: Arial; background:#f4f4f4; padding:40px; }
 h1 { color:#ff8102; }
-form { background:#fff; padding:15px; margin-bottom:20px; border-radius:8px; }
+.car-box { background:#fff; padding:15px; margin-bottom:20px; border-radius:8px; }
 input, select { padding:6px; margin:4px 0; width:100%; }
 button { padding:8px; background:#2b2b2b; color:white; border:none; cursor:pointer; }
 button:hover { background:#ff8102; }
-.car-box { background:#fff; padding:15px; margin-bottom:20px; border-radius:8px; }
 .success { color:green; font-weight:bold; }
-small { color:#777; }
+
+.back-btn {
+    display:inline-block;
+    margin-bottom:20px;
+    padding:10px 15px;
+    background:#2b2b2b;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+}
+
+.back-btn:hover { background:#ff8102; }
+
+.car-form {
+    display:none;
+    margin-top:15px;
+    animation: fadeIn .3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(-5px); }
+    to { opacity:1; transform:translateY(0); }
+}
 </style>
+
+<script>
+function toggleCar(id) {
+    const el = document.getElementById('car-' + id);
+    el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+}
+</script>
 </head>
+
 <body>
 
-<h1>Admin – Összes autó kezelése 🚗</h1>
+<a href="index.php" class="back-btn">⬅ Vissza a főoldalra</a>
+
+<h1>Admin – Autók kezelése 🚗</h1>
 
 <?php if ($uzenet): ?>
     <p class="success"><?= $uzenet ?></p>
@@ -96,79 +123,74 @@ small { color:#777; }
 <?php while ($car = $cars->fetch_assoc()): ?>
 <div class="car-box">
     <strong>#<?= $car['ItemsID'] ?> — <?= htmlspecialchars($car['marka']) ?> <?= htmlspecialchars($car['modell']) ?></strong>
-    <small>(Tulaj UserID: <?= $car['UserID'] ?>)</small>
+    <small>(Tulaj ID: <?= $car['UserID'] ?>)</small>
+    <br><br>
 
-    <form method="POST">
-        <input type="hidden" name="carid" value="<?= $car['ItemsID'] ?>">
+    <button type="button" onclick="toggleCar(<?= $car['ItemsID'] ?>)">
+        ⚙ Beállítások megjelenítése
+    </button>
 
-        <label>Rendszám</label>
-        <input type="text" name="rendszam" value="<?= htmlspecialchars($car['R/U']) ?>" required>
+    <div id="car-<?= $car['ItemsID'] ?>" class="car-form">
+        <form method="POST">
+            <input type="hidden" name="carid" value="<?= $car['ItemsID'] ?>">
 
-        <label>Márka</label>
-        <input type="text" name="marka" value="<?= htmlspecialchars($car['marka']) ?>" required>
+            <label>Rendszám</label>
+            <input type="text" name="rendszam" value="<?= htmlspecialchars($car['R/U']) ?>">
 
-        <label>Modell</label>
-        <input type="text" name="modell" value="<?= htmlspecialchars($car['modell']) ?>" required>
+            <label>Márka</label>
+            <input type="text" name="marka" value="<?= htmlspecialchars($car['marka']) ?>">
 
-        <label>Típus</label>
-        <select name="tipus">
-            <?php
-            $tipusok = ['szemelygepauto','haszonauto','munkagep','motorkerekpar','egyeb'];
-            foreach ($tipusok as $t) {
-                $sel = $car['tipus'] == $t ? 'selected' : '';
-                echo "<option value='$t' $sel>$t</option>";
-            }
-            ?>
-        </select>
+            <label>Modell</label>
+            <input type="text" name="modell" value="<?= htmlspecialchars($car['modell']) ?>">
 
-        <label>Üzemanyag</label>
-        <select name="uzemanyag">
-            <?php
-            $uzemanyagok = ['Benzin','Dízel','Benzingaz','Hybrid','Elektromos'];
-            foreach ($uzemanyagok as $u) {
-                $sel = $car['uzemanyag'] == $u ? 'selected' : '';
-                echo "<option value='$u' $sel>$u</option>";
-            }
-            ?>
-        </select>
+            <label>Típus</label>
+            <select name="tipus">
+                <?php foreach (['szemelygepauto','haszonauto','munkagep','motorkerekpar','egyeb'] as $t): ?>
+                    <option value="<?= $t ?>" <?= $car['tipus']==$t?'selected':'' ?>><?= $t ?></option>
+                <?php endforeach; ?>
+            </select>
 
-        <label>Kivitel</label>
-        <select name="kivitel">
-            <?php
-            $kivitelek = ['Sedan','Hatchback','Kombi','SUV','Terepjáró','Pickup','Coupe','Cabrio','Van','Sport','Buggy','Motor','Egyéb'];
-            foreach ($kivitelek as $k) {
-                $sel = $car['kivitel'] == $k ? 'selected' : '';
-                echo "<option value='$k' $sel>$k</option>";
-            }
-            ?>
-        </select>
+            <label>Üzemanyag</label>
+            <select name="uzemanyag">
+                <?php foreach (['Benzin','Dízel','Benzingaz','Hybrid','Elektromos'] as $u): ?>
+                    <option value="<?= $u ?>" <?= $car['uzemanyag']==$u?'selected':'' ?>><?= $u ?></option>
+                <?php endforeach; ?>
+            </select>
 
-        <label>Személyek száma</label>
-        <input type="number" name="sz_szem" value="<?= $car['sz_szem'] ?>" required>
+            <label>Kivitel</label>
+            <select name="kivitel">
+                <?php foreach (['Sedan','Hatchback','Kombi','SUV','Terepjáró','Pickup','Coupe','Cabrio','Van','Sport','Motor','Egyéb'] as $k): ?>
+                    <option value="<?= $k ?>" <?= $car['kivitel']==$k?'selected':'' ?>><?= $k ?></option>
+                <?php endforeach; ?>
+            </select>
 
-        <label>Súly (kg)</label>
-        <input type="number" name="suly" value="<?= $car['suly'] ?>" required>
+            <label>Személyek száma</label>
+            <input type="number" name="sz_szem" value="<?= $car['sz_szem'] ?>">
 
-        <label>Ajtók száma</label>
-        <input type="number" name="ajtokszama" value="<?= $car['ajtokszama'] ?>" required>
+            <label>Súly (kg)</label>
+            <input type="number" name="suly" value="<?= $car['suly'] ?>">
 
-        <label>Ár / nap (Ft)</label>
-        <input type="number" name="ar" value="<?= $car['ar/nap'] ?>" required>
+            <label>Ajtók száma</label>
+            <input type="number" name="ajtokszama" value="<?= $car['ajtokszama'] ?>">
 
-        <label>Lóerő</label>
-        <input type="number" name="loero" value="<?= $car['loero'] ?>" required>
+            <label>Ár / nap (Ft)</label>
+            <input type="number" name="ar" value="<?= $car['ar/nap'] ?>">
 
-        <label>Nyomaték (Nm)</label>
-        <input type="number" name="nyomatek" value="<?= $car['nyomatek'] ?>" required>
+            <label>Lóerő</label>
+            <input type="number" name="loero" value="<?= $car['loero'] ?>">
 
-        <label>Selejt</label>
-        <select name="selejt">
-            <option value="nem" <?= $car['selejt'] == 'nem' ? 'selected' : '' ?>>Nem</option>
-            <option value="igen" <?= $car['selejt'] == 'igen' ? 'selected' : '' ?>>Igen</option>
-        </select>
+            <label>Nyomaték</label>
+            <input type="number" name="nyomatek" value="<?= $car['nyomatek'] ?>">
 
-        <button type="submit" name="edit_car_admin">Mentés</button>
-    </form>
+            <label>Selejt</label>
+            <select name="selejt">
+                <option value="nem" <?= $car['selejt']=='nem'?'selected':'' ?>>Nem</option>
+                <option value="igen" <?= $car['selejt']=='igen'?'selected':'' ?>>Igen</option>
+            </select>
+
+            <button type="submit" name="edit_car_admin">💾 Mentés</button>
+        </form>
+    </div>
 </div>
 <?php endwhile; ?>
 
