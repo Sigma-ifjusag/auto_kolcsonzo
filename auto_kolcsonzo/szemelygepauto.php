@@ -225,11 +225,11 @@ img.car-img {
 <table>
 <tr>
     <th>Kép</th>
-    <th>Rendszám</th>
     <th>Márka</th>
     <th>Modell</th>
     <th>Üzemanyag</th>
     <th>Karosszéria</th>
+    <th>Rendszám</th>
     <th>Ajtók</th>
     <th>Ár / nap</th>
 </tr>
@@ -240,11 +240,11 @@ if ($result && $result->num_rows > 0) {
         $kepHtml = $row['kep'] ? "<img src='".htmlspecialchars($row['kep'])."' class='car-img'>" : "-";
         echo "<tr>
             <td>$kepHtml</td>
-            <td>{$row['R/U']}</td>
             <td>{$row['marka']}</td>
             <td>{$row['modell']}</td>
             <td>{$row['uzemanyag']}</td>
             <td>{$row['kivitel']}</td>
+            <td>{$row['R/U']}</td>
             <td>{$row['ajtokszama']}</td>
             <td>{$row['ar/nap']} Ft</td>
         </tr>";
