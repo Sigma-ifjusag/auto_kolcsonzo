@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 28. 11:53
+-- Létrehozás ideje: 2026. Jan 28. 12:34
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -55,18 +55,16 @@ CREATE TABLE `items` (
   `ar/nap` int(11) NOT NULL,
   `loero` int(11) NOT NULL,
   `nyomatek` int(11) NOT NULL,
-  `selejt` enum('igen','nem') NOT NULL
+  `selejt` enum('igen','nem') NOT NULL,
+  `UserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `items`
 --
 
-INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`) VALUES
-(1, 'FOS-671', 'szemelygepauto', 'Benzin', 'Lada', '2105', 'Sedan', 5, 1060, 4, 1000, 73, 110, 'nem'),
-(3, 'RKI-906', 'haszonauto', 'Benzin', 'GMC', 'SYCLONE', 'Pickup', 2, 1600, 2, 5000, 280, 475, 'nem'),
-(4, 'Nincs', 'munkagep', 'Dízel', 'John Deere', '7R 350', 'Egyéb', 1, 11400, 2, 8000, 350, 1580, 'nem'),
-(5, 'XYZ-999', 'motorkerekpar', 'Benzin', 'Ducati', 'Panigale V4', 'Motor', 1, 190, 0, 3500, 230, 124, 'nem');
+INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`) VALUES
+(7, 'abc-123', 'szemelygepauto', 'Benzin', 'lada', 'niva', 'Cabrio', 0, 0, 0, 0, 0, 0, 'igen', 5);
 
 -- --------------------------------------------------------
 
@@ -103,8 +101,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `password`, `szig`, `lakc`, `jogosultsag`) VALUES
-(3, 'kili_boss', 'kili', 'kili@gmail.com', '$2y$10$yW8gPv5YCPUXO1dOvQpWJO2HCePwr/oW85pNgubJ9PfhIOP.aS3tS', 4444, 'kili haz', 1),
-(4, 'skibidifan', 'zwik_skibidi', 'noki@gmail.com', '$2y$10$C4MA3Jby4FUVQ6kguVDXdO5uBn8m76DRqS7QbJxAE9q1648k57bHa', 1231, 'zwik haz', 0);
+(5, 'test', 'test', 'test@gmail.com', '$2y$10$4TuXDsp4JiHbjhksRitV..35Qg4GAhii/7MnRqVINdn6k0b8W5ZyO', 1234, '1234', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -121,7 +118,8 @@ ALTER TABLE `foglalas`
 -- A tábla indexei `items`
 --
 ALTER TABLE `items`
-  ADD PRIMARY KEY (`ItemsID`);
+  ADD PRIMARY KEY (`ItemsID`),
+  ADD KEY `fk_items_user` (`UserID`);
 
 --
 -- A tábla indexei `kolcsonzes`
@@ -144,13 +142,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `items`
 --
 ALTER TABLE `items`
-  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -162,6 +160,12 @@ ALTER TABLE `users`
 ALTER TABLE `foglalas`
   ADD CONSTRAINT `foglalas_ibfk_1` FOREIGN KEY (`ItemsID`) REFERENCES `items` (`ItemsID`),
   ADD CONSTRAINT `foglalas_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+
+--
+-- Megkötések a táblához `items`
+--
+ALTER TABLE `items`
+  ADD CONSTRAINT `fk_items_user` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `kolcsonzes`
