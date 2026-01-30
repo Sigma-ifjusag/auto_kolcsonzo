@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 30. 13:55
+-- Létrehozás ideje: 2026. Jan 30. 15:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -67,7 +67,29 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`) VALUES
-(11, 'abc-123', 'szemelygepauto', 'Benzin', 'lada', '2000', 'Sedan', 5, 100, 4, 1000, 80, 70, 'nem', 5, 'uploads/1769609599_lada.jpg', 'A Lada az orosz AvtoVAZ járműgyártó vállalat gépkocsimárkája. A szovjet időszakban ezt a márkanevet csak az exportra szánt járműveknél használták, ugyanazokat a modelleket a belső szovjet piacon Zsiguli márkanéven forgalmazták, de az autók a keleti blokkbeli szocialista országokba is cirill betűs Zsiguli felirattal érkeztek a forgalmazás első éveiben.[1]\r\n\r\n1993-ban a Vjacseszlav Zubarev által 1992-ben alapított TTS szerződést írt alá az AvtoVAZ-zal. 1995-ben Naberezsnije Cselni városában megnyílt az első teljes értékű LADA autóközpont, amely közvetlen szállítást indított az autógyárból. 1995-ben irodát nyitottak Kazanyban. 1997-ig az autókat Naberezsnije Cselniből hajtották. Után-vasúti szállítás[', 22222);
+(12, 'ABC-123', 'szemelygepauto', 'Benzin', 'Lada', '2000', 'Sedan', 4, 1000, 4, 1000, 90, 120, 'nem', 5, NULL, 'anyad halott', 202034241);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `item_images`
+--
+
+CREATE TABLE `item_images` (
+  `ImageID` int(11) NOT NULL,
+  `ItemsID` int(11) NOT NULL,
+  `kep` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `item_images`
+--
+
+INSERT INTO `item_images` (`ImageID`, `ItemsID`, `kep`) VALUES
+(1, 12, 'uploads/1769780766_letöltés (2).jpg'),
+(2, 12, 'uploads/1769780766_letöltés (1).jpg'),
+(3, 12, 'uploads/1769780766_letöltés.jpg'),
+(4, 12, 'uploads/1769780766_gmc.jpg');
 
 -- --------------------------------------------------------
 
@@ -127,6 +149,13 @@ ALTER TABLE `items`
   ADD KEY `fk_items_user` (`UserID`);
 
 --
+-- A tábla indexei `item_images`
+--
+ALTER TABLE `item_images`
+  ADD PRIMARY KEY (`ImageID`),
+  ADD KEY `fk_item_images_items` (`ItemsID`);
+
+--
 -- A tábla indexei `kolcsonzes`
 --
 ALTER TABLE `kolcsonzes`
@@ -147,7 +176,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `items`
 --
 ALTER TABLE `items`
-  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT a táblához `item_images`
+--
+ALTER TABLE `item_images`
+  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `users`
@@ -171,6 +206,12 @@ ALTER TABLE `foglalas`
 --
 ALTER TABLE `items`
   ADD CONSTRAINT `fk_items_user` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `item_images`
+--
+ALTER TABLE `item_images`
+  ADD CONSTRAINT `fk_item_images_items` FOREIGN KEY (`ItemsID`) REFERENCES `items` (`ItemsID`) ON DELETE CASCADE;
 
 --
 -- Megkötések a táblához `kolcsonzes`
