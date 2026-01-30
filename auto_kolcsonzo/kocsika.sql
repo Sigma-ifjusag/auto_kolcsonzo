@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 28. 15:13
+-- Létrehozás ideje: 2026. Jan 30. 13:55
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -57,15 +57,17 @@ CREATE TABLE `items` (
   `nyomatek` int(11) NOT NULL,
   `selejt` enum('igen','nem') NOT NULL,
   `UserID` int(11) NOT NULL,
-  `kep` varchar(255) DEFAULT NULL
+  `kep` varchar(255) DEFAULT NULL,
+  `leiras` varchar(2000) NOT NULL,
+  `telefon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `items`
 --
 
-INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`) VALUES
-(11, 'abc-123', 'szemelygepauto', 'Benzin', 'lada', '2000', 'Sedan', 5, 100, 4, 1000, 80, 70, 'nem', 5, 'uploads/1769609599_lada.jpg');
+INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`) VALUES
+(11, 'abc-123', 'szemelygepauto', 'Benzin', 'lada', '2000', 'Sedan', 5, 100, 4, 1000, 80, 70, 'nem', 5, 'uploads/1769609599_lada.jpg', 'A Lada az orosz AvtoVAZ járműgyártó vállalat gépkocsimárkája. A szovjet időszakban ezt a márkanevet csak az exportra szánt járműveknél használták, ugyanazokat a modelleket a belső szovjet piacon Zsiguli márkanéven forgalmazták, de az autók a keleti blokkbeli szocialista országokba is cirill betűs Zsiguli felirattal érkeztek a forgalmazás első éveiben.[1]\r\n\r\n1993-ban a Vjacseszlav Zubarev által 1992-ben alapított TTS szerződést írt alá az AvtoVAZ-zal. 1995-ben Naberezsnije Cselni városában megnyílt az első teljes értékű LADA autóközpont, amely közvetlen szállítást indított az autógyárból. 1995-ben irodát nyitottak Kazanyban. 1997-ig az autókat Naberezsnije Cselniből hajtották. Után-vasúti szállítás[', 22222);
 
 -- --------------------------------------------------------
 

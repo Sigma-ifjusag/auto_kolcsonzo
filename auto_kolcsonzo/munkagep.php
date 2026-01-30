@@ -1,6 +1,7 @@
 <?php
 include 'config.php';
 
+
 $where = [];
 $where[] = "selejt = 'nem'";
 $where[] = "tipus = 'munkagep'";
@@ -47,6 +48,56 @@ $result = $conn->query($sql);
 <title>Autók szűrése</title>
 
 <style>
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 260px;
+    padding: 15px;
+    border-right: 1px solid #ccc;
+    background: #f9f9f9;
+}
+
+.content {
+    flex: 1;
+    padding: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+}
+
+button {
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 :root {
     --gray-bg: #f2f2f2;
     --gray-panel: #e6e6e6;
@@ -67,141 +118,77 @@ body {
     min-height: 100vh;
 }
 
-/* SIDEBAR */
 .sidebar {
     width: 270px;
     background-color: var(--gray-panel);
     padding: 20px;
     border-right: 2px solid var(--gray-border);
-    font-weight: bold;
 }
 
 .sidebar label {
     margin-top: 12px;
     font-size: 14px;
-    display: block;
+    color: #333;
 }
 
 input, select {
-    width: 100%;
-    padding: 6px;
-    margin-top: 5px;
+    background-color: #fafafa;
     border: 1px solid var(--gray-border);
     border-radius: 4px;
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--orange);
     box-shadow: 0 0 0 2px rgba(255, 128, 0, 0.2);
 }
 
 button {
-    margin-top: 15px;
     background-color: var(--orange);
     border: none;
     color: #fff;
     font-weight: bold;
     padding: 10px;
     border-radius: 4px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: #ff8400ff;
     cursor: pointer;
 }
 
-/* CONTENT */
 .content {
     flex: 1;
     padding: 20px;
 }
 
-/* CAR LIST */
-.car-list {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.car-card {
-    display: flex;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    overflow: hidden;
-    transition: box-shadow 0.2s, transform 0.15s;
-}
-
-.car-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-}
-
-.car-image {
-    width: 220px;
-    height: 150px;
-    background: #eee;
-    flex-shrink: 0;
-}
-
-.car-image img {
+table {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    border-collapse: collapse;
+    background-color: #fff;
 }
 
-.car-main {
-    flex: 1;
-    padding: 15px 18px;
-}
-
-.car-main h2 {
-    margin: 0 0 8px 0;
-    font-size: 20px;
-}
-
-.tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-}
-
-.tags span {
-    background: #f1f1f1;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
-.plate {
+th {
+    background-color: #3a3a3a;
+    color: #fff;
+    text-transform: uppercase;
     font-size: 13px;
-    color: #666;
 }
 
-.car-price {
-    width: 170px;
-    background: #fafafa;
-    border-left: 1px solid #eee;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
+th, td {
+    padding: 10px;
+    border: 1px solid var(--gray-border);
 }
 
-.price {
-    font-size: 22px;
-    font-weight: bold;
-    color: var(--orange);
+tr:nth-child(even) {
+    background-color: #f5f5f5;
 }
 
-.perday {
-    font-size: 13px;
-    color: #777;
-}
-
-.car-price button {
-    margin-top: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
+tr:hover {
+    background-color: rgba(255, 128, 0, 0.08);
 }
 </style>
 </head>
@@ -212,11 +199,12 @@ button {
 
 <div class="sidebar">
 <form method="GET">
+
     <label>Márka</label>
-    <input type="text" name="marka" value="<?= htmlspecialchars($_GET['marka'] ?? '') ?>">
+    <input type="text" name="marka" value="<?= $_GET['marka'] ?? '' ?>">
 
     <label>Modell</label>
-    <input type="text" name="modell" value="<?= htmlspecialchars($_GET['modell'] ?? '') ?>">
+    <input type="text" name="modell" value="<?= $_GET['modell'] ?? '' ?>">
 
     <label>Üzemanyag</label>
     <select name="uzemanyag">
@@ -243,59 +231,53 @@ button {
     </select>
 
     <label>Ajtók száma</label>
-    <input type="number" name="ajtokszama" value="<?= htmlspecialchars($_GET['ajtokszama'] ?? '') ?>">
+    <input type="number" name="ajtokszama" value="<?= $_GET['ajtokszama'] ?? '' ?>">
 
     <label>Ár / nap (min)</label>
-    <input type="number" name="ar_min" value="<?= htmlspecialchars($_GET['ar_min'] ?? '') ?>">
+    <input type="number" name="ar_min" value="<?= $_GET['ar_min'] ?? '' ?>">
 
     <label>Ár / nap (max)</label>
-    <input type="number" name="ar_max" value="<?= htmlspecialchars($_GET['ar_max'] ?? '') ?>">
+    <input type="number" name="ar_max" value="<?= $_GET['ar_max'] ?? '' ?>">
 
     <button type="submit">Szűrés</button>
 </form>
 </div>
 
 <div class="content">
-<div class="car-list">
+<table>
+<tr>
+    <th>ID</th>
+    <th>Rendszám</th>
+    <th>Márka</th>
+    <th>Modell</th>
+    <th>Üzemanyag</th>
+    <th>Karosszéria</th>
+    <th>Ajtók</th>
+    <th>Ár / nap</th>
+</tr>
+
 <?php
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $kep = $row['kep'] ? htmlspecialchars($row['kep']) : 'noimage.jpg';
-
-        echo "
-        <div class='car-card'>
-            <div class='car-image'>
-                <img src='{$kep}' alt='autó'>
-            </div>
-
-            <div class='car-main'>
-                <h2>".htmlspecialchars($row['marka'])." ".htmlspecialchars($row['modell'])."</h2>
-                
-                <div class='tags'>
-                    <span>".htmlspecialchars($row['uzemanyag'])."</span>
-                    <span>".htmlspecialchars($row['kivitel'])."</span>
-                    <span>".intval($row['ajtokszama'])." ajtó</span>
-                </div>
-
-                <p class='plate'>Rendszám: ".htmlspecialchars($row['R/U'])."</p>
-            </div>
-
-            <div class='car-price'>
-                <div class='price'>".intval($row['ar/nap'])." Ft</div>
-                <div class='perday'>/ nap</div>
-                <button>Részletek</button>
-            </div>
-        </div>
-        ";
+        echo "<tr>
+            <td>{$row['ItemsID']}</td>
+            <td>{$row['R/U']}</td>
+            <td>{$row['marka']}</td>
+            <td>{$row['modell']}</td>
+            <td>{$row['uzemanyag']}</td>
+            <td>{$row['kivitel']}</td>
+            <td>{$row['ajtokszama']}</td>
+            <td>{$row['ar/nap']} Ft</td>
+        </tr>";
     }
 } else {
-    echo "<p>Nincs találat a szűrésre.</p>";
+    echo "<tr><td colspan='8'>Nincs találat</td></tr>";
 }
 $conn->close();
 ?>
-</div>
-</div>
 
+</table>
+</div>
 </div>
 </body>
 </html>
