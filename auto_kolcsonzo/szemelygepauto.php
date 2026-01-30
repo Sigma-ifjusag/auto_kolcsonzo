@@ -27,7 +27,6 @@ $result = $conn->query($sql);
 <meta charset="UTF-8">
 <title>Autók szűrése</title>
 <style>
-/* --- Stílusok változatlanok --- */
 :root {
     --gray-bg: #f2f2f2;
     --gray-panel: #e6e6e6;
@@ -48,6 +47,25 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 .car-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
 .car-image { width: 200px; height: 200px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #eee; margin: 10px 15px; border-radius: 8px; overflow: hidden; border: 1px solid var(--gray-border); padding: 5px; position: relative; }
 .car-image img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 4px; }
+.car-image button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(0,0,0,0.3); /* fekete átlátszó */
+    color: #000; /* fekete nyíl */
+    border: none;
+    padding: 5px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+.car-image button:hover {
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+}
 .car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -62,7 +80,13 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 .owner { font-size: 13px; color: #555; margin-bottom: 4px; text-align: center; }
 .price { font-size: 22px; font-weight: bold; color: var(--orange); }
 .perday { font-size: 13px; color: #777; }
-@media (max-width: 900px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 2px solid var(--gray-border); } .car-card { flex-direction: column; min-height: auto; } .car-image { width: 100%; height: 300px; margin: 0 0 10px 0; } .car-price { width: 100%; border-left: none; border-top: 1px solid #eee; padding: 10px 0; } }
+@media (max-width: 900px) { 
+    .container { flex-direction: column; } 
+    .sidebar { width: 100%; border-right: none; border-bottom: 2px solid var(--gray-border); } 
+    .car-card { flex-direction: column; min-height: auto; } 
+    .car-image { width: 100%; height: 300px; margin: 0 0 10px 0; } 
+    .car-price { width: 100%; border-left: none; border-top: 1px solid #eee; padding: 10px 0; } 
+}
 </style>
 </head>
 <body>
@@ -98,7 +122,6 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 <?php
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        // Lekérjük az összes képet az autóhoz
         $stmtImgs = $conn->prepare("SELECT kep FROM item_images WHERE ItemsID=?");
         $stmtImgs->bind_param("i", $row['ItemsID']);
         $stmtImgs->execute();
@@ -115,9 +138,9 @@ if ($result && $result->num_rows > 0) {
         echo "
         <div class='car-card'>
             <div class='car-image'>
-                <button onclick='prevImage({$row['ItemsID']})' style='position:absolute;left:5px;top:50%;transform:translateY(-50%);z-index:10;'>&lt;</button>
+                <button onclick='prevImage({$row['ItemsID']})' style='left:5px;'>&lt;</button>
                 <img id='car-img-{$row['ItemsID']}' src='{$images[0]}' alt='autó'>
-                <button onclick='nextImage({$row['ItemsID']})' style='position:absolute;right:5px;top:50%;transform:translateY(-50%);z-index:10;'>&gt;</button>
+                <button onclick='nextImage({$row['ItemsID']})' style='right:5px;'>&gt;</button>
             </div>
             <script>
                 window['images_{$row['ItemsID']}'] = {$imagesJson};
@@ -186,6 +209,15 @@ function nextImage(id) {
     if (window['imgIndex_' + id] >= window['images_' + id].length) window['imgIndex_' + id] = 0;
     document.getElementById('car-img-' + id).src = window['images_' + id][window['imgIndex_' + id]];
 }
+
+// Csak akkor mutatjuk a Tovább gombot, ha a leírás hosszabb, mint a max-height
+document.querySelectorAll('.leiras-wrapper').forEach(wrapper => {
+    const leiras = wrapper.querySelector('.leiras');
+    const btn = wrapper.querySelector('.show-more-btn');
+    if (leiras.scrollHeight <= leiras.clientHeight) {
+        btn.style.display = 'none';
+    }
+});
 </script>
 </body>
 </html>
