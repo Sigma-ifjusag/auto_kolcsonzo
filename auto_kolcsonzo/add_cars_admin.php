@@ -24,6 +24,8 @@ if (isset($_POST['edit_car_admin'])) {
     $ar        = (int)$_POST['ar'];
     $loero     = (int)$_POST['loero'];
     $nyomatek  = (int)$_POST['nyomatek'];
+    $leiras    = $_POST['leiras'];
+    $telefon   = $_POST['telefon'];
     $selejt    = $_POST['selejt'];
 
     $stmt = $conn->prepare("
@@ -40,13 +42,16 @@ if (isset($_POST['edit_car_admin'])) {
         `ar/nap`=?,
         loero=?,
         nyomatek=?,
+        leiras=?,
+        telefon=?,
         selejt=?
         WHERE ItemsID=?
     ");
     $stmt->bind_param(
-        "ssssssiiiiissi",
-        $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
-        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek, $selejt, $carid
+    "ssssssiiiiisssi",
+    $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
+    $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek,
+    $leiras, $telefon, $selejt, $carid
     );
     $stmt->execute();
     $uzenet = "Autó adatai frissítve!";
@@ -181,7 +186,7 @@ label {
     color: var(--text-dark);
 }
 
-input, select {
+input, select, textarea {
     padding:10px 12px;
     border-radius:6px;
     border:1px solid var(--gray-border);
@@ -283,6 +288,15 @@ function toggleEdit(id) {
                 <div class="form-group"><label>Ár / nap</label><input type="number" name="ar" value="<?= $car['ar/nap'] ?>"></div>
                 <div class="form-group"><label>Lóerő</label><input type="number" name="loero" value="<?= $car['loero'] ?>"></div>
                 <div class="form-group"><label>Nyomaték</label><input type="number" name="nyomatek" value="<?= $car['nyomatek'] ?>"></div>
+                <div class="form-group">
+                    <label>Leírás</label>
+                    <textarea name="leiras"><?= htmlspecialchars($car['leiras'] ?? '') ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefonszám</label>
+                    <input type="text" name="telefon" value="<?= htmlspecialchars($car['telefon'] ?? '') ?>">
+                </div>
                 <div class="form-group"><label>Selejt</label>
                     <select name="selejt">
                         <option value="nem" <?= $car['selejt']=='nem'?'selected':'' ?>>Nem</option>

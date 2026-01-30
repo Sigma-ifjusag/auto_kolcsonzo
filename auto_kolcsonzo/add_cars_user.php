@@ -24,6 +24,8 @@ if (isset($_POST['add_car'])) {
     $ar         = (int)$_POST['ar'];
     $loero      = (int)$_POST['loero'];
     $nyomatek   = (int)$_POST['nyomatek'];
+    $leiras     = $_POST['leiras'];
+    $telefon    = $_POST['telefon'];
     $selejt     = $_POST['selejt'];
 
     // Kép feltöltése
@@ -42,12 +44,12 @@ if (isset($_POST['add_car'])) {
     }
 
     $stmt = $conn->prepare("INSERT INTO items 
-        (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`, loero, nyomatek, selejt, kep, UserID) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`, loero, nyomatek, leiras, telefon, selejt, kep, UserID) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param(
-        "ssssssiiiiisssi",
+        "ssssssiiiiisssssi",
         $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
-        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek, $selejt, $kepPath, $userid
+        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek, $leiras, $telefon, $selejt, $kepPath, $userid
     );
     $stmt->execute();
     $uzenet = "Autó sikeresen hozzáadva!";
@@ -61,12 +63,14 @@ if (isset($_POST['edit_car'])) {
     $ar       = (int)$_POST['ar'];
     $loero    = (int)$_POST['loero'];
     $nyomatek = (int)$_POST['nyomatek'];
+    $leiras   = $_POST['leiras'];
+    $telefon  = $_POST['telefon'];
     $selejt   = $_POST['selejt'];
 
     $stmt = $conn->prepare("UPDATE items 
-        SET marka=?, modell=?, `ar/nap`=?, loero=?, nyomatek=?, selejt=? 
+        SET marka=?, modell=?, `ar/nap`=?, loero=?, nyomatek=?, leiras=?, telefon=?, selejt=? 
         WHERE ItemsID=? AND UserID=?");
-    $stmt->bind_param("ssiiisii", $marka, $modell, $ar, $loero, $nyomatek, $selejt, $carid, $userid);
+    $stmt->bind_param("ssiiisssii", $marka, $modell, $ar, $loero, $nyomatek, $leiras, $telefon, $selejt, $carid, $userid);
     $stmt->execute();
     $uzenet = "Autó sikeresen módosítva!";
 }
@@ -104,9 +108,10 @@ form, .car-box { background: var(--panel-bg); border:1px solid var(--gray-border
 .form-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:18px; }
 .form-group { display:flex; flex-direction:column; }
 label { font-size:13px; font-weight:600; margin-bottom:6px; color: var(--text-dark); }
-input, select { padding:10px 12px; border-radius:6px; border:1px solid var(--gray-border); background: var(--input-bg); font-size:14px; color: var(--text-dark); transition: all .2s ease; }
-input:hover, select:hover { border-color: var(--orange-light); }
-input:focus, select:focus { outline:none; border-color: var(--orange); box-shadow:0 0 0 3px rgba(255,129,2,0.15); background:#fff; }
+input, select, textarea { padding:10px 12px; border-radius:6px; border:1px solid var(--gray-border); background: var(--input-bg); font-size:14px; color: var(--text-dark); transition: all .2s ease; }
+textarea { resize: vertical; min-height: 80px; }
+input:hover, select:hover, textarea:hover { border-color: var(--orange-light); }
+input:focus, select:focus, textarea:focus { outline:none; border-color: var(--orange); box-shadow:0 0 0 3px rgba(255,129,2,0.15); background:#fff; }
 button { margin-top:18px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); border:none; color:white; font-weight:bold; padding:12px; border-radius:6px; cursor:pointer; font-size:14px; transition:all .2s ease; }
 button:hover { transform:translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,0.1); }
 .car-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; border-bottom:1px solid var(--gray-border); padding-bottom:8px; }
@@ -173,6 +178,8 @@ function toggleEdit(id) {
 <div class="form-group"><label>Ár / nap</label><input type="number" name="ar" min="0" required></div>
 <div class="form-group"><label>Lóerő</label><input type="number" name="loero" min="1" required></div>
 <div class="form-group"><label>Nyomaték</label><input type="number" name="nyomatek" min="1" required></div>
+<div class="form-group"><label>Leírás</label><textarea name="leiras"></textarea></div>
+<div class="form-group"><label>Telefonszám</label><input type="text" name="telefon"></div>
 <div class="form-group"><label>Állapot</label>
     <select name="selejt">
         <option value="nem">Nem selejt</option>
@@ -211,6 +218,8 @@ function toggleEdit(id) {
                 <div class="form-group"><label>Ár / nap</label><input type="number" name="ar" value="<?= $car['ar/nap'] ?>" required></div>
                 <div class="form-group"><label>Lóerő</label><input type="number" name="loero" value="<?= $car['loero'] ?>" required></div>
                 <div class="form-group"><label>Nyomaték</label><input type="number" name="nyomatek" value="<?= $car['nyomatek'] ?>" required></div>
+                <div class="form-group"><label>Leírás</label><textarea name="leiras"><?= htmlspecialchars($car['leiras'] ?? '') ?></textarea></div>
+                <div class="form-group"><label>Telefonszám</label><input type="text" name="telefon" value="<?= htmlspecialchars($car['telefon'] ?? '') ?>"></div>
                 <div class="form-group"><label>Állapot</label>
                     <select name="selejt">
                         <option value="nem" <?= $car['selejt']=='nem'?'selected':'' ?>>Nem selejt</option>
