@@ -27,6 +27,7 @@ $result = $conn->query($sql);
 <meta charset="UTF-8">
 <title>Autók szűrése</title>
 <style>
+/* --- Stílusok változatlanok --- */
 :root {
     --gray-bg: #f2f2f2;
     --gray-panel: #e6e6e6;
@@ -43,90 +44,25 @@ input:focus, select:focus { outline: none; border-color: var(--orange); box-shad
 button { margin-top: 15px; background-color: var(--orange); border: none; color: #fff; font-weight: bold; padding: 10px; border-radius: 4px; cursor: pointer; }
 .content { flex: 1; padding: 20px; }
 .car-list { display: flex; flex-direction: column; gap: 18px; }
-
-/* Kártya */
-.car-card {
-    display: flex;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    overflow: hidden;
-    transition: box-shadow 0.2s, transform 0.15s;
-    min-height: 250px;
-    align-items: stretch;
-}
+.car-card { display: flex; background: #fff; border-radius: 8px; border: 1px solid #ddd; overflow: hidden; transition: box-shadow 0.2s, transform 0.15s; min-height: 250px; align-items: stretch; position: relative; }
 .car-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
-
-/* Kép kocka */
-.car-image {
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eee;
-    margin: 10px 15px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--gray-border);
-    padding: 5px;
-}
-.car-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* teljes kép látszik */
-    display: block;
-    border-radius: 4px;
-}
-
-/* Fő tartalom */
-.car-main {
-    flex: 1;
-    padding: 15px 18px;
-    display: flex;
-    flex-direction: column;
-}
+.car-image { width: 200px; height: 200px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #eee; margin: 10px 15px; border-radius: 8px; overflow: hidden; border: 1px solid var(--gray-border); padding: 5px; position: relative; }
+.car-image img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 4px; }
+.car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
 .tags span { background: #f1f1f1; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-
-/* Leírás + Tovább gomb alatta, balra */
-.leiras-wrapper {
-    display: flex;
-    flex-direction: column; /* gomb a leírás alatt */
-    align-items: flex-start; /* balra igazítás */
-    gap: 5px;
-    margin-bottom: 6px;
-}
+.leiras-wrapper { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-bottom: 6px; }
 .leiras { font-size: 13px; color: #444; overflow: hidden; max-height: 3em; transition: max-height 0.3s ease; flex: 1; }
 .leiras.expanded { max-height: 2000px; }
-.show-more-btn {
-    background: none;
-    border: none;
-    color: var(--orange);
-    font-size: 12px;
-    cursor: pointer;
-    padding: 0;
-    white-space: nowrap;
-    margin-left: 0; /* balra */
-}
-
+.show-more-btn { background: none; border: none; color: var(--orange); font-size: 12px; cursor: pointer; padding: 0; white-space: nowrap; margin-left: 0; }
 .specs { margin-top: 6px; font-size: 13px; color: #444; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 10px; }
 .plate { font-size: 13px; color: #666; margin-top: 4px; }
 .car-price { width: 170px; background: #fafafa; border-left: 1px solid #eee; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; padding: 10px; }
 .owner { font-size: 13px; color: #555; margin-bottom: 4px; text-align: center; }
 .price { font-size: 22px; font-weight: bold; color: var(--orange); }
 .perday { font-size: 13px; color: #777; }
-
-/* Mobilra reszponzív */
-@media (max-width: 900px) {
-    .container { flex-direction: column; }
-    .sidebar { width: 100%; border-right: none; border-bottom: 2px solid var(--gray-border); }
-    .car-card { flex-direction: column; min-height: auto; }
-    .car-image { width: 100%; height: 300px; margin: 0 0 10px 0; }
-    .car-price { width: 100%; border-left: none; border-top: 1px solid #eee; padding: 10px 0; }
-}
+@media (max-width: 900px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 2px solid var(--gray-border); } .car-card { flex-direction: column; min-height: auto; } .car-image { width: 100%; height: 300px; margin: 0 0 10px 0; } .car-price { width: 100%; border-left: none; border-top: 1px solid #eee; padding: 10px 0; } }
 </style>
 </head>
 <body>
@@ -162,13 +98,31 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 <?php
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $kep = $row['kep'] ? htmlspecialchars($row['kep']) : 'noimage.jpg';
+        // Lekérjük az összes képet az autóhoz
+        $stmtImgs = $conn->prepare("SELECT kep FROM item_images WHERE ItemsID=?");
+        $stmtImgs->bind_param("i", $row['ItemsID']);
+        $stmtImgs->execute();
+        $imagesResult = $stmtImgs->get_result();
+        $images = [];
+        while ($img = $imagesResult->fetch_assoc()) {
+            $images[] = htmlspecialchars($img['kep']);
+        }
+        if (empty($images)) $images[] = 'noimage.jpg';
+
         $leiras = htmlspecialchars($row['leiras']);
+        $imagesJson = json_encode($images);
+
         echo "
         <div class='car-card'>
             <div class='car-image'>
-                <img src='{$kep}' alt='autó'>
+                <button onclick='prevImage({$row['ItemsID']})' style='position:absolute;left:5px;top:50%;transform:translateY(-50%);z-index:10;'>&lt;</button>
+                <img id='car-img-{$row['ItemsID']}' src='{$images[0]}' alt='autó'>
+                <button onclick='nextImage({$row['ItemsID']})' style='position:absolute;right:5px;top:50%;transform:translateY(-50%);z-index:10;'>&gt;</button>
             </div>
+            <script>
+                window['images_{$row['ItemsID']}'] = {$imagesJson};
+                window['imgIndex_' + {$row['ItemsID']}] = 0;
+            </script>
             <div class='car-main'>
                 <h2>".htmlspecialchars($row['marka'])." ".htmlspecialchars($row['modell'])."</h2>
                 <div class='tags'>
@@ -217,6 +171,20 @@ function toggleLeiras(id) {
         elem.classList.add('expanded');
         btn.textContent = 'Összecsukás';
     }
+}
+
+function prevImage(id) {
+    if (!window['images_' + id]) return;
+    window['imgIndex_' + id]--;
+    if (window['imgIndex_' + id] < 0) window['imgIndex_' + id] = window['images_' + id].length - 1;
+    document.getElementById('car-img-' + id).src = window['images_' + id][window['imgIndex_' + id]];
+}
+
+function nextImage(id) {
+    if (!window['images_' + id]) return;
+    window['imgIndex_' + id]++;
+    if (window['imgIndex_' + id] >= window['images_' + id].length) window['imgIndex_' + id] = 0;
+    document.getElementById('car-img-' + id).src = window['images_' + id][window['imgIndex_' + id]];
 }
 </script>
 </body>

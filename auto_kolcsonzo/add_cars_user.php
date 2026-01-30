@@ -28,30 +28,38 @@ if (isset($_POST['add_car'])) {
     $telefon    = $_POST['telefon'];
     $selejt     = $_POST['selejt'];
 
-    // Kép feltöltése
-    $kepPath = null;
-    if (isset($_FILES['kep']) && $_FILES['kep']['error'] === UPLOAD_ERR_OK) {
+    // 1️⃣ Autó hozzáadása az items táblába
+    $stmt = $conn->prepare("INSERT INTO items 
+        (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`, loero, nyomatek, leiras, telefon, selejt, UserID) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param(
+        "ssssssiiiiissssi",
+        $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
+        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek, $leiras, $telefon, $selejt, $userid
+    );
+    $stmt->execute();
+
+    // 2️⃣ Az új autó ID-ja
+    $carID = $stmt->insert_id;
+
+    // 3️⃣ Több kép feltöltése az item_images táblába
+    if (isset($_FILES['kepek'])) {
         $uploadDir = 'uploads/';
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-        $fileName = time() . '_' . basename($_FILES['kep']['name']);
-        $targetFile = $uploadDir . $fileName;
-
-        // Kép feltöltése a szerverre
-        if (move_uploaded_file($_FILES['kep']['tmp_name'], $targetFile)) {
-            $kepPath = $targetFile;
+        foreach ($_FILES['kepek']['tmp_name'] as $key => $tmpName) {
+            if ($_FILES['kepek']['error'][$key] === UPLOAD_ERR_OK) {
+                $fileName = time() . '_' . basename($_FILES['kepek']['name'][$key]);
+                $targetFile = $uploadDir . $fileName;
+                if (move_uploaded_file($tmpName, $targetFile)) {
+                    $stmtImg = $conn->prepare("INSERT INTO item_images (ItemsID, kep) VALUES (?, ?)");
+                    $stmtImg->bind_param("is", $carID, $targetFile);
+                    $stmtImg->execute();
+                }
+            }
         }
     }
 
-    $stmt = $conn->prepare("INSERT INTO items 
-        (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`, loero, nyomatek, leiras, telefon, selejt, kep, UserID) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param(
-        "ssssssiiiiisssssi",
-        $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
-        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek, $leiras, $telefon, $selejt, $kepPath, $userid
-    );
-    $stmt->execute();
     $uzenet = "Autó sikeresen hozzáadva!";
 }
 
@@ -89,6 +97,7 @@ $cars = $stmt->get_result();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saját autóim</title>
 <style>
+/* A stílus ugyanaz maradt */
 :root {
     --gray-bg: #f9f9f9;
     --panel-bg: #ffffff;
@@ -186,7 +195,7 @@ function toggleEdit(id) {
         <option value="igen">Selejt</option>
     </select>
 </div>
-<div class="form-group"><label>Autó képe</label><input type="file" name="kep" accept="image/*"></div>
+<div class="form-group"><label>Autó képei</label><input type="file" name="kepek[]" accept="image/*" multiple></div>
 </div>
 <button type="submit" name="add_car">Autó hozzáadása</button>
 </form>
@@ -203,11 +212,18 @@ function toggleEdit(id) {
         <div id="arrow-<?= $car['ItemsID'] ?>" class="arrow">▶</div>
     </div>
 
-    <?php if ($car['kep']): ?>
-        <div style="margin-top:10px;">
-            <img src="<?= htmlspecialchars($car['kep']) ?>" alt="Autó képe" style="max-width:200px; border-radius:8px;">
-        </div>
-    <?php endif; ?>
+    <div style="margin-top:10px;">
+        <?php
+        // Képek lekérése
+        $stmtImgs = $conn->prepare("SELECT kep FROM item_images WHERE ItemsID=?");
+        $stmtImgs->bind_param("i", $car['ItemsID']);
+        $stmtImgs->execute();
+        $images = $stmtImgs->get_result();
+        while($img = $images->fetch_assoc()):
+        ?>
+            <img src="<?= htmlspecialchars($img['kep']) ?>" alt="Autó képe" style="max-width:150px; border-radius:8px; margin-right:5px;">
+        <?php endwhile; ?>
+    </div>
 
     <div id="edit-<?= $car['ItemsID'] ?>" class="edit-form">
         <form method="POST">
