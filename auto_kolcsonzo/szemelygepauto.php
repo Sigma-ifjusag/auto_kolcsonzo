@@ -66,7 +66,7 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
     background-color: rgba(0,0,0,0.6);
     color: #fff;
 }
-.back-btn { display:inline-block; padding:10px 15px; background-color: var(--orange); color:#fff; text-decoration:none; border-radius:6px; font-weight:bold; transition:all .2s ease; }
+.back-btn { display:inline-block; margin: 10px; margin-top: 10px; padding:10px 15px; background-color: var(--orange); color:#fff; text-decoration:none; border-radius:6px; font-weight:bold; transition:all .2s ease; }
 .back-btn:hover { background-color: black; transform: translateY(-1px); }
 .car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
