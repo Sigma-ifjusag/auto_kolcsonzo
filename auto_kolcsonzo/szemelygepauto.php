@@ -66,8 +66,64 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
     background-color: rgba(0,0,0,0.6);
     color: #fff;
 }
-.back-btn { display:inline-block; margin: 10px; margin-top: 10px; padding:10px 15px; background-color: var(--orange); color:#fff; text-decoration:none; border-radius:6px; font-weight:bold; transition:all .2s ease; }
-.back-btn:hover { background-color: black; transform: translateY(-1px); }
+        nav {
+            width: 97.90%;
+            height: 80px;
+            background-color: #3f3f3f;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+        }
+
+        #logo {
+            width: 60px;
+            border-radius: 6px;
+            border: 2px solid var(--gray-border);
+            background-color: #fff;
+        }
+
+        /* Navbar gombok */
+        .nav-links {
+            display: flex;
+            gap: 60px;
+            flex: 1; /* hogy a Bejelentkezés gomb a jobb oldalon legyen */
+            justify-content: center; /* középre a gombok */
+        }
+
+        .nav-links a {
+            padding: 10px 16px;
+            background-color: var(--orange);
+            color: #fff;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            background-color: black;
+        }
+
+        #back-btn {
+            padding: 10px 20px;
+            margin-right: 25px;
+            font-size: 16px;
+            background-color: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+
+        #back-btn:hover {
+            background-color: black;
+            transform: scale(1.05);
+        }
+
+
 .car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -92,7 +148,22 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 </style>
 </head>
 <body>
-<a href="index.php" class="back-btn">Vissza a főoldalra</a>
+    <nav>
+        <img id="logo" src="images/logo.png">
+
+        <div class="nav-links">
+            <a href="http://localhost/auto_kolcsonzo/szemelygepauto.php">Személygépautó</a>
+            <a href="http://localhost/auto_kolcsonzo/haszonauto.php">Haszonautó</a>
+            <a href="http://localhost/auto_kolcsonzo/munkagep.php">Munkagép</a>
+            <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>
+            <a href="http://localhost/auto_kolcsonzo/egyeb.php">Egyéb</a>
+        </div>
+
+        <button id="back-btn"
+            onclick="location.href='http://localhost/auto_kolcsonzo/index.php'">
+            Vissza a főoldalra
+        </button>
+    </nav>
 <div class="container">
 <div class="sidebar">
 <form method="GET">
