@@ -9,6 +9,7 @@
             --gray-bg: #f9f9f9;
             --gray-border: #3f3f3f;
             --orange: #ff8102;
+            --dark-gray: #3f3f3f; /* a nav és border színe */
         }
 
         body {
@@ -16,6 +17,9 @@
             font-family: Arial, sans-serif;
             background-color: var(--gray-bg);
             color: #000;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         a {
@@ -24,9 +28,9 @@
 
         /* FEJLÉC */
         nav {
-            width: 100%;
+            width: 97.90%;
             height: 80px;
-            background-color: #3f3f3f;
+            background-color: var(--dark-gray);
             border-bottom: 2px solid var(--gray-border);
             display: flex;
             align-items: center;
@@ -45,8 +49,8 @@
         .nav-links {
             display: flex;
             gap: 15px;
-            flex: 1; /* hogy a Bejelentkezés gomb a jobb oldalon legyen */
-            justify-content: center; /* középre a gombok */
+            flex: 1;
+            justify-content: center;
         }
 
         .nav-links a {
@@ -78,12 +82,42 @@
             background-color: black;
             transform: scale(1.05);
         }
-        .nav-links {
+
+        /* Fő tartalom: bal oszlop + jobb rész */
+        .main-content {
             display: flex;
-            gap: 60px;
-            flex: 1;
+            flex: 1; /* kitölti a maradék magasságot */
+            background-color: var(--gray-bg);
         }
 
+        .hablaty {
+            width: 300px; /* fix szélesség az oszlopnak */
+            background-color: #f9f9f9; /* sötét háttér */
+            color: #fff; /* fehér szöveg a kontrasztért */
+            padding: 20px;
+            text-align: left;
+            border-right: 2px solid var(--gray-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .main-right {
+            flex: 1; /* kitölti a fennmaradó helyet */
+            padding: 20px;
+            background-color: var(--gray-bg);
+        }
+
+        /* Szöveg stílus */
+        .hablaty h1 {
+            margin-top: 0;
+            color: var(--orange); /* narancs címsor a kiemeléshez */
+        }
+
+        .hablaty h3 {
+            line-height: 1.6;
+            color: black; /* fehér szöveg */
+        }
     </style>
 </head>
 <body>
@@ -104,6 +138,28 @@
             Bejelentkezés
         </button>
     </nav>
+
+    <div class="main-content">
+        <div class="hablaty">
+            <h1>Válasszon minket.</h1>
+            <h3>
+                Nálunk a kényelem és a megbízhatóság alap! Modern,
+                jól karbantartott autóinkkal gyorsan és rugalmasan utazhat,
+                a foglalás egyszerű, az áraink átláthatóak, a kiszolgálás pedig mindig személyre szabott.
+                Nálunk saját kocsiját is feltötheti és maga szabja meg hogy mennyiért adja ki naponta.
+            </h3>
+            <h1>Miért kölcsönözzön.</h1>
+            <h3>
+                Az autóbérlés rugalmas és költséghatékony megoldás: nem kell egyszerre nagy összeget kifizetni, és a karbantartás,
+                biztosítás terhe sem a tiéd.
+                Csak akkor fizetsz, amikor tényleg használod, így könnyen alkalmazkodik az igényeidhez és az utazási terveidhez.
+            </h3>
+        </div>
+
+        <div class="main-right">
+            <!-- Ide jöhet a jobb oldali tartalom -->
+        </div>
+    </div>
 
 </body>
 </html>
