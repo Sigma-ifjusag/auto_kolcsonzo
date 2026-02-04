@@ -64,6 +64,7 @@
 
         #loginBtn {
             padding: 10px 20px;
+            margin-right: 25px;
             font-size: 16px;
             background-color: var(--orange);
             color: #fff;
@@ -79,7 +80,7 @@
         }
         .nav-links {
             display: flex;
-            gap: 80px;
+            gap: 60px;
             flex: 1;
         }
 
