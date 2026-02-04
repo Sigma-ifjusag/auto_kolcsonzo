@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 30. 15:09
+-- Létrehozás ideje: 2026. Feb 04. 12:27
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -59,15 +59,16 @@ CREATE TABLE `items` (
   `UserID` int(11) NOT NULL,
   `kep` varchar(255) DEFAULT NULL,
   `leiras` varchar(2000) NOT NULL,
-  `telefon` int(11) NOT NULL
+  `telefon` int(11) NOT NULL,
+  `kiemelt` enum('nem','igen') NOT NULL DEFAULT 'nem'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `items`
 --
 
-INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`) VALUES
-(12, 'ABC-123', 'szemelygepauto', 'Benzin', 'Lada', '2000', 'Sedan', 4, 1000, 4, 1000, 90, 120, 'nem', 5, NULL, 'anyad halott', 202034241);
+INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`, `kiemelt`) VALUES
+(12, 'ABC-123', 'szemelygepauto', 'Benzin', 'Lada', '2000', 'Sedan', 4, 1000, 4, 1000, 90, 120, 'nem', 5, NULL, 'bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ', 202034241, 'nem');
 
 -- --------------------------------------------------------
 
@@ -176,13 +177,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `items`
 --
 ALTER TABLE `items`
-  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `users`
