@@ -36,7 +36,7 @@ $result = $conn->query($sql);
 }
 body { font-family: Arial,sans-serif; background-color: var(--gray-bg); color: var(--text-dark); margin: 0; }
 .container { display: flex; min-height: 100vh; }
-.sidebar { width: 270px; background-color: var(--gray-panel); padding: 20px; border-right: 2px solid var(--gray-border); font-weight: bold; }
+.sidebar { width: 270px; background-color: var(--gray-panel); padding: 20px; border-top: 2px solid var(--gray-border); border-right: 2px solid var(--gray-border); font-weight: bold; }
 .sidebar label { margin-top: 12px; font-size: 14px; display: block; }
 input, select { width: 100%; padding: 6px; margin-top: 5px; border: 1px solid var(--gray-border); border-radius: 4px; }
 input:focus, select:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 2px rgba(255,128,0,0.2); }
@@ -66,6 +66,8 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
     background-color: rgba(0,0,0,0.6);
     color: #fff;
 }
+.back-btn { display:inline-block; padding:10px 15px; background-color: var(--orange); color:#fff; text-decoration:none; border-radius:6px; font-weight:bold; transition:all .2s ease; }
+.back-btn:hover { background-color: black; transform: translateY(-1px); }
 .car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -90,6 +92,7 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 </style>
 </head>
 <body>
+<a href="index.php" class="back-btn">Vissza a főoldalra</a>
 <div class="container">
 <div class="sidebar">
 <form method="GET">
