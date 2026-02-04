@@ -27,6 +27,7 @@ if (isset($_POST['edit_car_admin'])) {
     $leiras    = $_POST['leiras'];
     $telefon   = $_POST['telefon'];
     $selejt    = $_POST['selejt'];
+    $kiemelt   = (int)$_POST['kiemelt'];
 
     // Autó adatok frissítése
     $stmt = $conn->prepare("
@@ -46,13 +47,14 @@ if (isset($_POST['edit_car_admin'])) {
         leiras=?,
         telefon=?,
         selejt=?
+        kiemelt=?
         WHERE ItemsID=?
     ");
     $stmt->bind_param(
         "ssssssiiiiisssi",
         $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
         $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek,
-        $leiras, $telefon, $selejt, $carid
+        $leiras, $telefon, $selejt, $kiemelt , $carid
     );
     $stmt->execute();
 
@@ -183,6 +185,12 @@ function toggleEdit(id){const form=document.getElementById('edit-'+id);const arr
                     <select name="selejt">
                         <option value="nem" <?= $car['selejt']=='nem'?'selected':'' ?>>Nem</option>
                         <option value="igen" <?= $car['selejt']=='igen'?'selected':'' ?>>Igen</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Kiemelt</label>
+                    <select name="kiemelt">
+                        <option value="nem" <?= $car['kiemelt']=='nem'?'selected':'' ?>>Nem</option>
+                        <option value="igen" <?= $car['kiemelt']=='igen'?'selected':'' ?>>Igen</option>
                     </select>
                 </div>
 
