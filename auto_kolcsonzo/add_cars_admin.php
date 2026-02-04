@@ -27,7 +27,7 @@ if (isset($_POST['edit_car_admin'])) {
     $leiras    = $_POST['leiras'];
     $telefon   = $_POST['telefon'];
     $selejt    = $_POST['selejt'];
-    $kiemelt   = (int)$_POST['kiemelt'];
+    $kiemelt   = $_POST['kiemelt'];
 
     // Autó adatok frissítése
     $stmt = $conn->prepare("
@@ -46,15 +46,15 @@ if (isset($_POST['edit_car_admin'])) {
         nyomatek=?,
         leiras=?,
         telefon=?,
-        selejt=?
+        selejt=?,
         kiemelt=?
         WHERE ItemsID=?
     ");
     $stmt->bind_param(
-        "ssssssiiiiisssi",
+        "ssssssiiiiisssssi",
         $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
         $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek,
-        $leiras, $telefon, $selejt, $kiemelt , $carid
+        $leiras, $telefon, $selejt, $kiemelt, $carid
     );
     $stmt->execute();
 
