@@ -155,7 +155,7 @@ function toggleEdit(id) {
 <form method="POST" enctype="multipart/form-data">
 <h2>Új autó hozzáadása</h2>
 <div class="form-grid">
-<div class="form-group"><label>Rendszám</label><input type="text" name="rendszam" maxlength="7" required></div>
+<div class="form-group"><label>Rendszám</label><input type="text" name="rendszam" maxlength="10" required></div>
 <div class="form-group"><label>Márka</label><input type="text" name="marka" required></div>
 <div class="form-group"><label>Modell</label><input type="text" name="modell" required></div>
 <div class="form-group"><label>Típus</label>
