@@ -266,7 +266,38 @@ button {
     justify-content: center;
     align-items: center;
 }
+#activated-btn{
+    background-color: black;
+}
+#filter-form-container {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 1000px; /* Elég nagy érték a tartalomnak */
+}
 
+#filter-form-container.collapsed {
+    max-height: 0;
+}
+
+.filter-toggle-btn {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #3f3f3f; /* Sötétszürke, hogy elüssön az Orange-től */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.filter-toggle-btn::after {
+    content: '▲';
+    font-size: 0.8em;
+}
+
+.filter-toggle-btn.collapsed::after {
+    content: '▼';
+}
 /* ================= RESPONSIVE ================= */
 @media (max-width: 900px) {
     .container {
@@ -318,7 +349,7 @@ button {
     </a>
 </nav>
 <div class="vehicle-types">
-    <a href="http://localhost/auto_kolcsonzo/szemelygepauto.php">Személygépautó</a>
+    <a id="activated-btn">Személygépautó</a>
     <a href="http://localhost/auto_kolcsonzo/haszonauto.php">Haszonautó</a>
     <a href="http://localhost/auto_kolcsonzo/munkagep.php">Munkagép</a>
     <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>
@@ -326,31 +357,55 @@ button {
 </div>
 <div class="container">
 <div class="sidebar">
-<form method="GET">
-<label>Márka</label>
-<input type="text" name="marka" value="<?= htmlspecialchars($_GET['marka'] ?? '') ?>">
-<label>Modell</label>
-<input type="text" name="modell" value="<?= htmlspecialchars($_GET['modell'] ?? '') ?>">
-<label>Üzemanyag</label>
-<select name="uzemanyag">
-<option value="">-- mind --</option>
-<?php $uzemanyagok = ['Benzin','Dízel','Benzingaz','Hybrid','Elektromos']; foreach ($uzemanyagok as $u) { $sel = ($_GET['uzemanyag'] ?? '') == $u ? 'selected' : ''; echo "<option value='$u' $sel>$u</option>"; } ?>
-</select>
-<label>Kivitel</label>
-<select name="kivitel">
-<option value="">-- mind --</option>
-<?php $tipusok = ['Cabrio','Sedan','Hatchback','Kombi','Pickup','Coupe','Van','Buggy','Sport','SUV','Terepjáró','Egyéb']; foreach ($tipusok as $t) { $sel = ($_GET['kivitel'] ?? '') == $t ? 'selected' : ''; echo "<option value='$t' $sel>$t</option>"; } ?>
-</select>
-<label>Ajtók száma</label>
-<input type="number" name="ajtokszama" value="<?= htmlspecialchars($_GET['ajtokszama'] ?? '') ?>">
-<label>Ár / nap (min)</label>
-<input type="number" name="ar_min" value="<?= htmlspecialchars($_GET['ar_min'] ?? '') ?>">
-<label>Ár / nap (max)</label>
-<input type="number" name="ar_max" value="<?= htmlspecialchars($_GET['ar_max'] ?? '') ?>">
-<button type="submit">Szűrés</button>
-</form>
-</div>
+    <button type="button" class="filter-toggle-btn" onclick="toggleFilter()" id="filterBtn">
+        Szűrés beállításai
+    </button>
 
+    <div id="filter-form-container">
+        <form method="GET">
+            <label>Márka</label>
+            <input type="text" name="marka" value="<?= htmlspecialchars($_GET['marka'] ?? '') ?>">
+            
+            <label>Modell</label>
+            <input type="text" name="modell" value="<?= htmlspecialchars($_GET['modell'] ?? '') ?>">
+            
+            <label>Üzemanyag</label>
+            <select name="uzemanyag">
+                <option value="">-- mind --</option>
+                <?php 
+                $uzemanyagok = ['Benzin','Dízel','Benzingaz','Hybrid','Elektromos']; 
+                foreach ($uzemanyagok as $u) { 
+                    $sel = ($_GET['uzemanyag'] ?? '') == $u ? 'selected' : ''; 
+                    echo "<option value='$u' $sel>$u</option>"; 
+                } 
+                ?>
+            </select>
+
+            <label>Kivitel</label>
+            <select name="kivitel">
+                <option value="">-- mind --</option>
+                <?php 
+                $tipusok = ['Cabrio','Sedan','Hatchback','Kombi','Pickup','Coupe','Van','Buggy','Sport','SUV','Terepjáró','Egyéb']; 
+                foreach ($tipusok as $t) { 
+                    $sel = ($_GET['kivitel'] ?? '') == $t ? 'selected' : ''; 
+                    echo "<option value='$t' $sel>$t</option>"; 
+                } 
+                ?>
+            </select>
+
+            <label>Ajtók száma</label>
+            <input type="number" name="ajtokszama" value="<?= htmlspecialchars($_GET['ajtokszama'] ?? '') ?>">
+
+            <label>Ár / nap (min)</label>
+            <input type="number" name="ar_min" value="<?= htmlspecialchars($_GET['ar_min'] ?? '') ?>">
+
+            <label>Ár / nap (max)</label>
+            <input type="number" name="ar_max" value="<?= htmlspecialchars($_GET['ar_max'] ?? '') ?>">
+
+            <button type="submit" style="width:100%">Keresés alkalmazása</button>
+        </form>
+    </div>
+</div>
 <div class="content">
 <div class="car-list">
 <?php
@@ -443,7 +498,18 @@ function nextImage(id) {
     if (window['imgIndex_' + id] >= window['images_' + id].length) window['imgIndex_' + id] = 0;
     document.getElementById('car-img-' + id).src = window['images_' + id][window['imgIndex_' + id]];
 }
+function toggleFilter() {
+    const container = document.getElementById('filter-form-container');
+    const btn = document.getElementById('filterBtn');
+    
+    container.classList.toggle('collapsed');
+    btn.classList.toggle('collapsed');
+}
 
+// Opcionális: Mobilon alapértelmezetten legyen csukva a szűrő
+if (window.innerWidth < 768) {
+    toggleFilter();
+}
 // Csak akkor mutatjuk a Tovább gombot, ha a leírás hosszabb, mint a max-height
 document.querySelectorAll('.leiras-wrapper').forEach(wrapper => {
     const leiras = wrapper.querySelector('.leiras');
