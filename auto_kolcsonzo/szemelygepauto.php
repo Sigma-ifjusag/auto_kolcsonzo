@@ -66,27 +66,31 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 .car-image button:hover { background-color: rgba(0,0,0,0.6); color: #fff; }
 
 nav {
-    width: 97.90%;
+    width: 97.9%;
     height: 80px;
     background-color: #3f3f3f;
+    border-bottom: 2px solid var(--gray-border);
     display: flex;
     align-items: center;
     padding: 0 20px;
     gap: 20px;
 }
+
 #logo {
     width: 60px;
     border-radius: 6px;
     border: 2px solid var(--gray-border);
     background-color: #fff;
 }
+
 .nav-links {
-    position: relative;
     display: flex;
-    gap: 60px;
+    gap: 20px;
     flex: 1;
     justify-content: center;
+    text-decoration: none;
 }
+
 .nav-links a {
     padding: 10px 16px;
     background-color: var(--orange);
@@ -96,7 +100,12 @@ nav {
     transition: 0.3s;
     text-decoration: none;
 }
+#activated-btn{
+    background-color:black;
+}
+
 .nav-links a:hover { background-color: black; }
+
 .car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -135,6 +144,7 @@ nav {
         gap: 10px; /* gombok közötti távolság */
         width: 100%;
         align-items: center;
+        text-decoration: none;
     }
 
     .nav-links a {
@@ -144,6 +154,7 @@ nav {
         margin: 0 auto;
         padding: 10px 0; /* kényelmesebb kattintási felület */
         font-size: 14px;
+        text-decoration: none;
     }
     /* SIDEBAR */
     .sidebar {
@@ -191,7 +202,7 @@ nav {
             <img id="logo" src="images/logo.png">
         </a>
         <div class="nav-links">
-            <a href="http://localhost/auto_kolcsonzo/szemelygepauto.php">Személygépautó</a>
+            <a id="activated-btn">Személygépautó</a>
             <a href="http://localhost/auto_kolcsonzo/haszonauto.php">Haszonautó</a>
             <a href="http://localhost/auto_kolcsonzo/munkagep.php">Munkagép</a>
             <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>

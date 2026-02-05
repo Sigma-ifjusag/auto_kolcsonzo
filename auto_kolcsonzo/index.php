@@ -198,6 +198,9 @@ nav {
     padding: 10px;
     border-left: 1px solid #eee;
 }
+#kiem{
+    text-align: center;
+}
 
 .owner { font-size: 13px; color: #555; margin-bottom: 4px; text-align: center; }
 .price { font-size: 20px; font-weight: bold; color: var(--orange); }
@@ -314,6 +317,7 @@ nav {
     </div>
 
     <div class="featured-cars">
+        <h1 id="kiem">Kiemelt ajánlatok</h1>
         <?php
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
