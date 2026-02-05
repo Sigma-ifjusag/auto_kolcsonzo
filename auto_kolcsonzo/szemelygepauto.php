@@ -25,6 +25,7 @@ $result = $conn->query($sql);
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Autók szűrése</title>
 <style>
 :root {
@@ -52,8 +53,8 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    background-color: rgba(0,0,0,0.3); /* fekete átlátszó */
-    color: #000; /* fekete nyíl */
+    background-color: rgba(0,0,0,0.3);
+    color: #000;
     border: none;
     padding: 5px 8px;
     border-radius: 50%;
@@ -62,68 +63,40 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
     font-size: 16px;
     transition: background-color 0.2s;
 }
-.car-image button:hover {
-    background-color: rgba(0,0,0,0.6);
-    color: #fff;
+.car-image button:hover { background-color: rgba(0,0,0,0.6); color: #fff; }
+
+nav {
+    width: 97.90%;
+    height: 80px;
+    background-color: #3f3f3f;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 20px;
 }
-        nav {
-            width: 97.90%;
-            height: 80px;
-            background-color: #3f3f3f;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            gap: 20px;
-        }
-
-        #logo {
-            width: 60px;
-            border-radius: 6px;
-            border: 2px solid var(--gray-border);
-            background-color: #fff;
-        }
-
-        /* Navbar gombok */
-        .nav-links {
-            display: flex;
-            gap: 60px;
-            flex: 1; /* hogy a Bejelentkezés gomb a jobb oldalon legyen */
-            justify-content: center; /* középre a gombok */
-        }
-
-        .nav-links a {
-            padding: 10px 16px;
-            background-color: var(--orange);
-            color: #fff;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .nav-links a:hover {
-            background-color: black;
-        }
-
-        #back-btn {
-            padding: 10px 20px;
-            margin-right: 25px;
-            font-size: 16px;
-            background-color: var(--orange);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 20px;
-        }
-
-        #back-btn:hover {
-            background-color: black;
-            transform: scale(1.05);
-        }
-
-
+#logo {
+    width: 60px;
+    border-radius: 6px;
+    border: 2px solid var(--gray-border);
+    background-color: #fff;
+}
+.nav-links {
+    position: relative;
+    display: flex;
+    gap: 60px;
+    flex: 1;
+    justify-content: center;
+}
+.nav-links a {
+    padding: 10px 16px;
+    background-color: var(--orange);
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    text-decoration: none;
+}
+.nav-links a:hover { background-color: black; }
 .car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
 .car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
 .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -138,19 +111,85 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
 .owner { font-size: 13px; color: #555; margin-bottom: 4px; text-align: center; }
 .price { font-size: 22px; font-weight: bold; color: var(--orange); }
 .perday { font-size: 13px; color: #777; }
-@media (max-width: 900px) { 
-    .container { flex-direction: column; } 
-    .sidebar { width: 100%; border-right: none; border-bottom: 2px solid var(--gray-border); } 
-    .car-card { flex-direction: column; min-height: auto; } 
-    .car-image { width: 100%; height: 300px; margin: 0 0 10px 0; } 
-    .car-price { width: 100%; border-left: none; border-top: 1px solid #eee; padding: 10px 0; } 
+
+/* ===== MOBIL NAVBAR JAVÍTÁS ===== */
+@media (max-width: 900px) {
+
+    /* NAVBAR mobil nézet */
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+        gap: 12px; /* távolság a logó és gombok között */
+        padding: 10px;
+    }
+
+    #logo {
+        margin-bottom: 10px; /* extra hely a logó alatt */
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px; /* gombok közötti távolság */
+        width: 100%;
+        align-items: center;
+    }
+
+    .nav-links a {
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        margin: 0 auto;
+        padding: 10px 0; /* kényelmesebb kattintási felület */
+        font-size: 14px;
+    }
+    /* SIDEBAR */
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--gray-border);
+    }
+
+    /* KÁRTYÁK */
+    .car-card {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: auto;
+    }
+
+    .car-image {
+        width: 100%;
+        height: 220px;
+        margin: 0 0 10px 0;
+        border-radius: 0;
+    }
+
+    .car-main {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .leiras { max-height: 4.5em; }
+    .specs { grid-template-columns: 1fr; }
+
+    .car-price {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #eee;
+        padding: 12px 0;
+    }
+
+    .car-card * { box-sizing: border-box; max-width: 100%; }
 }
 </style>
 </head>
 <body>
     <nav>
-        <img id="logo" src="images/logo.png">
-
+        <a href="http://localhost/auto_kolcsonzo/index.php">
+            <img id="logo" src="images/logo.png">
+        </a>
         <div class="nav-links">
             <a href="http://localhost/auto_kolcsonzo/szemelygepauto.php">Személygépautó</a>
             <a href="http://localhost/auto_kolcsonzo/haszonauto.php">Haszonautó</a>
@@ -158,11 +197,6 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
             <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>
             <a href="http://localhost/auto_kolcsonzo/egyeb.php">Egyéb</a>
         </div>
-
-        <button id="back-btn"
-            onclick="location.href='http://localhost/auto_kolcsonzo/index.php'">
-            Vissza a főoldalra
-        </button>
     </nav>
 <div class="container">
 <div class="sidebar">

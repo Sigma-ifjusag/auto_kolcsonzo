@@ -36,7 +36,7 @@ a { text-decoration: none; }
 
 /* FEJLÉC */
 nav {
-    width: 97.90%;
+    width: 97.9%;
     height: 80px;
     background-color: var(--dark-gray);
     border-bottom: 2px solid var(--gray-border);
@@ -203,18 +203,90 @@ nav {
 .price { font-size: 20px; font-weight: bold; color: var(--orange); }
 .perday { font-size: 13px; color: #777; }
 
+/* ===== MOBIL BARÁT ===== */
 @media (max-width: 900px) {
-    .main-content { flex-direction: column; }
-    .hablaty { width: 100%; border-right: none; border-bottom: 2px solid var(--gray-border); }
-    .car-card { flex-direction: column; max-width: 100%; }
-    .car-image { width: 100%; height: 300px; }
-    .car-price { width: 100%; border-left: none; border-top: 1px solid #eee; padding: 10px 0; }
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+        gap: 12px; /* kicsit nagyobb hely a gombok között */
+        padding: 10px;
+    }
+
+    #logo {
+        margin-bottom: 10px; /* logo alatt extra tér */
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px; /* gombok közötti távolság */
+        width: 100%;
+        align-items: center;
+    }
+
+    .nav-links a,
+    #loginBtn {
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        margin: 0 auto; /* középre */
+        padding: 10px 0; /* kényelmesebb kattintási terület */
+        font-size: 14px;
+    }
+
+    /* Fő tartalom mobilon */
+    .main-content {
+        flex-direction: column;
+    }
+
+    .hablaty {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--gray-border);
+        padding: 15px;
+    }
+
+    /* Kártyák mobilon */
+    .car-card {
+        flex-direction: column;
+        max-width: 100%;
+        margin: 0 auto 15px auto;
+    }
+
+    .car-image {
+        width: 100%;
+        height: 220px;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .car-main {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .specs {
+        grid-template-columns: 1fr;
+    }
+
+    .car-price {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #eee;
+        padding: 10px 0;
+    }
+
+    .car-card * { box-sizing: border-box; max-width: 100%; }
 }
 </style>
 </head>
 <body>
 <nav>
-    <img id="logo" src="images/logo.png">
+    <a href="index.php">
+        <img id="logo" src="images/logo.png" alt="Logo">
+    </a>
     <div class="nav-links">
         <a href="szemelygepauto.php">Személygépautó</a>
         <a href="haszonauto.php">Haszonautó</a>
@@ -224,7 +296,6 @@ nav {
     </div>
     <button id="loginBtn" onclick="location.href='login.php'">Bejelentkezés</button>
 </nav>
-
 <div class="main-content">
     <div class="hablaty">
         <h1>Válasszon minket.</h1>
@@ -299,7 +370,6 @@ nav {
 </div>
 
 <script>
-
 function prevImage(id) {
     if (!window['images_' + id]) return;
     window['imgIndex_' + id]--;
