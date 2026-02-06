@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 04. 12:27
+-- Létrehozás ideje: 2026. Feb 06. 15:28
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -68,7 +68,12 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`, `kiemelt`) VALUES
-(12, 'ABC-123', 'szemelygepauto', 'Benzin', 'Lada', '2000', 'Sedan', 4, 1000, 4, 1000, 90, 120, 'nem', 5, NULL, 'bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ', 202034241, 'nem');
+(16, 'AA EK-7', 'szemelygepauto', 'Dízel', 'BMW', '540 d', 'Sedan', 5, 2560, 4, 29000, 303, 670, 'nem', 8, NULL, 'Ez egy dízel BMW.', 32431151, 'nem'),
+(17, 'AB EN-2', 'szemelygepauto', 'Benzin', 'Mercedes-AMG', 'GT R', 'Sport', 2, 1890, 2, 36000, 585, 700, 'nem', 8, NULL, 'Egy igazi modern sportautó.', 32431151, 'nem'),
+(21, 'TSO-571', 'szemelygepauto', 'Benzin', 'Lexus', 'LFA', 'Sport', 2, 1614, 2, 50000, 560, 480, 'nem', 8, NULL, 'Ez egy ritka sportautó amiből összesn csak 500 darab készült. ', 32431151, 'nem'),
+(22, 'ZNL-173', 'szemelygepauto', 'Benzin', 'Audi', 'RS6 Avant', 'Kombi', 5, 2150, 5, 32000, 600, 850, 'nem', 9, NULL, 'Egy erős kombi.', 183141, 'nem'),
+(25, 'GJS-273', 'haszonauto', 'Benzin', 'GMC', 'Syclone', 'Pickup', 2, 1600, 2, 19000, 280, 475, 'nem', 10, NULL, 'Ez egy nagy teljesítményű pickup.', 3224121, 'nem'),
+(26, 'Nincs', 'munkagep', 'Benzin', 'John Deere', '6250R', 'Egyéb', 2, 10540, 2, 45000, 250, 1167, 'nem', 10, NULL, 'Egy traktor amivel bármilyen munkát el lehet végezni.', 3224121, 'nem');
 
 -- --------------------------------------------------------
 
@@ -87,10 +92,32 @@ CREATE TABLE `item_images` (
 --
 
 INSERT INTO `item_images` (`ImageID`, `ItemsID`, `kep`) VALUES
-(1, 12, 'uploads/1769780766_letöltés (2).jpg'),
-(2, 12, 'uploads/1769780766_letöltés (1).jpg'),
-(3, 12, 'uploads/1769780766_letöltés.jpg'),
-(4, 12, 'uploads/1769780766_gmc.jpg');
+(9, 16, 'uploads/1770377318_19624720.jpg'),
+(10, 16, 'uploads/1770377318_19624738.jpg'),
+(11, 16, 'uploads/1770377318_19624767.jpg'),
+(12, 16, 'uploads/1770377318_19624782.jpg'),
+(13, 17, 'uploads/1770377586_565441.jpg'),
+(14, 17, 'uploads/1770377586_565442.jpg'),
+(15, 17, 'uploads/1770377586_565453.jpg'),
+(16, 17, 'uploads/1770377586_565454.jpg'),
+(35, 21, 'uploads/1770378162_6c32054cc176912c18d63d7a02627efc.webp'),
+(36, 21, 'uploads/1770378162_9f62dbce4d6375743ab6ecdc87aa279f.webp'),
+(37, 21, 'uploads/1770378162_eaa2ebd6a25ebbea3433ce2f20f7c8d1.webp'),
+(38, 21, 'uploads/1770378162_f71099283fee9486b5960f3bfeae2b1a.webp'),
+(39, 21, 'uploads/1770378162_fb1497e1992d73df5206c55a3c4c82e2.webp'),
+(40, 22, 'uploads/1770378592_13592524.jpg'),
+(41, 22, 'uploads/1770378592_13592525.jpg'),
+(42, 22, 'uploads/1770378592_13592530.jpg'),
+(43, 22, 'uploads/1770378592_13592532.jpg'),
+(60, 25, 'uploads/1770380412_865ab249ed4820d1f1a11b0b0425a735.webp'),
+(61, 25, 'uploads/1770380412_gmc.webp'),
+(62, 25, 'uploads/1770380412_gmc2.webp'),
+(63, 25, 'uploads/1770380412_gmc3.webp'),
+(64, 25, 'uploads/1770380412_gmc5.webp'),
+(65, 26, 'uploads/1770381124_20321594.jpg'),
+(66, 26, 'uploads/1770381124_20321600.jpg'),
+(67, 26, 'uploads/1770381124_20321605.jpg'),
+(68, 26, 'uploads/1770381124_20321618.jpg');
 
 -- --------------------------------------------------------
 
@@ -129,7 +156,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `password`, `szig`, `lakc`, `jogosultsag`) VALUES
 (5, 'test', 'test', 'test@gmail.com', '$2y$10$4TuXDsp4JiHbjhksRitV..35Qg4GAhii/7MnRqVINdn6k0b8W5ZyO', 1234, '1234', 0),
 (6, 'kili_boss', 'kilike', 'kili@gmail.com', '$2y$10$RW7y4GVImaIs7XNIXW1oV.TIaeKuiMnl.TrXmkCo6ZXXcrUebYlzK', 4444, 'kili haz', 1),
-(7, 'test2', 'test2', 'test2@gmail.com', '$2y$10$gl1UXleEFfaleUcEKzdtF.Dp5WDAFZ.tSiX8zEXWvcZ9IW8c0zrPe', 4444, 'test2', 0);
+(7, 'test2', 'test2', 'test2@gmail.com', '$2y$10$gl1UXleEFfaleUcEKzdtF.Dp5WDAFZ.tSiX8zEXWvcZ9IW8c0zrPe', 4444, 'test2', 0),
+(8, '0RespectHun0', 'Bence Zwick', 'zbence8@gmail.com', '$2y$10$a9JqQn2qrbh8CB5p52HGHOi3TgezsItMKLAQs2TzG.eHrlYUH0B/a', 23414, 'Pest', 0),
+(9, 'Kiliboss', 'Mézner Kilián Pál', 'mezner01@gmail.com', '$2y$10$SDMJAzGxDwT.uTnLaKuO5uPL/0UuftG3NDg3REWAzGWUeokc61zBe', 142402, 'Csepel', 0),
+(10, 'MC Isti', 'Köröskényi István', 'isti69@gmail.com', '$2y$10$PAeXwU5HZRQDXegb8Ejzb.JFJ7AGZR66a00D831NrmrPaCcc30M/W', 124144, 'Miskolc', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -177,19 +207,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `items`
 --
 ALTER TABLE `items`
-  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT a táblához `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Megkötések a kiírt táblákhoz

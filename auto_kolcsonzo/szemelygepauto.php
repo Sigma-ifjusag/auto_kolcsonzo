@@ -77,7 +77,7 @@ nav {
 }
 
 #logo {
-    width: 60px;
+    width: 70px;
     border-radius: 6px;
     border: 2px solid var(--gray-border);
     background-color: #fff;
@@ -199,7 +199,7 @@ nav {
 <body>
     <nav>
         <a href="http://localhost/auto_kolcsonzo/index.php">
-            <img id="logo" src="images/logo.png">
+            <img id="logo" src="images/logo3.png">
         </a>
         <div class="nav-links">
             <a id="activated-btn">Személygépautó</a>

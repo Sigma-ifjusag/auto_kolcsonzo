@@ -19,7 +19,7 @@ $result = $conn->query($sql);
     --gray-bg: #f9f9f9;
     --gray-border: #3f3f3f;
     --orange: #ff8102;
-    --dark-gray: #3f3f3f;
+    --dark-gray: rgba(80, 80, 80, 1);
 }
 
 body {
@@ -47,10 +47,10 @@ nav {
 }
 
 #logo {
-    width: 60px;
+    width: 70px;
     border-radius: 6px;
     border: 2px solid var(--gray-border);
-    background-color: #fff;
+    background-color: #3f3f3f;
 }
 
 .nav-links {
@@ -288,7 +288,7 @@ nav {
 <body>
 <nav>
     <a href="index.php">
-        <img id="logo" src="images/logo.png" alt="Logo">
+        <img id="logo" src="images/logo3.png" alt="Logo">
     </a>
     <div class="nav-links">
         <a href="szemelygepauto.php">Személygépautó</a>
@@ -366,7 +366,7 @@ nav {
                 ";
             }
         } else {
-            echo "<p>Nincsenek kiemelt autók jelenleg.</p>";
+            echo "<p>Nincsenek kiemelt járművek jelenleg.</p>";
         }
         $conn->close();
         ?>
