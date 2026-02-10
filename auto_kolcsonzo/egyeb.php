@@ -103,6 +103,25 @@ nav {
 #activated-btn{
     background-color:black;
 }
+.car-card.kiadott {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+.car-card.kiadott::after {
+    content: "KIADOTT";
+    position: absolute;
+    top: 18px;
+    right: -45px;
+    background: #444;
+    color: #fff;
+    padding: 6px 70px;
+    transform: rotate(45deg);
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+
 
 .nav-links a:hover { background-color: black; }
 
@@ -193,6 +212,11 @@ nav {
     }
 
     .car-card * { box-sizing: border-box; max-width: 100%; }
+    .car-card.kiadott {
+    filter: grayscale(100%);
+    opacity: 0.6;
+    pointer-events: none;
+}
 }
 </style>
 </head>
@@ -253,9 +277,11 @@ if ($result && $result->num_rows > 0) {
 
         $leiras = htmlspecialchars($row['leiras']);
         $imagesJson = json_encode($images);
+        $kiadott = ($row['kiadott'] === 'igen');
+        $cardClass = $kiadott ? 'car-card kiadott' : 'car-card';
 
         echo "
-        <div class='car-card'>
+        <div class='{$cardClass}'>
             <div class='car-image'>
                 <button onclick='prevImage({$row['ItemsID']})' style='left:5px;'>&lt;</button>
                 <img id='car-img-{$row['ItemsID']}' src='{$images[0]}' alt='autó'>
@@ -286,7 +312,7 @@ if ($result && $result->num_rows > 0) {
             </div>
             <div class='car-price'>
                 <p class='owner'>Tulajdonos: ".htmlspecialchars($row['tulaj_nev'] ?? 'Ismeretlen')."</p>
-                <p class='owner'>Telefon: ".htmlspecialchars($row['telefon'])."</p>
+                <p class='owner'>".($kiadott ? "<strong>KIADOTT</strong>" : "Telefon: ".htmlspecialchars($row['telefon']))."</p>
                 <div class='price'>".intval($row['ar/nap'])." Ft</div>
                 <div class='perday'>/ nap</div>
             </div>
