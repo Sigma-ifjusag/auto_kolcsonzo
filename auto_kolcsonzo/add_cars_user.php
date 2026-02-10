@@ -27,12 +27,12 @@ if (isset($_POST['add_car'])) {
     $leiras     = $_POST['leiras'];
     $telefon    = $_POST['telefon'];
     $selejt     = $_POST['selejt'];
-    $kiadva     = $_POST['kiadva'];
+    $kiadott     = $_POST['kiadott '];
 
     $stmt = $conn->prepare("
         INSERT INTO items 
         (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`,
-         loero, nyomatek, leiras, telefon, selejt, kiadva, UserID)
+         loero, nyomatek, leiras, telefon, selejt, kiadott, UserID)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
@@ -40,7 +40,7 @@ if (isset($_POST['add_car'])) {
         "ssssssiiiiisssssi",
         $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
         $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek,
-        $leiras, $telefon, $selejt, $kiadva, $userid
+        $leiras, $telefon, $selejt, $kiadott, $userid
     );
     $stmt->execute();
 
@@ -77,18 +77,18 @@ if (isset($_POST['edit_car'])) {
     $leiras   = $_POST['leiras'];
     $telefon  = $_POST['telefon'];
     $selejt   = $_POST['selejt'];
-    $kiadva   = $_POST['kiadva'];
+    $kiadott   = $_POST['kiadott'];
 
     $stmt = $conn->prepare("
         UPDATE items SET
-            marka=?, modell=?, `ar/nap`=?, loero=?, nyomatek=?, leiras=?, telefon=?, selejt=?, kiadva=?
+            marka=?, modell=?, `ar/nap`=?, loero=?, nyomatek=?, leiras=?, telefon=?, selejt=?, kiadott=?
         WHERE ItemsID=? AND UserID=?
     ");
 
     $stmt->bind_param(
         "ssiiissssii",
         $marka, $modell, $ar, $loero, $nyomatek,
-        $leiras, $telefon, $selejt, $kiadva,
+        $leiras, $telefon, $selejt, $kiadott,
         $carid, $userid
     );
     $stmt->execute();
@@ -209,8 +209,8 @@ function toggleEdit(id) {
     </select>
 </div>
 <div class="form-group">
-    <label>Kiadva</label>
-    <select name="kiadva">
+    <label>kiadott</label>
+    <select name="kiadott">
         <option value="nem">Nem</option>
         <option value="igen">Igen</option>
     </select>
@@ -263,10 +263,10 @@ function toggleEdit(id) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Kiadva</label>
-                    <select name="kiadva">
-                        <option value="nem" <?= $car['kiadva']=='nem'?'selected':'' ?>>Nem</option>
-                        <option value="igen" <?= $car['kiadva']=='igen'?'selected':'' ?>>Igen</option>
+                    <label>kiadott</label>
+                    <select name="kiadott">
+                        <option value="nem" <?= $car['kiadott']=='nem'?'selected':'' ?>>Nem</option>
+                        <option value="igen" <?= $car['kiadott']=='igen'?'selected':'' ?>>Igen</option>
                     </select>
                 </div>
             </div>
