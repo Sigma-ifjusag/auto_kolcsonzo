@@ -27,22 +27,25 @@ if (isset($_POST['add_car'])) {
     $leiras     = $_POST['leiras'];
     $telefon    = $_POST['telefon'];
     $selejt     = $_POST['selejt'];
+    $kiadva     = $_POST['kiadva'];
 
-    // 1️⃣ Autó hozzáadása az items táblába
-    $stmt = $conn->prepare("INSERT INTO items 
-        (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`, loero, nyomatek, leiras, telefon, selejt, UserID) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("
+        INSERT INTO items 
+        (`R/U`, tipus, uzemanyag, marka, modell, kivitel, sz_szem, suly, ajtokszama, `ar/nap`,
+         loero, nyomatek, leiras, telefon, selejt, kiadva, UserID)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+
     $stmt->bind_param(
-        "ssssssiiiiissssi",
+        "ssssssiiiiisssssi",
         $rendszam, $tipus, $uzemanyag, $marka, $modell, $kivitel,
-        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek, $leiras, $telefon, $selejt, $userid
+        $sz_szem, $suly, $ajtok, $ar, $loero, $nyomatek,
+        $leiras, $telefon, $selejt, $kiadva, $userid
     );
     $stmt->execute();
 
-    // 2️⃣ Az új autó ID-ja
     $carID = $stmt->insert_id;
 
-    // 3️⃣ Több kép feltöltése az item_images táblába
     if (isset($_FILES['kepek'])) {
         $uploadDir = 'uploads/';
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
@@ -74,12 +77,22 @@ if (isset($_POST['edit_car'])) {
     $leiras   = $_POST['leiras'];
     $telefon  = $_POST['telefon'];
     $selejt   = $_POST['selejt'];
+    $kiadva   = $_POST['kiadva'];
 
-    $stmt = $conn->prepare("UPDATE items 
-        SET marka=?, modell=?, `ar/nap`=?, loero=?, nyomatek=?, leiras=?, telefon=?, selejt=? 
-        WHERE ItemsID=? AND UserID=?");
-    $stmt->bind_param("ssiiisssii", $marka, $modell, $ar, $loero, $nyomatek, $leiras, $telefon, $selejt, $carid, $userid);
+    $stmt = $conn->prepare("
+        UPDATE items SET
+            marka=?, modell=?, `ar/nap`=?, loero=?, nyomatek=?, leiras=?, telefon=?, selejt=?, kiadva=?
+        WHERE ItemsID=? AND UserID=?
+    ");
+
+    $stmt->bind_param(
+        "ssiiissssii",
+        $marka, $modell, $ar, $loero, $nyomatek,
+        $leiras, $telefon, $selejt, $kiadva,
+        $carid, $userid
+    );
     $stmt->execute();
+
     $uzenet = "Autó sikeresen módosítva!";
 }
 
@@ -195,6 +208,13 @@ function toggleEdit(id) {
         <option value="igen">Selejt</option>
     </select>
 </div>
+<div class="form-group">
+    <label>Kiadva</label>
+    <select name="kiadva">
+        <option value="nem">Nem</option>
+        <option value="igen">Igen</option>
+    </select>
+</div>
 <div class="form-group"><label>Autó képei</label><input type="file" name="kepek[]" accept="image/*" multiple></div>
 </div>
 <button type="submit" name="add_car">Autó hozzáadása</button>
@@ -240,6 +260,13 @@ function toggleEdit(id) {
                     <select name="selejt">
                         <option value="nem" <?= $car['selejt']=='nem'?'selected':'' ?>>Nem selejt</option>
                         <option value="igen" <?= $car['selejt']=='igen'?'selected':'' ?>>Selejt</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Kiadva</label>
+                    <select name="kiadva">
+                        <option value="nem" <?= $car['kiadva']=='nem'?'selected':'' ?>>Nem</option>
+                        <option value="igen" <?= $car['kiadva']=='igen'?'selected':'' ?>>Igen</option>
                     </select>
                 </div>
             </div>
