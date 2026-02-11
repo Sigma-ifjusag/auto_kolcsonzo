@@ -1,5 +1,20 @@
 <?php
+session_start();
 include 'config.php';
+
+$profilePic = "images/defavatar.webp";
+
+if (isset($_SESSION['userid'])) {
+    $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE UserID = ?");
+    $stmt->bind_param("i", $_SESSION['userid']);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        if (!empty($row['profile_pic'])) {
+            $profilePic = $row['profile_pic'];
+        }
+    }
+}
 
 $sql = "SELECT items.*, users.name AS tulaj_nev 
         FROM items 
@@ -233,6 +248,50 @@ nav {
     font-size: 13px;
     color: #777;
 }
+.profile-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--orange);
+    object-fit: cover;
+    transition: 0.2s;
+}
+
+.profile-icon:hover {
+    transform: scale(1.05);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 12px;
+    color: black;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--orange);
+    color: white;
+}
 
 @media (max-width: 900px) {
     nav {
@@ -314,7 +373,31 @@ nav {
         <a href="motorkerekpar.php">Motorkerékpár</a>
         <a href="egyeb.php">Egyéb</a>
     </div>
-    <button id="loginBtn" onclick="location.href='login.php'">Bejelentkezés</button>
+    <?php if (!isset($_SESSION['userid'])): ?>
+
+    <button id="loginBtn" onclick="location.href='login.php'">
+        Bejelentkezés
+    </button>
+
+<?php else: ?>
+
+    <div class="profile-menu">
+        <img src="<?= htmlspecialchars($profilePic) ?>" class="profile-icon" onclick="toggleDropdown()">
+
+        <div id="dropdown" class="dropdown-content">
+            <a href="profile_picture.php">Profilkép változtatása</a>
+
+            <?php if ($_SESSION['jogosultsag'] == 1): ?>
+                <a href="add_cars_admin.php">Összes kocsi</a>
+            <?php else: ?>
+                <a href="add_cars_user.php">Autóim</a>
+            <?php endif; ?>
+
+            <a href="logout.php">Kijelentkezés</a>
+        </div>
+    </div>
+
+<?php endif; ?>
 </nav>
 <div class="main-content">
     <div class="hablaty">
@@ -403,6 +486,19 @@ function nextImage(id) {
     window['imgIndex_' + id]++;
     if (window['imgIndex_' + id] >= window['images_' + id].length) window['imgIndex_' + id] = 0;
     document.getElementById('car-img-' + id).src = window['images_' + id][window['imgIndex_' + id]];
+}
+function toggleDropdown() {
+    const menu = document.getElementById("dropdown");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdown");
+        if (dropdown && dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
 }
 </script>
 </body>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 11. 09:37
+-- Létrehozás ideje: 2026. Feb 11. 14:33
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -147,20 +147,21 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `szig` int(11) NOT NULL,
   `lakc` varchar(255) NOT NULL,
-  `jogosultsag` int(1) NOT NULL
+  `jogosultsag` int(1) NOT NULL,
+  `profile_pic` varchar(255) DEFAULT 'images/defavatar.webp'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `users`
 --
 
-INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `password`, `szig`, `lakc`, `jogosultsag`) VALUES
-(5, 'test', 'test', 'test@gmail.com', '$2y$10$4TuXDsp4JiHbjhksRitV..35Qg4GAhii/7MnRqVINdn6k0b8W5ZyO', 1234, '1234', 0),
-(6, 'kili_boss', 'kilike', 'kili@gmail.com', '$2y$10$RW7y4GVImaIs7XNIXW1oV.TIaeKuiMnl.TrXmkCo6ZXXcrUebYlzK', 4444, 'kili haz', 1),
-(7, 'test2', 'test2', 'test2@gmail.com', '$2y$10$gl1UXleEFfaleUcEKzdtF.Dp5WDAFZ.tSiX8zEXWvcZ9IW8c0zrPe', 4444, 'test2', 0),
-(8, '0RespectHun0', 'Bence Zwick', 'zbence8@gmail.com', '$2y$10$a9JqQn2qrbh8CB5p52HGHOi3TgezsItMKLAQs2TzG.eHrlYUH0B/a', 23414, 'Pest', 0),
-(9, 'Kiliboss', 'Mézner Kilián Pál', 'mezner01@gmail.com', '$2y$10$SDMJAzGxDwT.uTnLaKuO5uPL/0UuftG3NDg3REWAzGWUeokc61zBe', 142402, 'Csepel', 0),
-(10, 'MC Isti', 'Köröskényi István', 'isti69@gmail.com', '$2y$10$PAeXwU5HZRQDXegb8Ejzb.JFJ7AGZR66a00D831NrmrPaCcc30M/W', 124144, 'Miskolc', 0);
+INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `password`, `szig`, `lakc`, `jogosultsag`, `profile_pic`) VALUES
+(5, 'test', 'test', 'test@gmail.com', '$2y$10$4TuXDsp4JiHbjhksRitV..35Qg4GAhii/7MnRqVINdn6k0b8W5ZyO', 1234, '1234', 0, 'uploads/profile_5_1770816722.png'),
+(6, 'kili_boss', 'kilike', 'kili@gmail.com', '$2y$10$RW7y4GVImaIs7XNIXW1oV.TIaeKuiMnl.TrXmkCo6ZXXcrUebYlzK', 4444, 'kili haz', 1, 'images/defavatar.webp'),
+(7, 'test2', 'test2', 'test2@gmail.com', '$2y$10$gl1UXleEFfaleUcEKzdtF.Dp5WDAFZ.tSiX8zEXWvcZ9IW8c0zrPe', 4444, 'test2', 0, 'images/defavatar.webp'),
+(8, '0RespectHun0', 'Bence Zwick', 'zbence8@gmail.com', '$2y$10$a9JqQn2qrbh8CB5p52HGHOi3TgezsItMKLAQs2TzG.eHrlYUH0B/a', 23414, 'Pest', 0, 'images/defavatar.webp'),
+(9, 'Kiliboss', 'Mézner Kilián Pál', 'mezner01@gmail.com', '$2y$10$SDMJAzGxDwT.uTnLaKuO5uPL/0UuftG3NDg3REWAzGWUeokc61zBe', 142402, 'Csepel', 0, 'images/defavatar.webp'),
+(10, 'MC Isti', 'Köröskényi István', 'isti69@gmail.com', '$2y$10$PAeXwU5HZRQDXegb8Ejzb.JFJ7AGZR66a00D831NrmrPaCcc30M/W', 124144, 'Miskolc', 0, 'images/defavatar.webp');
 
 --
 -- Indexek a kiírt táblákhoz

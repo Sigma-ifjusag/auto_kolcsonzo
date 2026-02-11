@@ -283,6 +283,24 @@ nav {
     font-size: 13px;
     color: #777;
 }
+.rent-btn {
+    margin-top: 8px;
+    width: 100%;
+    background-color: var(--orange);
+    color: #fff;
+    border: none;
+    padding: 10px 0;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.rent-btn:hover {
+    background-color: black;
+}
 
 @media (max-width: 900px) {
 
@@ -448,7 +466,8 @@ if ($result && $result->num_rows > 0) {
                 <p class='owner'>Tulajdonos: ".htmlspecialchars($row['tulaj_nev'] ?? 'Ismeretlen')."</p>
                 <p class='owner'>".($kiadott ? "<strong>KIADOTT</strong>" : "Telefon: ".htmlspecialchars($row['telefon']))."</p>
                 <div class='price'>".intval($row['ar/nap'])." Ft</div>
-                <div class='perday'>/ nap</div>
+                <div class='perday'>/ nap</div>" .
+                (!$kiadott ? "<a href='berles.php?id=".$row['ItemsID']."' class='rent-btn'>Bérlés</a>" : "") ."
             </div>
         </div>
         ";
