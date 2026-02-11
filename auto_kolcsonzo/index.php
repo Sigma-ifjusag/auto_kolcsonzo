@@ -80,6 +80,7 @@ nav {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
+    font-weight: bold;
 }
 
 #loginBtn:hover { background-color: black; transform: scale(1.05); }
