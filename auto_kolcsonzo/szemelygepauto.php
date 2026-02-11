@@ -1,5 +1,22 @@
 <?php
+session_start(); // Munkamenet indítása a bejelentkezés ellenőrzéséhez
 include 'config.php';
+
+// Profilkép alapértelmezett beállítása
+$profilePic = "images/defavatar.webp";
+
+// Ha be van jelentkezve, lekérjük a profilképét
+if (isset($_SESSION['userid'])) {
+    $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE UserID = ?");
+    $stmt->bind_param("i", $_SESSION['userid']);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        if (!empty($row['profile_pic'])) {
+            $profilePic = $row['profile_pic'];
+        }
+    }
+}
 
 $where = [];
 $where[] = "selejt = 'nem'";
@@ -34,6 +51,7 @@ $result = $conn->query($sql);
     --gray-border: #cfcfcf;
     --text-dark: #1e1e1e;
     --orange: #ff8102ff;
+    --dark-gray: rgba(80, 80, 80, 1);
 }
 body {
     font-family: Arial,sans-serif;
@@ -141,7 +159,7 @@ button {
     color: #fff;
 }
 nav {
-    width: 97.9%;
+    width: 100%; /* Javítva a teljes szélességre */
     height: 80px;
     background-color: #3f3f3f;
     border-bottom: 2px solid var(--gray-border);
@@ -149,6 +167,7 @@ nav {
     align-items: center;
     padding: 0 20px;
     gap: 20px;
+    box-sizing: border-box; /* Hogy a padding ne nyújtsa túl */
 }
 #logo {
     width: 70px;
@@ -176,6 +195,64 @@ nav {
 #activated-btn{
     background-color:black;
 }
+
+/* ÚJ: Profil menü stílusok az index.php alapján */
+.profile-menu {
+    position: relative;
+    display: inline-block;
+}
+.profile-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--orange);
+    object-fit: cover;
+    transition: 0.2s;
+}
+.profile-icon:hover {
+    transform: scale(1.05);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 999;
+}
+.dropdown-content a {
+    display: block;
+    padding: 12px;
+    color: black;
+    text-decoration: none;
+    transition: 0.2s;
+    background-color: white;
+}
+.dropdown-content a:hover {
+    background-color: var(--orange);
+    color: white;
+}
+#loginBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--orange);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+#loginBtn:hover {
+    background-color: black;
+    transform: scale(1.05);
+}
+
 .car-card.kiadott {
     filter: grayscale(100%);
     opacity: 0.6;
@@ -375,17 +452,37 @@ nav {
 </head>
 <body>
     <nav>
-        <a href="http://localhost/auto_kolcsonzo/index.php">
+        <a href="index.php">
             <img id="logo" src="images/logo3.png">
         </a>
         <div class="nav-links">
             <a id="activated-btn">Személygépautó</a>
-            <a href="http://localhost/auto_kolcsonzo/haszonauto.php">Haszonautó</a>
-            <a href="http://localhost/auto_kolcsonzo/munkagep.php">Munkagép</a>
-            <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>
-            <a href="http://localhost/auto_kolcsonzo/egyeb.php">Egyéb</a>
+            <a href="haszonauto.php">Haszonautó</a>
+            <a href="munkagep.php">Munkagép</a>
+            <a href="motorkerekpar.php">Motorkerékpár</a>
+            <a href="egyeb.php">Egyéb</a>
         </div>
+
+        <?php if (!isset($_SESSION['userid'])): ?>
+            <button id="loginBtn" onclick="location.href='login.php'">
+                Bejelentkezés
+            </button>
+        <?php else: ?>
+            <div class="profile-menu">
+                <img src="<?= htmlspecialchars($profilePic) ?>" class="profile-icon" onclick="toggleDropdown()">
+                <div id="dropdown" class="dropdown-content">
+                    <a href="profile_picture.php">Profilkép változtatása</a>
+                    <?php if ($_SESSION['jogosultsag'] == 1): ?>
+                        <a href="add_cars_admin.php">Összes kocsi</a>
+                    <?php else: ?>
+                        <a href="add_cars_user.php">Autóim</a>
+                    <?php endif; ?>
+                    <a href="logout.php">Kijelentkezés</a>
+                </div>
+            </div>
+        <?php endif; ?>
     </nav>
+
 <div class="container">
 <div class="sidebar">
 <form method="GET">
@@ -482,6 +579,21 @@ $conn->close();
 </div>
 
 <script>
+// ÚJ: Legördülő menü kezelése
+function toggleDropdown() {
+    const menu = document.getElementById("dropdown");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdown");
+        if (dropdown && dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
+}
+
 function toggleLeiras(id) {
     const elem = document.getElementById('leiras-' + id);
     const btn = elem.nextElementSibling;
