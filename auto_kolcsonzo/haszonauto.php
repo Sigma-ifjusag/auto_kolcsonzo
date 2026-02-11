@@ -35,19 +35,92 @@ $result = $conn->query($sql);
     --text-dark: #1e1e1e;
     --orange: #ff8102ff;
 }
-body { font-family: Arial,sans-serif; background-color: var(--gray-bg); color: var(--text-dark); margin: 0; }
-.container { display: flex; min-height: 100vh; }
-.sidebar { width: 270px; background-color: var(--gray-panel); padding: 20px; border-top: 2px solid var(--gray-border); border-right: 2px solid var(--gray-border); font-weight: bold; }
-.sidebar label { margin-top: 12px; font-size: 14px; display: block; }
-input, select { width: 100%; padding: 6px; margin-top: 5px; border: 1px solid var(--gray-border); border-radius: 4px; }
-input:focus, select:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 2px rgba(255,128,0,0.2); }
-button { margin-top: 15px; background-color: var(--orange); border: none; color: #fff; font-weight: bold; padding: 10px; border-radius: 4px; cursor: pointer; }
-.content { flex: 1; padding: 20px; }
-.car-list { display: flex; flex-direction: column; gap: 18px; }
-.car-card { display: flex; background: #fff; border-radius: 8px; border: 1px solid #ddd; overflow: hidden; transition: box-shadow 0.2s, transform 0.15s; min-height: 250px; align-items: stretch; position: relative; }
-.car-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
-.car-image { width: 200px; height: 200px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #eee; margin: 10px 15px; border-radius: 8px; overflow: hidden; border: 1px solid var(--gray-border); padding: 5px; position: relative; }
-.car-image img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 4px; }
+body {
+    font-family: Arial,sans-serif;
+    background-color: var(--gray-bg);
+    color: var(--text-dark); margin: 0;
+}
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+.sidebar {
+    width: 270px;
+    background-color: var(--gray-panel);
+    padding: 20px; border-top: 2px solid var(--gray-border);
+    border-right: 2px solid var(--gray-border); font-weight: bold;
+}
+.sidebar label {
+    margin-top: 12px;
+    font-size: 14px;
+    display: block;
+}
+input, select {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+}
+input:focus, select:focus {
+    outline: none;
+    border-color: orange;
+    box-shadow: 0 0 0 2px rgba(255,128,0,0.2);
+}
+button {
+    margin-top: 15px;
+    background-color: orange;
+    border: none; color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+}
+.car-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.car-card {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.15s;
+    min-height: 250px;
+    align-items: stretch;
+    position: relative;
+}
+.car-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+.car-image {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+    margin: 10px 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--gray-border);
+    padding: 5px; position: relative;
+}
+.car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 4px;
+}
 .car-image button {
     position: absolute;
     top: 50%;
@@ -63,8 +136,10 @@ button { margin-top: 15px; background-color: var(--orange); border: none; color:
     font-size: 16px;
     transition: background-color 0.2s;
 }
-.car-image button:hover { background-color: rgba(0,0,0,0.6); color: #fff; }
-
+.car-image button:hover {
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+}
 nav {
     width: 97.9%;
     height: 80px;
@@ -75,14 +150,12 @@ nav {
     padding: 0 20px;
     gap: 20px;
 }
-
 #logo {
     width: 70px;
     border-radius: 6px;
     border: 2px solid var(--gray-border);
     background-color: #fff;
 }
-
 .nav-links {
     display: flex;
     gap: 20px;
@@ -120,103 +193,165 @@ nav {
     font-size: 14px;
     pointer-events: none;
 }
+.nav-links a:hover {
+    background-color: black;
+}
+.car-main {
+    flex: 1;
+    padding: 15px 18px;
+    display: flex;
+    flex-direction: column;
+}
+.car-main h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+}
+.tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+.tags span {
+    background: #f1f1f1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.leiras-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px; margin-bottom: 6px;
+}
+.leiras {
+    font-size: 13px;
+    color: #444;
+    overflow: hidden;
+    max-height: 3em;
+    transition: max-height 0.3s ease;
+    flex: 1;
+}
+.leiras.expanded {
+    max-height: 2000px; 
+}
+.show-more-btn {
+    background: none;
+    border: none;
+    color: var(--orange);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    white-space: nowrap;
+    margin-left: 0;
+}
+.specs {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #444;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 10px;
+}
+.plate { 
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+.car-price {
+    width: 170px;
+    background: #fafafa;
+    border-left: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px; padding: 10px;
+}
+.owner {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.price {
+    font-size: 22px;
+    font-weight: bold;
+    color: orange;
+}
+.perday {
+    font-size: 13px;
+    color: #777;
+}
 
-
-
-.nav-links a:hover { background-color: black; }
-
-.car-main { flex: 1; padding: 15px 18px; display: flex; flex-direction: column; }
-.car-main h2 { margin: 0 0 8px 0; font-size: 20px; }
-.tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-.tags span { background: #f1f1f1; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-.leiras-wrapper { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-bottom: 6px; }
-.leiras { font-size: 13px; color: #444; overflow: hidden; max-height: 3em; transition: max-height 0.3s ease; flex: 1; }
-.leiras.expanded { max-height: 2000px; }
-.show-more-btn { background: none; border: none; color: var(--orange); font-size: 12px; cursor: pointer; padding: 0; white-space: nowrap; margin-left: 0; }
-.specs { margin-top: 6px; font-size: 13px; color: #444; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 10px; }
-.plate { font-size: 13px; color: #666; margin-top: 4px; }
-.car-price { width: 170px; background: #fafafa; border-left: 1px solid #eee; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; padding: 10px; }
-.owner { font-size: 13px; color: #555; margin-bottom: 4px; text-align: center; }
-.price { font-size: 22px; font-weight: bold; color: var(--orange); }
-.perday { font-size: 13px; color: #777; }
-
-/* ===== MOBIL NAVBAR JAVÍTÁS ===== */
 @media (max-width: 900px) {
 
-    /* NAVBAR mobil nézet */
     nav {
         flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 100%;
         height: auto;
-        gap: 12px; /* távolság a logó és gombok között */
+        gap: 12px;
         padding: 10px;
     }
-
     #logo {
-        margin-bottom: 10px; /* extra hely a logó alatt */
+        margin-bottom: 10px;
     }
-
     .nav-links {
         flex-direction: column;
-        gap: 10px; /* gombok közötti távolság */
+        gap: 10px;
         width: 100%;
         align-items: center;
         text-decoration: none;
     }
-
     .nav-links a {
         width: 80%;
         max-width: 300px;
         text-align: center;
         margin: 0 auto;
-        padding: 10px 0; /* kényelmesebb kattintási felület */
+        padding: 10px 0;
         font-size: 14px;
         text-decoration: none;
     }
-    /* SIDEBAR */
     .sidebar {
         width: 100%;
         border-right: none;
         border-bottom: 2px solid var(--gray-border);
     }
-
-    /* KÁRTYÁK */
     .car-card {
         flex-direction: column;
         align-items: stretch;
         min-height: auto;
     }
-
     .car-image {
         width: 100%;
         height: 220px;
         margin: 0 0 10px 0;
         border-radius: 0;
     }
-
     .car-main {
         width: 100%;
         padding: 10px 15px;
     }
-
-    .leiras { max-height: 4.5em; }
-    .specs { grid-template-columns: 1fr; }
-
+    .leiras {
+        max-height: 4.5em;
+        }
+    .specs {
+        grid-template-columns: 1fr;
+    }
     .car-price {
         width: 100%;
         border-left: none;
         border-top: 1px solid #eee;
         padding: 12px 0;
     }
-
     .car-card * { box-sizing: border-box; max-width: 100%; }
     .car-card.kiadott {
     filter: grayscale(100%);
     opacity: 0.6;
     pointer-events: none;
-}
+    }
 }
 </style>
 </head>
@@ -227,7 +362,7 @@ nav {
         </a>
         <div class="nav-links">
             <a href="http://localhost/auto_kolcsonzo/szemelygepauto.php">Személygépautó</a>
-            <a id="activated-btn" >Haszonautó</a>
+            <a id="activated-btn">Haszonautó</a>
             <a href="http://localhost/auto_kolcsonzo/munkagep.php">Munkagép</a>
             <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>
             <a href="http://localhost/auto_kolcsonzo/egyeb.php">Egyéb</a>
@@ -259,7 +394,6 @@ nav {
 <button type="submit">Szűrés</button>
 </form>
 </div>
-
 <div class="content">
 <div class="car-list">
 <?php
@@ -355,7 +489,6 @@ function nextImage(id) {
     document.getElementById('car-img-' + id).src = window['images_' + id][window['imgIndex_' + id]];
 }
 
-// Csak akkor mutatjuk a Tovább gombot, ha a leírás hosszabb, mint a max-height
 document.querySelectorAll('.leiras-wrapper').forEach(wrapper => {
     const leiras = wrapper.querySelector('.leiras');
     const btn = wrapper.querySelector('.show-more-btn');

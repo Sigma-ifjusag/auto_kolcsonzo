@@ -32,11 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['jogosultsag'] = $user['jogosultsag'];
 
-                // 🔀 Átirányítás jogosultság alapján
                 if ($user['jogosultsag'] == 1) {
-                    header("Location: add_cars_admin.php"); // admin
+                    header("Location: add_cars_admin.php");
                 } else {
-                    header("Location: add_cars_user.php"); // normál user
+                    header("Location: add_cars_user.php");
                 }
                 exit;
 
@@ -99,7 +98,7 @@ input {
     padding: 10px;
     margin-bottom: 18px;
     border-radius: 6px;
-    border: 1px solid var(--gray);
+    border: 1px solid black;
     font-size: 14px;
     box-sizing: border-box;
 }

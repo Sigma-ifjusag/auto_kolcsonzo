@@ -1,7 +1,6 @@
 <?php
 include 'config.php';
 
-// Kiemelt autók lekérdezése
 $sql = "SELECT items.*, users.name AS tulaj_nev 
         FROM items 
         LEFT JOIN users ON users.UserID = items.UserID
@@ -21,7 +20,6 @@ $result = $conn->query($sql);
     --orange: #ff8102;
     --dark-gray: rgba(80, 80, 80, 1);
 }
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -31,10 +29,9 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
-
-a { text-decoration: none; }
-
-/* FEJLÉC */
+a{
+    text-decoration: none; 
+}
 nav {
     width: 97.9%;
     height: 80px;
@@ -45,21 +42,18 @@ nav {
     padding: 0 20px;
     gap: 20px;
 }
-
 #logo {
     width: 70px;
     border-radius: 6px;
     border: 2px solid var(--gray-border);
     background-color: #3f3f3f;
 }
-
 .nav-links {
     display: flex;
     gap: 20px;
     flex: 1;
     justify-content: center;
 }
-
 .nav-links a {
     padding: 10px 16px;
     background-color: var(--orange);
@@ -68,9 +62,9 @@ nav {
     font-weight: bold;
     transition: 0.3s;
 }
-
-.nav-links a:hover { background-color: black; }
-
+.nav-links a:hover { 
+    background-color: black;
+}
 #loginBtn {
     padding: 10px 20px;
     font-size: 16px;
@@ -80,20 +74,18 @@ nav {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
-    font-weight: bold;
+    font-weight:
 }
-
-#loginBtn:hover { background-color: black; transform: scale(1.05); }
-
-/* Fő tartalom */
+#loginBtn:hover {
+    background-color: black;
+    transform: scale(1.05);
+}
 .main-content {
     display: flex;
     flex: 1;
     background-color: var(--gray-bg);
     flex-wrap: wrap;
 }
-
-/* Bal oszlop */
 .hablaty {
     width: 300px;
     background-color: #f9f9f9;
@@ -102,11 +94,13 @@ nav {
     border-right: 2px solid var(--gray-border);
     flex-shrink: 0;
 }
-
-.hablaty h1 { margin-top: 0; color: var(--orange); }
-.hablaty h3 { line-height: 1.6; }
-
-/* Kiemelt autók */
+.hablaty h1 { 
+    margin-top: 0;
+    color: var(--orange);
+}
+.hablaty h3 {
+    line-height: 1.6;
+}
 .featured-cars {
     flex: 1;
     display: flex;
@@ -114,8 +108,6 @@ nav {
     gap: 20px;
     padding: 40px 20px;
 }
-
-/* Vízszintes kártya */
 .car-card {
     display: flex;
     flex-direction: row;
@@ -128,12 +120,10 @@ nav {
     transition: box-shadow 0.2s, transform 0.15s;
     margin: 0 auto;
 }
-
 .car-card:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transform: translateY(-2px);
 }
-
 .car-image {
     width: 300px;
     height: 200px;
@@ -144,14 +134,12 @@ nav {
     background: #eee;
     position: relative;
 }
-
 .car-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     border-radius: 4px;
 }
-
 .car-image button {
     position: absolute;
     top: 50%;
@@ -167,12 +155,10 @@ nav {
     font-size: 16px;
     transition: background-color 0.2s;
 }
-
 .car-image button:hover {
     background-color: rgba(0,0,0,0.6);
     color: #fff;
 }
-
 .car-main {
     flex: 1;
     padding: 15px;
@@ -180,14 +166,43 @@ nav {
     flex-direction: column;
     justify-content: space-between;
 }
-
-.car-main h2 { margin: 0 0 8px 0; font-size: 18px; }
-.tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-.tags span { background: #f1f1f1; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-.show-more-btn { background: none; border: none; color: var(--orange); font-size: 12px; cursor: pointer; padding: 0; }
-
-.specs { margin-top: 6px; font-size: 13px; color: #444; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 10px; }
-.plate { font-size: 13px; color: #666; margin-top: 4px; }
+.car-main h2 {
+    margin: 0 0 8px 0;
+    font-size: 18px; 
+}
+.tags { 
+    display: flex; 
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+} 
+.tags span { 
+    background: #f1f1f1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.show-more-btn { 
+    background: none;
+    border: none;
+    color: orange;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+.specs { 
+    margin-top: 6px;
+    font-size: 13px;
+    color: #444;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 10px;
+}
+.plate { 
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
 
 .car-price {
     width: 120px;
@@ -203,11 +218,22 @@ nav {
     text-align: center;
 }
 
-.owner { font-size: 13px; color: #555; margin-bottom: 4px; text-align: center; }
-.price { font-size: 20px; font-weight: bold; color: var(--orange); }
-.perday { font-size: 13px; color: #777; }
+.owner {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.price { 
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--orange);
+}
+.perday { 
+    font-size: 13px;
+    color: #777;
+}
 
-/* ===== MOBIL BARÁT ===== */
 @media (max-width: 900px) {
     nav {
         flex-direction: column;
@@ -215,74 +241,64 @@ nav {
         justify-content: center;
         width: 100%;
         height: auto;
-        gap: 12px; /* kicsit nagyobb hely a gombok között */
+        gap: 12px;
         padding: 10px;
     }
-
     #logo {
-        margin-bottom: 10px; /* logo alatt extra tér */
+        margin-bottom: 10px;
     }
-
     .nav-links {
         flex-direction: column;
-        gap: 10px; /* gombok közötti távolság */
+        gap: 10px;
         width: 100%;
         align-items: center;
     }
-
     .nav-links a,
     #loginBtn {
         width: 80%;
         max-width: 300px;
         text-align: center;
-        margin: 0 auto; /* középre */
-        padding: 10px 0; /* kényelmesebb kattintási terület */
+        margin: 0 auto;
+        padding: 10px 0;
         font-size: 14px;
     }
-
-    /* Fő tartalom mobilon */
     .main-content {
         flex-direction: column;
     }
-
     .hablaty {
         width: 100%;
         border-right: none;
         border-bottom: 2px solid var(--gray-border);
         padding: 15px;
     }
-
-    /* Kártyák mobilon */
     .car-card {
         flex-direction: column;
         max-width: 100%;
         margin: 0 auto 15px auto;
     }
-
     .car-image {
         width: 100%;
         height: 220px;
         margin: 0;
         border-radius: 0;
     }
-
     .car-main {
         width: 100%;
         padding: 10px 15px;
     }
-
     .specs {
         grid-template-columns: 1fr;
     }
-
     .car-price {
         width: 100%;
         border-left: none;
         border-top: 1px solid #eee;
         padding: 10px 0;
     }
-
-    .car-card * { box-sizing: border-box; max-width: 100%; }
+    .car-card * { 
+        box-sizing: border-box;
+        max-width: 100%;
+    }
 }
 </style>
 </head>
