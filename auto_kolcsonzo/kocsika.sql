@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 11. 14:33
+-- Létrehozás ideje: 2026. Feb 12. 08:53
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `foglalas` (
   `meddig` date NOT NULL,
   `elvitte` enum('igen','nem') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `foglalas`
+--
+
+INSERT INTO `foglalas` (`UserID`, `ItemsID`, `mikortol`, `meddig`, `elvitte`) VALUES
+(6, 17, '2026-04-30', '2026-07-22', 'nem');
 
 -- --------------------------------------------------------
 
@@ -70,11 +77,12 @@ CREATE TABLE `items` (
 
 INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`, `kiemelt`, `kiadott`) VALUES
 (16, 'AA EK-7', 'szemelygepauto', 'Dízel', 'BMW', '540 d', 'Sedan', 5, 2560, 4, 29000, 303, 670, 'nem', 8, NULL, 'Ez egy dízel BMW.', 32431151, 'nem', 'igen'),
-(17, 'AB EN-2', 'szemelygepauto', 'Benzin', 'Mercedes-AMG', 'GT R', 'Sport', 2, 1890, 2, 36000, 585, 700, 'nem', 8, NULL, 'Egy igazi modern sportautó.', 32431151, 'igen', 'nem'),
+(17, 'AB EN-2', 'szemelygepauto', 'Benzin', 'Mercedes-AMG', 'GT R', 'Sport', 2, 1890, 2, 36000, 585, 700, 'nem', 8, NULL, 'Egy igazi modern sportautó.', 32431151, 'igen', 'igen'),
 (21, 'TSO-571', 'szemelygepauto', 'Benzin', 'Lexus', 'LFA', 'Sport', 2, 1614, 2, 50000, 560, 480, 'nem', 8, NULL, 'Ez egy ritka sportautó amiből összesn csak 500 darab készült. ', 32431151, 'nem', 'nem'),
 (22, 'ZNL-173', 'szemelygepauto', 'Benzin', 'Audi', 'RS6 Avant', 'Kombi', 5, 2150, 5, 32000, 600, 850, 'nem', 9, NULL, 'Egy erős kombi.', 183141, 'nem', 'nem'),
 (25, 'GJS-273', 'haszonauto', 'Benzin', 'GMC', 'Syclone', 'Pickup', 2, 1600, 2, 19000, 280, 475, 'nem', 10, NULL, 'Ez egy nagy teljesítményű pickup.', 3224121, 'nem', 'nem'),
-(26, 'Nincs', 'munkagep', 'Benzin', 'John Deere', '6250R', 'Egyéb', 2, 10540, 2, 45000, 250, 1167, 'nem', 10, NULL, 'Egy traktor amivel bármilyen munkát el lehet végezni.', 3224121, 'nem', 'nem');
+(26, 'Nincs', 'munkagep', 'Benzin', 'John Deere', '6250R', 'Egyéb', 2, 10540, 2, 45000, 250, 1167, 'nem', 10, NULL, 'Egy traktor amivel bármilyen munkát el lehet végezni.', 3224121, 'nem', 'nem'),
+(27, 'SAJ-934', 'szemelygepauto', 'Benzin', 'BMW', 'X5 M50i', 'SUV', 5, 2995, 5, 29000, 530, 750, 'nem', 8, NULL, 'Egy városi terepjáró.', 32431151, 'nem', 'nem');
 
 -- --------------------------------------------------------
 
@@ -118,7 +126,11 @@ INSERT INTO `item_images` (`ImageID`, `ItemsID`, `kep`) VALUES
 (65, 26, 'uploads/1770381124_20321594.jpg'),
 (66, 26, 'uploads/1770381124_20321600.jpg'),
 (67, 26, 'uploads/1770381124_20321605.jpg'),
-(68, 26, 'uploads/1770381124_20321618.jpg');
+(68, 26, 'uploads/1770381124_20321618.jpg'),
+(69, 27, 'uploads/1770882678_3568784.jpg'),
+(70, 27, 'uploads/1770882678_3568833.jpg'),
+(71, 27, 'uploads/1770882678_3568934.jpg'),
+(72, 27, 'uploads/1770882678_3569024.jpg');
 
 -- --------------------------------------------------------
 
@@ -209,13 +221,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `items`
 --
 ALTER TABLE `items`
-  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ItemsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT a táblához `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `ImageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT a táblához `users`
