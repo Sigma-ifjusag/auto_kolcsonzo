@@ -26,7 +26,8 @@ if (isset($_POST['add_car'])) {
     $leiras     = $_POST['leiras'];
     $telefon    = $_POST['telefon'];
     $selejt     = $_POST['selejt'];
-    $kiadott     = $_POST['kiadott '];
+    // Az új autó alapból nem kiadott
+    $kiadott    = 'nem'; 
 
     $stmt = $conn->prepare("
         INSERT INTO items 
@@ -257,7 +258,6 @@ function toggleEdit(id) {
 <div class="success"><?= $uzenet ?></div>
 <?php endif; ?>
 
-<!-- ÚJ AUTÓ FORM -->
 <form method="POST" enctype="multipart/form-data">
 <h2>Új autó hozzáadása</h2>
 <div class="form-grid">
@@ -299,13 +299,6 @@ function toggleEdit(id) {
     <select name="selejt">
         <option value="nem">Nem selejt</option>
         <option value="igen">Selejt</option>
-    </select>
-</div>
-<div class="form-group">
-    <label>kiadott</label>
-    <select name="kiadott">
-        <option value="nem">Nem</option>
-        <option value="igen">Igen</option>
     </select>
 </div>
 <div class="form-group"><label>Autó képei</label><input type="file" name="kepek[]" accept="image/*" multiple></div>
