@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
 
     <?php if (isset($siker)): ?>
         <div class='msg siker'><?= $siker ?></div>
-        <p><a href="index.php">Vissza a böngészéshez</a> | <a href="sajat_foglalasok.php">Saját foglalásaim</a></p>
+        <p><a href="index.php">Vissza a böngészéshez</a> | <a href="foglalasok.php">Saját foglalásaim</a></p>
     <?php elseif (isset($hiba)): ?>
         <div class='msg hiba'><?= $hiba ?></div>
     <?php endif; ?>

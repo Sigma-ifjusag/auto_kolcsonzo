@@ -490,13 +490,14 @@ nav {
                 <img src="<?= htmlspecialchars($profilePic) ?>" class="profile-icon" onclick="toggleDropdown()">
                 <div id="dropdown" class="dropdown-content">
                     <a href="profile_picture.php">Profilkép változtatása</a>
-                    <?php if ($_SESSION['jogosultsag'] == 1): ?>
-                        <a href="add_cars_admin.php">Összes kocsi</a>
-                    <?php else: ?>
-                        <a href="add_cars_user.php">Autóim</a>
-                    <?php endif; ?>
+                    <a href="foglalasok.php">Foglalásaim</a>
+                <?php if ($_SESSION['jogosultsag'] == 1): ?>
+                    <a href="add_cars_admin.php">Összes kocsi</a>
+                <?php else: ?>
+                    <a href="add_cars_user.php">Autóim</a>
+                <?php endif; ?>
                     <a href="logout.php">Kijelentkezés</a>
-                </div>
+            </div>
             </div>
         <?php endif; ?>
     </nav>
