@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 12. 08:53
+-- Létrehozás ideje: 2026. Feb 12. 11:14
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -76,10 +76,9 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`ItemsID`, `R/U`, `tipus`, `uzemanyag`, `marka`, `modell`, `kivitel`, `sz_szem`, `suly`, `ajtokszama`, `ar/nap`, `loero`, `nyomatek`, `selejt`, `UserID`, `kep`, `leiras`, `telefon`, `kiemelt`, `kiadott`) VALUES
-(16, 'AA EK-7', 'szemelygepauto', 'Dízel', 'BMW', '540 d', 'Sedan', 5, 2560, 4, 29000, 303, 670, 'nem', 8, NULL, 'Ez egy dízel BMW.', 32431151, 'nem', 'igen'),
-(17, 'AB EN-2', 'szemelygepauto', 'Benzin', 'Mercedes-AMG', 'GT R', 'Sport', 2, 1890, 2, 36000, 585, 700, 'nem', 8, NULL, 'Egy igazi modern sportautó.', 32431151, 'igen', 'igen'),
+(17, 'AB EN-2', 'szemelygepauto', 'Benzin', 'Mercedes-AMG', 'GT R', 'Sport', 2, 1890, 2, 36000, 585, 700, 'nem', 8, NULL, 'Egy igazi modern sportautó.', 32431151, 'nem', 'nem'),
 (21, 'TSO-571', 'szemelygepauto', 'Benzin', 'Lexus', 'LFA', 'Sport', 2, 1614, 2, 50000, 560, 480, 'nem', 8, NULL, 'Ez egy ritka sportautó amiből összesn csak 500 darab készült. ', 32431151, 'nem', 'nem'),
-(22, 'ZNL-173', 'szemelygepauto', 'Benzin', 'Audi', 'RS6 Avant', 'Kombi', 5, 2150, 5, 32000, 600, 850, 'nem', 9, NULL, 'Egy erős kombi.', 183141, 'nem', 'nem'),
+(22, 'ZNL-173', 'szemelygepauto', 'Benzin', 'Audi', 'RS6 Avant', 'Kombi', 5, 2150, 5, 32000, 600, 850, 'nem', 9, NULL, 'Egy erős kombi.', 183141, 'igen', 'nem'),
 (25, 'GJS-273', 'haszonauto', 'Benzin', 'GMC', 'Syclone', 'Pickup', 2, 1600, 2, 19000, 280, 475, 'nem', 10, NULL, 'Ez egy nagy teljesítményű pickup.', 3224121, 'nem', 'nem'),
 (26, 'Nincs', 'munkagep', 'Benzin', 'John Deere', '6250R', 'Egyéb', 2, 10540, 2, 45000, 250, 1167, 'nem', 10, NULL, 'Egy traktor amivel bármilyen munkát el lehet végezni.', 3224121, 'nem', 'nem'),
 (27, 'SAJ-934', 'szemelygepauto', 'Benzin', 'BMW', 'X5 M50i', 'SUV', 5, 2995, 5, 29000, 530, 750, 'nem', 8, NULL, 'Egy városi terepjáró.', 32431151, 'nem', 'nem');
@@ -101,10 +100,6 @@ CREATE TABLE `item_images` (
 --
 
 INSERT INTO `item_images` (`ImageID`, `ItemsID`, `kep`) VALUES
-(9, 16, 'uploads/1770377318_19624720.jpg'),
-(10, 16, 'uploads/1770377318_19624738.jpg'),
-(11, 16, 'uploads/1770377318_19624767.jpg'),
-(12, 16, 'uploads/1770377318_19624782.jpg'),
 (13, 17, 'uploads/1770377586_565441.jpg'),
 (14, 17, 'uploads/1770377586_565442.jpg'),
 (15, 17, 'uploads/1770377586_565453.jpg'),
@@ -171,7 +166,7 @@ INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `password`, `szig`, 
 (5, 'test', 'test', 'test@gmail.com', '$2y$10$4TuXDsp4JiHbjhksRitV..35Qg4GAhii/7MnRqVINdn6k0b8W5ZyO', 1234, '1234', 0, 'uploads/profile_5_1770816722.png'),
 (6, 'kili_boss', 'kilike', 'kili@gmail.com', '$2y$10$RW7y4GVImaIs7XNIXW1oV.TIaeKuiMnl.TrXmkCo6ZXXcrUebYlzK', 4444, 'kili haz', 1, 'images/defavatar.webp'),
 (7, 'test2', 'test2', 'test2@gmail.com', '$2y$10$gl1UXleEFfaleUcEKzdtF.Dp5WDAFZ.tSiX8zEXWvcZ9IW8c0zrPe', 4444, 'test2', 0, 'images/defavatar.webp'),
-(8, '0RespectHun0', 'Bence Zwick', 'zbence8@gmail.com', '$2y$10$a9JqQn2qrbh8CB5p52HGHOi3TgezsItMKLAQs2TzG.eHrlYUH0B/a', 23414, 'Pest', 0, 'images/defavatar.webp'),
+(8, '0RespectHun0', 'Bence Zwick', 'zwickbence23@gmail.com', '$2y$10$a9JqQn2qrbh8CB5p52HGHOi3TgezsItMKLAQs2TzG.eHrlYUH0B/a', 23414, 'Dunaharaszti', 0, 'images/defavatar.webp'),
 (9, 'Kiliboss', 'Mézner Kilián Pál', 'mezner01@gmail.com', '$2y$10$SDMJAzGxDwT.uTnLaKuO5uPL/0UuftG3NDg3REWAzGWUeokc61zBe', 142402, 'Csepel', 0, 'images/defavatar.webp'),
 (10, 'MC Isti', 'Köröskényi István', 'isti69@gmail.com', '$2y$10$PAeXwU5HZRQDXegb8Ejzb.JFJ7AGZR66a00D831NrmrPaCcc30M/W', 124144, 'Miskolc', 0, 'images/defavatar.webp');
 
