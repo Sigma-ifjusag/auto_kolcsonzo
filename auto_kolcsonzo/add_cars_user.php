@@ -10,6 +10,7 @@ if (!isset($_SESSION['userid']) || $_SESSION['jogosultsag'] != 0) {
 $userid = $_SESSION['userid'];
 $uzenet = "";
 
+/* ========================= AUTÓ HOZZÁADÁS ========================= */
 if (isset($_POST['add_car'])) {
     $rendszam   = $_POST['rendszam'];
     $tipus      = $_POST['tipus'];
@@ -26,8 +27,7 @@ if (isset($_POST['add_car'])) {
     $leiras     = $_POST['leiras'];
     $telefon    = $_POST['telefon'];
     $selejt     = $_POST['selejt'];
-    // Az új autó alapból nem kiadott
-    $kiadott    = 'nem'; 
+    $kiadott     = $_POST['kiadott '];
 
     $stmt = $conn->prepare("
         INSERT INTO items 
@@ -65,6 +65,8 @@ if (isset($_POST['add_car'])) {
 
     $uzenet = "Autó sikeresen hozzáadva!";
 }
+
+/* ========================= AUTÓ MÓDOSÍTÁS ========================= */
 if (isset($_POST['edit_car'])) {
     $carid    = (int)$_POST['carid'];
     $marka    = $_POST['marka'];
@@ -93,6 +95,8 @@ if (isset($_POST['edit_car'])) {
 
     $uzenet = "Autó sikeresen módosítva!";
 }
+
+/* ========================= SAJÁT AUTÓK ========================= */
 $stmt = $conn->prepare("SELECT * FROM items WHERE UserID=?");
 $stmt->bind_param("i", $userid);
 $stmt->execute();
@@ -106,6 +110,7 @@ $cars = $stmt->get_result();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saját autóim</title>
 <style>
+/* A stílus ugyanaz maradt */
 :root {
     --gray-bg: #f9f9f9;
     --panel-bg: #ffffff;
@@ -116,125 +121,26 @@ $cars = $stmt->get_result();
     --orange: #ff8102;
     --orange-light: #ff9d3d;
 }
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--gray-bg);
-    color: var(--text-dark);
-    margin: 0;
-    padding: 30px;
-}
-h1,h2 {
-    color: orange;
-    margin-bottom:15px;
-}
-.back-btn {
-    display:inline-block;
-    margin-bottom:20px;
-    padding:10px 15px;
-    background-color: orange;
-    color:#fff;
-    text-decoration:none;
-    border-radius:6px;
-    font-weight:bold;
-    transition:all .2s ease;
-}
-.back-btn:hover {
-    background-color: var(--orange-light);
-    transform: translateY(-1px);
-}
-.success {
-    background:#e6f4ea;
-    color:#2e7d32;
-    padding:10px 15px;
-    border-radius:6px;
-    margin-bottom:20px;
-    border:1px solid #b2d8b2;
-}
-form, .car-box {
-    background: var(--panel-bg);
-    border:1px solid var(--gray-border);
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:25px;
-}
-.form-grid {
-    display:grid;
-    grid-template-columns:
-    repeat(auto-fit, minmax(220px, 1fr));
-    gap:18px;
-}
-.form-group {
-    display:flex;
-    flex-direction:column;
-}
-label {
-    font-size:13px;
-    font-weight:600;
-    margin-bottom:6px;
-    color: var(--text-dark);
-}
-input, select, textarea {
-    padding:10px 12px;
-    border-radius:6px;
-    border:1px solid var(--gray-border);
-    background: var(--input-bg); font-size:14px;
-    color: var(--text-dark);
-    transition: all .2s ease;
-}
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-input:hover, select:hover, textarea:hover {
-    border-color: var(--orange-light);
-}
-input:focus, select:focus, textarea:focus {
-    outline:none;
-    border-color: orange;
-    box-shadow:0 0 0 3px rgba(255,129,2,0.15);
-    background:#fff;
-}
-button {
-    margin-top:18px;
-    background: linear-gradient(135deg, var(--orange), var(--orange-light));
-    border:none;
-    color:white;
-    font-weight:bold;
-    padding:12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:14px;
-    transition:all .2s ease;
-}
-button:hover {
-    transform:translateY(-1px);
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-.car-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center; cursor:pointer;
-    border-bottom:1px solid var(--gray-border);
-    padding-bottom:8px;
-}
-.car-meta {
-    color: var(--text-muted);
-    font-size:14px; margin-top:5px;
-}
-.arrow {
-    font-size:18px;
-    transition: transform 0.2s ease;
-}
-.arrow.open {
-    transform:rotate(90deg);
-}
-.edit-form { 
-    display:none;
-    margin-top:15px;
-    padding-top:15px;
-    border-top:1px solid var(--gray-border);
-    animation: fadeIn .25s ease-in-out;
-}
+body { font-family: Arial, sans-serif; background-color: var(--gray-bg); color: var(--text-dark); margin: 0; padding: 30px; }
+h1,h2 { color: var(--orange); margin-bottom:15px; }
+.back-btn { display:inline-block; margin-bottom:20px; padding:10px 15px; background-color: var(--orange); color:#fff; text-decoration:none; border-radius:6px; font-weight:bold; transition:all .2s ease; }
+.back-btn:hover { background-color: var(--orange-light); transform: translateY(-1px); }
+.success { background:#e6f4ea; color:#2e7d32; padding:10px 15px; border-radius:6px; margin-bottom:20px; border:1px solid #b2d8b2; }
+form, .car-box { background: var(--panel-bg); border:1px solid var(--gray-border); border-radius:10px; padding:20px; margin-bottom:25px; }
+.form-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:18px; }
+.form-group { display:flex; flex-direction:column; }
+label { font-size:13px; font-weight:600; margin-bottom:6px; color: var(--text-dark); }
+input, select, textarea { padding:10px 12px; border-radius:6px; border:1px solid var(--gray-border); background: var(--input-bg); font-size:14px; color: var(--text-dark); transition: all .2s ease; }
+textarea { resize: vertical; min-height: 80px; }
+input:hover, select:hover, textarea:hover { border-color: var(--orange-light); }
+input:focus, select:focus, textarea:focus { outline:none; border-color: var(--orange); box-shadow:0 0 0 3px rgba(255,129,2,0.15); background:#fff; }
+button { margin-top:18px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); border:none; color:white; font-weight:bold; padding:12px; border-radius:6px; cursor:pointer; font-size:14px; transition:all .2s ease; }
+button:hover { transform:translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.car-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; border-bottom:1px solid var(--gray-border); padding-bottom:8px; }
+.car-meta { color: var(--text-muted); font-size:14px; margin-top:5px; }
+.arrow { font-size:18px; transition: transform 0.2s ease; }
+.arrow.open { transform:rotate(90deg); }
+.edit-form { display:none; margin-top:15px; padding-top:15px; border-top:1px solid var(--gray-border); animation: fadeIn .25s ease-in-out; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
 </style>
 
@@ -258,6 +164,7 @@ function toggleEdit(id) {
 <div class="success"><?= $uzenet ?></div>
 <?php endif; ?>
 
+<!-- ÚJ AUTÓ FORM -->
 <form method="POST" enctype="multipart/form-data">
 <h2>Új autó hozzáadása</h2>
 <div class="form-grid">
@@ -301,6 +208,13 @@ function toggleEdit(id) {
         <option value="igen">Selejt</option>
     </select>
 </div>
+<div class="form-group">
+    <label>kiadott</label>
+    <select name="kiadott">
+        <option value="nem">Nem</option>
+        <option value="igen">Igen</option>
+    </select>
+</div>
 <div class="form-group"><label>Autó képei</label><input type="file" name="kepek[]" accept="image/*" multiple></div>
 </div>
 <button type="submit" name="add_car">Autó hozzáadása</button>
@@ -320,6 +234,7 @@ function toggleEdit(id) {
 
     <div style="margin-top:10px;">
         <?php
+        // Képek lekérése
         $stmtImgs = $conn->prepare("SELECT kep FROM item_images WHERE ItemsID=?");
         $stmtImgs->bind_param("i", $car['ItemsID']);
         $stmtImgs->execute();
