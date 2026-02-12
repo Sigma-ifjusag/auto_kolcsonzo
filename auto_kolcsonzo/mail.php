@@ -31,7 +31,7 @@ function sendRentalConfirmation($cimzett_email, $nev, $car, $mikortol, $meddig, 
 
         // TARTALOM
         $mail->isHTML(true);
-        $mail->Subject = '✅ Foglalás visszaigazolás - ' . $car['marka'] . ' ' . $car['modell'];
+        $mail->Subject = 'Foglalás visszaigazolás - ' . $car['marka'] . ' ' . $car['modell'];
         
         // Formázott dátumok
         $mikortol_formatted = date('Y. m. d.', strtotime($mikortol));
@@ -107,11 +107,6 @@ function sendRentalConfirmation($cimzett_email, $nev, $car, $mikortol, $meddig, 
                            style="display:inline-block; background-color:#ff8102; color:#ffffff; padding:12px 30px; 
                                   text-decoration:none; border-radius:4px; font-weight:bold; margin:0 5px;">
                             📋 Saját foglalásaim
-                        </a>
-                        <a href="http://localhost/auto_kolcsonzo/kapcsolat.php" 
-                           style="display:inline-block; background-color:#6c757d; color:#ffffff; padding:12px 30px; 
-                                  text-decoration:none; border-radius:4px; font-weight:bold; margin:0 5px;">
-                            📞 Ügyfélszolgálat
                         </a>
                     </div>
                 </div>
