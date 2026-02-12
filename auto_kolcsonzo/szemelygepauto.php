@@ -551,7 +551,7 @@ if ($result && $result->num_rows > 0) {
         if ($kiadott) {
             if (!empty($row['kiadva_datum'])) {
                 $datum = date('Y. m. d.', strtotime($row['kiadva_datum']));
-                $kiadva_info = "<strong>KIADOTT</strong><br(Visszaérkezik: {$datum})";
+                $kiadva_info = "<strong>KIADOTT</strong><br>(Visszaérkezik: {$datum})";
             } else {
                 $kiadva_info = "<strong>KIADOTT</strong>";
             }

@@ -474,7 +474,7 @@ nav {
             <img id="logo" src="images/logo3.png">
         </a>
         <div class="nav-links">
-            <a href="szemelygepkocsi.php">Személygépautó</a>
+            <a href="szemelygepauto.php">Személygépautó</a>
             <a href="haszonauto.php">Haszonautó</a>
             <a href="munkagep.php">Munkagép</a>
             <a id="activated-btn">Motorkerékpár</a>
@@ -551,7 +551,7 @@ if ($result && $result->num_rows > 0) {
         if ($kiadott) {
             if (!empty($row['kiadva_datum'])) {
                 $datum = date('Y. m. d.', strtotime($row['kiadva_datum']));
-                $kiadva_info = "<strong>KIADOTT</strong><br(Visszaérkezik: {$datum})";
+                $kiadva_info = "<strong>KIADOTT</strong><br>(Visszaérkezik: {$datum})";
             } else {
                 $kiadva_info = "<strong>KIADOTT</strong>";
             }
