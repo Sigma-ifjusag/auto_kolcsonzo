@@ -1,6 +1,13 @@
 <?php
 include 'config.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'C:/xampp/htdocs/auto_kolcsonzo/src/Exception.php';
+require 'C:/xampp/htdocs/auto_kolcsonzo/src/PHPMailer.php';
+require 'C:/xampp/htdocs/auto_kolcsonzo/src/SMTP.php';
+
 $hiba = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -14,13 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lakc = trim($_POST['lakc'] ?? '');
     $jogosultsag = 0;
 
-    if (!$name || !$username || !$password || !$email) {
+    if (!$name || !$username || !$password || !$email || !$szig || !$lakc) {
         $hiba = "Minden mező kitöltése kötelező!";
     } elseif ($password !== $password2) {
         $hiba = "A jelszavak nem egyeznek!";
     } else {
 
-        // 🔍 username / email ellenőrzés
+        // Username / Email ellenőrzés
         $check = $conn->prepare(
             "SELECT UserID FROM users WHERE username = ? OR email = ?"
         );
@@ -50,8 +57,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             if ($stmt->execute()) {
+
+                // ================= EMAIL KÜLDÉS =================
+                $mail = new PHPMailer(true);
+
+                try {
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'rideonautokolcsonzo@gmail.com';
+                    $mail->Password   = 'qnpf ddhv jkuk yynx'; 
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port       = 587;
+                    $mail->CharSet    = 'UTF-8';
+
+                    $mail->setFrom('rideonautokolcsonzo@gmail.com', 'RideOn Autókölcsönző');
+                    $mail->addAddress($email, $name);
+
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Sikeres regisztráció - RideOn Autókölcsönző';
+
+                    $mail->Body = "
+                    <div style='font-family:Arial; padding:20px;'>
+                        <h2 style='color:#ff8102;'>Köszönjük a regisztrációt!</h2>
+                        <p>Kedves <b>$name</b>,</p>
+                        <p>Sikeresen regisztráltál a RideOn Autókölcsönző rendszerébe.</p>
+                        <p>Most már bejelentkezhetsz és foglalhatsz autót.</p>
+                        <br>
+                        <a href='http://localhost/auto_kolcsonzo/login.php' 
+                           style='background:#2b2b2b; color:white; padding:10px 20px; text-decoration:none; border-radius:5px;'>
+                           Bejelentkezés
+                        </a>
+                        <br><br>
+                        <p>Üdvözlettel:<br><b>RideOn Autókölcsönző</b></p>
+                    </div>
+                    ";
+
+                    $mail->AltBody = "Köszönjük a regisztrációt! Most már bejelentkezhetsz.";
+
+                    $mail->send();
+
+                } catch (Exception $e) {
+                    // Ha email hiba van, a regisztráció akkor is sikeres
+                }
+
                 header("Location: login.php?reg=ok");
                 exit;
+
             } else {
                 $hiba = "Hiba történt regisztráció közben!";
             }

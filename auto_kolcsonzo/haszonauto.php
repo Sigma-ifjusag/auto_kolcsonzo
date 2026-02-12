@@ -474,11 +474,11 @@ nav {
             <img id="logo" src="images/logo3.png">
         </a>
         <div class="nav-links">
-            <a href="http://localhost/auto_kolcsonzo/szemelygepauto.php">Személygépautó</a>
+            <a href="szemelygepauto.php">Személygépautó</a>
             <a id="activated-btn">Haszonautó</a>
-            <a href="http://localhost/auto_kolcsonzo/munkagep.php">Munkagép</a>
-            <a href="http://localhost/auto_kolcsonzo/motorkerekpar.php">Motorkerékpár</a>
-            <a href="http://localhost/auto_kolcsonzo/egyeb.php">Egyéb</a>
+            <a href="munkagep.php">Munkagép</a>
+            <a href="motorkerekpar.php">Motorkerékpár</a>
+            <a href="egyeb.php">Egyéb</a>
         </div>
 
         <?php if (!isset($_SESSION['userid'])): ?>

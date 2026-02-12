@@ -3,6 +3,12 @@ session_start();
 include 'config.php';
 
 $hiba = "";
+$siker = "";
+
+// ✅ Sikeres regisztráció üzenet (emoji nélkül)
+if (isset($_GET['reg']) && $_GET['reg'] === 'ok') {
+    $siker = "Sikeres regisztráció! Most már bejelentkezhetsz.";
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -52,10 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bejelentkezés</title>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bejelentkezés</title>
 
 <style>
 :root {
@@ -85,13 +90,6 @@ h2 {
     text-align: center;
     color: var(--dark);
     margin-bottom: 25px;
-}
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: var(--dark);
-    font-weight: bold;
-    font-size: 14px;
 }
 input {
     width: 100%;
@@ -123,10 +121,28 @@ button:hover {
     transform: translateY(-2px);
 }
 .error {
-    color: red;
-    text-align: center;
-    margin-bottom: 15px;
-    font-weight: bold;
+    background:#f8d7da;
+    color:#721c24;
+    padding:10px;
+    border-radius:5px;
+    margin-bottom:15px;
+    text-align:center;
+    font-weight:bold;
+}
+.success {
+    background:#d4edda;
+    color:#155724;
+    padding:10px;
+    border-radius:5px;
+    margin-bottom:15px;
+    text-align:center;
+    font-weight:bold;
+    animation: fadeOut 4s forwards;
+}
+@keyframes fadeOut {
+    0% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
 }
 p {
     text-align: center;
@@ -142,9 +158,16 @@ a:hover {
     text-decoration: underline;
 }
 </style>
+</head>
 
 <body>
 <form method="POST" action="login.php">
+
+    <!-- SIKER ÜZENET A CÍM FÖLÖTT -->
+    <?php if ($siker): ?>
+        <div class="success"><?= htmlspecialchars($siker) ?></div>
+    <?php endif; ?>
+
     <h2>Bejelentkezés</h2>
 
     <?php if ($hiba): ?>

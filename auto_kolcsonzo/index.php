@@ -27,7 +27,7 @@ $result = $conn->query($sql);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ride On! - Autó Kölcsönző</title>
+<title>Ride On! - Auto Kölcsönző</title>
 <style>
 :root {
     --gray-bg: #f9f9f9;

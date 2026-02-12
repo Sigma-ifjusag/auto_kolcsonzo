@@ -9,7 +9,6 @@ if (!isset($_SESSION['userid']) || $_SESSION['jogosultsag'] != 1) {
 
 $uzenet = "";
 
-/* ========================= AUTÓ MÓDOSÍTÁS ========================= */
 if (isset($_POST['edit_car_admin'])) {
     $carid     = (int)$_POST['carid'];
     $rendszam  = $_POST['rendszam'];
@@ -30,7 +29,6 @@ if (isset($_POST['edit_car_admin'])) {
     $kiemelt   = $_POST['kiemelt'];
     $kiadott = $_POST['kiadott'];
 
-    // Autó adatok frissítése
     $stmt = $conn->prepare("
         UPDATE items SET
         `R/U`=?,
@@ -60,7 +58,6 @@ if (isset($_POST['edit_car_admin'])) {
     );
     $stmt->execute();
 
-    // Több kép feltöltése az admin oldalon
     if (isset($_FILES['kepek'])) {
         $uploadDir = 'uploads/';
         if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
@@ -81,7 +78,6 @@ if (isset($_POST['edit_car_admin'])) {
     $uzenet = "Autó adatai frissítve!";
 }
 
-/* ========================= AUTÓK LEKÉRÉSE ========================= */
 $cars = $conn->query("SELECT * FROM items ORDER BY ItemsID DESC");
 ?>
 
@@ -92,29 +88,136 @@ $cars = $conn->query("SELECT * FROM items ORDER BY ItemsID DESC");
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin – Autók kezelése</title>
 <style>
-/* Ugyanazok a stílusok, mint a korábbi admin fájlban */
-:root { --gray-bg:#f9f9f9; --panel-bg:#fff; --input-bg:#f2f2f2; --gray-border:#ccc; --text-dark:#333; --text-muted:#666; --orange:#ff8102; --orange-light:#ff9d3d; }
-body{font-family:Arial,sans-serif;background:var(--gray-bg);color:var(--text-dark);margin:0;padding:30px;}
-h1{color:var(--orange);margin-bottom:20px;}
-.back-btn{display:inline-block;margin-bottom:20px;padding:10px 15px;background-color:var(--orange);color:#fff;text-decoration:none;border-radius:6px;font-weight:bold;transition:all .2s ease;}
-.back-btn:hover{background-color:var(--orange-light);transform:translateY(-1px);}
-.success{background:#e6f4ea;color:#2e7d32;padding:10px 15px;border-radius:6px;margin-bottom:20px;border:1px solid #b2d8b2;}
-.car-box{background:var(--panel-bg);border:1px solid var(--gray-border);border-radius:10px;padding:20px;margin-bottom:25px;}
-.car-header{display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid var(--gray-border);padding-bottom:8px;}
-.car-meta{color:var(--text-muted);font-size:14px;margin-top:5px;}
-.arrow{font-size:18px;transition: transform 0.2s ease;}
-.arrow.open{transform:rotate(90deg);}
-.edit-form{display:none;margin-top:15px;padding-top:15px;border-top:1px solid var(--gray-border);animation: fadeIn .25s ease-in-out;}
+
+:root {--gray-bg:#f9f9f9; 
+    --panel-bg:#fff;
+    --input-bg:#f2f2f2;
+    --gray-border:#ccc;
+    --text-dark:#333;
+    --text-muted:#666;
+    --orange:#ff8102;
+    --orange-light:#ff9d3d;
+}
+body{
+    font-family:Arial,sans-serif;
+    background:var(--gray-bg);
+    color:var(--text-dark);
+    margin:0;padding:30px;
+}
+h1{
+    color:var(--orange);
+    margin-bottom:20px;
+}
+.back-btn{
+    display:inline-block;
+    margin-bottom:20px;
+    padding:10px 15px;
+    background-color:var(--orange);
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+    transition:all .2s ease;
+}
+.back-btn:hover{
+    background-color:var(--orange-light);
+    transform:translateY(-1px);
+}
+.success{
+    background:#e6f4ea;
+    color:#2e7d32;
+    padding:10px 15px;
+    border-radius:6px;
+    margin-bottom:20px;
+    border:1px solid #b2d8b2;
+}
+.car-box{
+    background:var(--panel-bg);
+    border:1px solid var(--gray-border);
+    border-radius:10px;
+    padding:20px;margin-bottom:25px;
+}
+.car-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    border-bottom:1px solid var(--gray-border);
+    padding-bottom:8px;
+}
+.car-meta{
+    color:var(--text-muted);
+    font-size:14px;
+    margin-top:5px;
+}
+.arrow{
+    font-size:18px;
+    transition: transform 0.2s ease;
+}
+.arrow.open{
+    transform:rotate(90deg);
+}
+.edit-form{
+    display:none;
+    margin-top:15px;
+    padding-top:15px;
+    border-top:1px solid var(--gray-border);
+    animation: fadeIn .25s ease-in-out;
+}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
-.form-group{display:flex;flex-direction:column;}
-label{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text-dark);}
-input,select,textarea{padding:10px 12px;border-radius:6px;border:1px solid var(--gray-border);background:var(--input-bg);font-size:14px;color:var(--text-dark);transition: all .2s ease;}
-input:hover,select:hover{border-color:var(--orange-light);}
-input:focus,select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,129,2,0.15);background:#fff;}
-button{margin-top:18px;background:linear-gradient(135deg,var(--orange),var(--orange-light));border:none;color:white;font-weight:bold;padding:12px;border-radius:6px;cursor:pointer;font-size:14px;transition:all .2s ease;}
-button:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-img.admin-car-img{max-width:150px;border-radius:8px;margin-right:5px;margin-top:5px;}
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+}
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+label{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--text-dark);
+}
+input,select,textarea{
+    padding:10px 12px;
+    border-radius:6px;
+    border:1px solid var(--gray-border);
+    background:var(--input-bg);
+    font-size:14px;color:var(--text-dark);
+    transition: all .2s ease;
+}
+input:hover,select:hover{
+    border-color:var(--orange-light);
+}
+input:focus,select:focus{
+    outline:none;
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(255,129,2,0.15);
+    background:#fff;
+}
+button{
+    margin-top:18px;
+    background:linear-gradient(135deg,var(--orange),var(--orange-light));
+    border:none;color:white;
+    font-weight:bold;
+    padding:12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+    transition:all .2s ease;
+}
+button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+img.admin-car-img{
+    max-width:150px;
+    border-radius:8px;
+    margin-right:5px;
+    margin-top:5px;
+}
 </style>
 <script>
 function toggleEdit(id){const form=document.getElementById('edit-'+id);const arrow=document.getElementById('arrow-'+id);const isOpen=form.style.display==='block';form.style.display=isOpen?'none':'block';arrow.classList.toggle('open');}
@@ -137,7 +240,6 @@ function toggleEdit(id){const form=document.getElementById('edit-'+id);const arr
         <div id="arrow-<?= $car['ItemsID'] ?>" class="arrow">▶</div>
     </div>
 
-    <!-- Képek megjelenítése -->
     <div>
     <?php
         $stmtImgs = $conn->prepare("SELECT kep FROM item_images WHERE ItemsID=?");
