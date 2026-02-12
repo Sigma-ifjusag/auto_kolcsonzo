@@ -2,12 +2,10 @@
 session_start();
 include 'config.php';
 
-// 1. Bejelentkezés ellenőrzése
 if (!isset($_SESSION['userid'])) {
-    die("A bérléshez be kell jelentkezned! <a href='login.php'>Bejelentkezés</a>");
+    header("Location: login.php");
+    exit();
 }
-
-// 2. Autó ID ellenőrzése
 if (!isset($_GET['id'])) {
     die("Nincs kiválasztott autó. <a href='index.php'>Vissza a főoldalra</a>");
 }
