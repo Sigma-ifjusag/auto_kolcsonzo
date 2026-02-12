@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config.php';
+require_once 'mail.php'; // vagy a pontos elérési út
 
 if (!isset($_SESSION['userid'])) {
     header("Location: login.php");
@@ -24,6 +25,13 @@ if (!$car) {
     die("Az autó nem található vagy selejtezve lett.");
 }
 
+// Felhasználó email címének és nevének lekérése - JAVÍTVA a te adatbázisodhoz!
+$stmt_user = $conn->prepare("SELECT email, name FROM users WHERE UserID = ?");
+$stmt_user->bind_param("i", $userID);
+$stmt_user->execute();
+$user_result = $stmt_user->get_result();
+$user = $user_result->fetch_assoc();
+
 // 4. Bérlés feldolgozása
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
     $mikortol = $_POST['mikortol'];
@@ -35,20 +43,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
     } elseif (strtotime($meddig) <= strtotime($mikortol)) {
         $hiba = "A leadás dátumának későbbinek kell lennie az elvitelénél!";
     } else {
-        // Tranzakció kezelés ajánlott: Mentés a foglalas táblába
-        $stmt_ins = $conn->prepare("INSERT INTO foglalas (UserID, ItemsID, mikortol, meddig, elvitte) VALUES (?, ?, ?, ?, 'nem')");
-        $stmt_ins->bind_param("iiss", $userID, $itemsID, $mikortol, $meddig);
+        // Tranzakció kezelés
+        $conn->begin_transaction();
         
-        if ($stmt_ins->execute()) {
+        try {
+            // Mentés a foglalas táblába
+            $stmt_ins = $conn->prepare("INSERT INTO foglalas (UserID, ItemsID, mikortol, meddig, elvitte) VALUES (?, ?, ?, ?, 'nem')");
+            $stmt_ins->bind_param("iiss", $userID, $itemsID, $mikortol, $meddig);
+            $stmt_ins->execute();
+            
             // Frissítjük az autó állapotát kiadottra
             $stmt_upd = $conn->prepare("UPDATE items SET kiadott = 'igen' WHERE ItemsID = ?");
             $stmt_upd->bind_param("i", $itemsID);
             $stmt_upd->execute();
             
+            // Napok számának kiszámítása
+            $date1 = new DateTime($mikortol);
+            $date2 = new DateTime($meddig);
+            $napok = $date1->diff($date2)->days;
+            $vegosszeg = $napok * $car['ar/nap'];
+            
+            // EMAIL KÜLDÉS - JAVÍTVA a helyes név mezővel!
+            $email_sikeres = sendRentalConfirmation(
+                $user['email'],
+                $user['name'], // Itt a 'name' mezőt használjuk, ami a teljes nevet tartalmazza
+                $car,
+                $mikortol,
+                $meddig,
+                $napok,
+                $vegosszeg
+            );
+            
+            if (!$email_sikeres) {
+                error_log("Email küldési hiba a bérléshez: " . $user['email']);
+            }
+            
+            $conn->commit();
+            
             $siker = "Sikeres bérlés! Az autó lefoglalva: $mikortol - $meddig";
+            if ($email_sikeres) {
+                $siker .= "<br>📧 Foglalási visszaigazolást küldtünk az e-mail címedre!";
+            } else {
+                $siker .= "<br>⚠️ A visszaigazoló email küldése nem sikerült, de a foglalás érvényes!";
+            }
             $car['kiadott'] = 'igen'; // Hogy az űrlap eltűnjön az oldalon
-        } else {
-            $hiba = "Hiba történt a mentés során: " . $conn->error;
+            
+        } catch (Exception $e) {
+            $conn->rollback();
+            $hiba = "Hiba történt a mentés során: " . $e->getMessage();
         }
     }
 }
@@ -70,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
         .siker { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .hiba { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         input[type="date"] { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .email-icon { margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -83,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
 
     <?php if (isset($siker)): ?>
         <div class='msg siker'><?= $siker ?></div>
-        <p><a href="index.php">Vissza a böngészéshez</a></p>
+        <p><a href="index.php">Vissza a böngészéshez</a> | <a href="sajat_foglalasok.php">Saját foglalásaim</a></p>
     <?php elseif (isset($hiba)): ?>
         <div class='msg hiba'><?= $hiba ?></div>
     <?php endif; ?>
@@ -132,6 +175,5 @@ function szamolAr() {
     }
 }
 </script>
-
 </body>
 </html>
