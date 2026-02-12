@@ -127,6 +127,15 @@ button {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transform: translateY(-2px);
 }
+.visszaerkezik {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background-color: #ffe5cc;
+    border-left: 4px solid orange;
+    font-weight: bold;
+    color: #cc5500;
+    border-radius: 4px;
+}
 .car-image {
     width: 200px;
     height: 200px;
@@ -246,6 +255,7 @@ nav {
     color: white;
 }
 #loginBtn {
+    margin-bottom: 20px; 
     padding: 10px 20px;
     font-size: 16px;
     background-color: var(--orange);
@@ -536,13 +546,11 @@ if ($result && $result->num_rows > 0) {
         $imagesJson = json_encode($images);
         $kiadott = ($row['kiadott'] === 'igen');
         $cardClass = $kiadott ? 'car-card kiadott' : 'car-card';
-
-        // JAVÍTVA: Dátum formázása magyar formátumban
         $kiadva_info = "";
         if ($kiadott) {
             if (!empty($row['kiadva_datum'])) {
                 $datum = date('Y. m. d.', strtotime($row['kiadva_datum']));
-                $kiadva_info = "<strong>KIADOTT</strong><br><small>(Visszaérkezik: {$datum})</small>";
+                $kiadva_info = "<strong>KIADOTT</strong><br(Visszaérkezik: {$datum})";
             } else {
                 $kiadva_info = "<strong>KIADOTT</strong>";
             }
@@ -579,10 +587,12 @@ if ($result && $result->num_rows > 0) {
                     <div><strong>Súly:</strong> ".intval($row['suly'])." kg</div>
                 </div>
                 <p class='plate'>Rendszám: ".htmlspecialchars($row['R/U'])."</p>
+                " . ($kiadott ? "<p class='visszaerkezik'>Visszaérkezik: {$datum}</p>" : "") . "
+
             </div>
             <div class='car-price'>
                 <p class='owner'>Tulajdonos: ".htmlspecialchars($row['tulaj_nev'] ?? 'Ismeretlen')."</p>
-                <p class='owner'>{$kiadva_info}</p>
+                " . (!$kiadott ? "<p class='owner'>Telefon: ".htmlspecialchars($row['telefon'])."</p>" : "") . "
                 <div class='price'>".intval($row['ar/nap'])." Ft</div>
                 <div class='perday'>/ nap</div>" .
                 (!$kiadott ? "<a href='berles.php?id=".$row['ItemsID']."' class='rent-btn'>Bérlés</a>" : "") ."
