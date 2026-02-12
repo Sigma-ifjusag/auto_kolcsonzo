@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 12. 11:14
+-- Létrehozás ideje: 2026. Feb 12. 12:19
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -40,7 +40,11 @@ CREATE TABLE `foglalas` (
 --
 
 INSERT INTO `foglalas` (`UserID`, `ItemsID`, `mikortol`, `meddig`, `elvitte`) VALUES
-(6, 17, '2026-04-30', '2026-07-22', 'nem');
+(6, 17, '2026-04-30', '2026-07-22', 'nem'),
+(8, 21, '2026-02-12', '2026-02-13', 'nem'),
+(8, 17, '2026-03-05', '2026-08-23', 'nem'),
+(8, 17, '2026-02-12', '2026-02-13', 'nem'),
+(8, 21, '2026-02-12', '2026-02-13', 'nem');
 
 -- --------------------------------------------------------
 
