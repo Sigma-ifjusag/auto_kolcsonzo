@@ -30,9 +30,18 @@ if (!empty($_GET['ajtokszama'])) $where[] = "ajtokszama = ".intval($_GET['ajtoks
 if (!empty($_GET['ar_min'])) $where[] = "`ar/nap` >= ".intval($_GET['ar_min']);
 if (!empty($_GET['ar_max'])) $where[] = "`ar/nap` <= ".intval($_GET['ar_max']);
 
-$sql = "SELECT items.*, users.name AS tulaj_nev 
+// JAVÍTVA: foglalas tábla használata (nem kolcsonzes) és legfrissebb bérlés lekérése
+$sql = "SELECT items.*, users.name AS tulaj_nev, 
+               foglalas.meddig AS kiadva_datum 
         FROM items 
-        LEFT JOIN users ON users.UserID = items.UserID";
+        LEFT JOIN users ON users.UserID = items.UserID
+        LEFT JOIN (
+            SELECT ItemsID, meddig 
+            FROM foglalas 
+            WHERE elvitte = 'nem' 
+            ORDER BY meddig DESC 
+            LIMIT 1
+        ) AS foglalas ON items.ItemsID = foglalas.ItemsID";
 
 if ($where) $sql .= " WHERE " . implode(" AND ", $where);
 
@@ -159,7 +168,7 @@ button {
     color: #fff;
 }
 nav {
-    width: 100%; /* Javítva a teljes szélességre */
+    width: 100%;
     height: 80px;
     background-color: #3f3f3f;
     border-bottom: 2px solid var(--gray-border);
@@ -167,7 +176,7 @@ nav {
     align-items: center;
     padding: 0 20px;
     gap: 20px;
-    box-sizing: border-box; /* Hogy a padding ne nyújtsa túl */
+    box-sizing: border-box;
 }
 #logo {
     width: 70px;
@@ -196,7 +205,6 @@ nav {
     background-color:black;
 }
 
-/* ÚJ: Profil menü stílusok az index.php alapján */
 .profile-menu {
     position: relative;
     display: inline-block;
@@ -529,6 +537,19 @@ if ($result && $result->num_rows > 0) {
         $kiadott = ($row['kiadott'] === 'igen');
         $cardClass = $kiadott ? 'car-card kiadott' : 'car-card';
 
+        // JAVÍTVA: Dátum formázása magyar formátumban
+        $kiadva_info = "";
+        if ($kiadott) {
+            if (!empty($row['kiadva_datum'])) {
+                $datum = date('Y. m. d.', strtotime($row['kiadva_datum']));
+                $kiadva_info = "<strong>KIADOTT</strong><br><small>(Visszaérkezik: {$datum})</small>";
+            } else {
+                $kiadva_info = "<strong>KIADOTT</strong>";
+            }
+        } else {
+            $kiadva_info = "Telefon: " . htmlspecialchars($row['telefon']);
+        }
+
         echo "
         <div class='{$cardClass}'>
             <div class='car-image'>
@@ -561,7 +582,7 @@ if ($result && $result->num_rows > 0) {
             </div>
             <div class='car-price'>
                 <p class='owner'>Tulajdonos: ".htmlspecialchars($row['tulaj_nev'] ?? 'Ismeretlen')."</p>
-                <p class='owner'>".($kiadott ? "<strong>KIADOTT</strong>" : "Telefon: ".htmlspecialchars($row['telefon']))."</p>
+                <p class='owner'>{$kiadva_info}</p>
                 <div class='price'>".intval($row['ar/nap'])." Ft</div>
                 <div class='perday'>/ nap</div>" .
                 (!$kiadott ? "<a href='berles.php?id=".$row['ItemsID']."' class='rent-btn'>Bérlés</a>" : "") ."
@@ -579,7 +600,6 @@ $conn->close();
 </div>
 
 <script>
-// ÚJ: Legördülő menü kezelése
 function toggleDropdown() {
     const menu = document.getElementById("dropdown");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
