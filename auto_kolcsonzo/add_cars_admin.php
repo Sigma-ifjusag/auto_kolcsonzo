@@ -104,24 +104,47 @@ body{
     color:var(--text-dark);
     margin:0;padding:30px;
 }
+/* === GOMBOK SOR === */
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.left-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.right-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: var(--orange);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all .2s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.btn:hover {
+    background-color: var(--orange-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 h1{
     color:var(--orange);
     margin-bottom:20px;
-}
-.back-btn{
-    display:inline-block;
-    margin-bottom:20px;
-    padding:10px 15px;
-    background-color:var(--orange);
-    color:#fff;
-    text-decoration:none;
-    border-radius:6px;
-    font-weight:bold;
-    transition:all .2s ease;
-}
-.back-btn:hover{
-    background-color:var(--orange-light);
-    transform:translateY(-1px);
+    clear: both;
 }
 .success{
     background:#e6f4ea;
@@ -225,7 +248,17 @@ function toggleEdit(id){const form=document.getElementById('edit-'+id);const arr
 </head>
 <body>
 
-<a href="kezdolap" class="back-btn">Vissza a főoldalra</a>
+<!-- === GOMBOK SOR (BAL ÉS JOBB OLDALI GOMBOK) === -->
+<div class="button-row">
+    <div class="left-buttons">
+        <a href="kezdolap" class="btn">Vissza a főoldalra</a>
+    </div>
+    <div class="right-buttons">
+        <a href="osszes_berles.php" class="btn">Összes bérlés</a>
+    </div>
+</div>
+
+<!-- === CÍM A GOMBOK ALATT === -->
 <h1>Admin – Autók kezelése</h1>
 
 <?php if ($uzenet): ?><div class="success"><?= $uzenet ?></div><?php endif; ?>
