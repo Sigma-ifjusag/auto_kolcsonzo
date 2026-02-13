@@ -469,33 +469,33 @@ nav {
 </head>
 <body>
     <nav>
-        <a href="index.php">
+        <a href="kezdolap">
             <img id="logo" src="images/logo3.png">
         </a>
-        <div class="nav-links">
-            <a href="szemelygepauto">Személygépautó</a>
-            <a href="haszonauto">Haszonautó</a>
-            <a href="munkagep">Munkagép</a>
-            <a id="activated-btn">Motorkerékpár</a>
-            <a href="egyeb">Egyéb</a>
-        </div>
+    <div class="nav-links">
+        <a href="szemelygepauto">Személygépautó</a>
+        <a href="haszonauto">Haszonautó</a>
+        <a href="munkagep">Munkagép</a>
+        <a id="activated-btn">Motorkerékpár</a>
+        <a href="egyeb">Egyéb</a>
+    </div>
 
         <?php if (!isset($_SESSION['userid'])): ?>
-            <button id="loginBtn" onclick="location.href='login.php'">
+            <button id="loginBtn" onclick="location.href='bejelentkezes'">
                 Bejelentkezés
             </button>
         <?php else: ?>
             <div class="profile-menu">
                 <img src="<?= htmlspecialchars($profilePic) ?>" class="profile-icon" onclick="toggleDropdown()">
                 <div id="dropdown" class="dropdown-content">
-                    <a href="profile_picture.php">Profilkép változtatása</a>
-                    <a href="foglalasok.php">Foglalásaim</a>
+                    <a href="profil-kep">Profilkép változtatása</a>
+                    <a href="foglalasok">Foglalásaim</a>
                 <?php if ($_SESSION['jogosultsag'] == 1): ?>
-                    <a href="add_cars_admin.php">Összes kocsi</a>
+                    <a href="admin-felulet">Összes kocsi</a>
                 <?php else: ?>
-                    <a href="add_cars_user.php">Autóim</a>
+                    <a href="auto-hozzaadas">Autóim</a>
                 <?php endif; ?>
-                    <a href="logout.php">Kijelentkezés</a>
+                    <a href="kijelentkezes">Kijelentkezés</a>
             </div>
             </div>
         <?php endif; ?>
@@ -595,7 +595,7 @@ if ($result && $result->num_rows > 0) {
                 " . (!$kiadott ? "<p class='owner'>Telefon: ".htmlspecialchars($row['telefon'])."</p>" : "") . "
                 <div class='price'>".intval($row['ar/nap'])." Ft</div>
                 <div class='perday'>/ nap</div>" .
-                (!$kiadott ? "<a href='berles.php?id=".$row['ItemsID']."' class='rent-btn'>Bérlés</a>" : "") ."
+                (!$kiadott ? "<a href='auto-berles?id=".$row['ItemsID']."' class='rent-btn'>Bérlés</a>" : "") ."
             </div>
         </div>
         ";
