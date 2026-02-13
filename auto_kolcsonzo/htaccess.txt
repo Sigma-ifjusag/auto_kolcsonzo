@@ -1,0 +1,44 @@
+RewriteEngine On
+RewriteBase /auto_kolcsonzo/
+
+# Ha a kérés egy létező könyvtárra irányul, ne csináljunk semmit
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Ha a kérés egy léteő fájlra irányul (kép, css, js stb.), ne csináljunk semmit
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+################################################################
+# 1. SZÉP URL-ek (Alias-ok)
+################################################################
+RewriteRule ^kezdolap$ index.php [L,QSA]
+RewriteRule ^szemelygepauto$ szemelygepauto.php [L,QSA]
+RewriteRule ^haszonauto$ haszonauto.php [L,QSA]
+RewriteRule ^munkagep$ munkagep.php [L,QSA]
+RewriteRule ^motorkerekpar$ motorkerekpar.php [L,QSA]
+RewriteRule ^egyeb$ egyeb.php [L,QSA]
+RewriteRule ^regisztracio$ register.php [L,QSA]
+RewriteRule ^bejelentkezes$ login.php [L,QSA]
+RewriteRule ^kijelentkezes$ logout.php [L,QSA]
+RewriteRule ^auto-hozzaadas$ add_cars_user.php [L,QSA]          # JAVÍTVA
+RewriteRule ^admin-felulet$ add_cars_admin.php [L,QSA]
+RewriteRule ^auto-berles$ berles.php [L,QSA]
+RewriteRule ^foglalasok$ foglalasok.php [L,QSA]
+RewriteRule ^profil-kep$ profile_picture.php [L,QSA]
+
+
+
+################################################################
+# 3. ÁLTALÁNOS SZABÁLY (ha a fentiek egyike sem illett rá)
+################################################################
+# Ha beírják: 'valami', és létezik 'valami.php', akkor azt szolgálja ki
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/.]+)$ $1.php [L,QSA]
+
+################################################################
+# 4. KIEGÉSZÍTŐ: 301 ÁTIRÁNYÍTÁS .php-ről a szép URL-re (SEO)
+################################################################
+# Ha valaki a régi .php-s linket nyitja meg (pl. szemelygepauto.php), átirányítjuk a szép verzióra (pl. szemelygepauto)
+RewriteCond %{THE_REQUEST} \s/auto_kolcsonzo/([^.]+)\.php[\s?] [NC]
+RewriteRule ^ %1 [R=301,L]
