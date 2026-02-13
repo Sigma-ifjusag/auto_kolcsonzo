@@ -386,7 +386,7 @@ nav {
 
         <div id="dropdown" class="dropdown-content">
             <a href="profil-kep">Profilkép változtatása</a>
-
+            <a href="foglalasok">Foglalásaim</a>
             <?php if ($_SESSION['jogosultsag'] == 1): ?>
                 <a href="admin-felulet">Összes kocsi</a>
             <?php else: ?>
