@@ -36,11 +36,10 @@ $sql = "SELECT items.*, users.name AS tulaj_nev,
         FROM items 
         LEFT JOIN users ON users.UserID = items.UserID
         LEFT JOIN (
-            SELECT ItemsID, meddig 
+            SELECT ItemsID, MAX(meddig) as meddig
             FROM foglalas 
             WHERE elvitte = 'nem' 
-            ORDER BY meddig DESC 
-            LIMIT 1
+            GROUP BY ItemsID
         ) AS foglalas ON items.ItemsID = foglalas.ItemsID";
 
 if ($where) $sql .= " WHERE " . implode(" AND ", $where);
@@ -588,7 +587,7 @@ if ($result && $result->num_rows > 0) {
                     <div><strong>Súly:</strong> ".intval($row['suly'])." kg</div>
                 </div>
                 <p class='plate'>Rendszám: ".htmlspecialchars($row['R/U'])."</p>
-                " . ($kiadott ? "<p class='visszaerkezik'>Visszaérkezik: {$datum}</p>" : "") . "
+                " . ($kiadott && !empty($row['kiadva_datum']) ? "<p class='visszaerkezik'>Visszaérkezik: " . date('Y. m. d.', strtotime($row['kiadva_datum'])) . "</p>" : "") . "
 
             </div>
             <div class='car-price'>

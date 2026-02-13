@@ -36,11 +36,10 @@ $sql = "SELECT items.*, users.name AS tulaj_nev,
         FROM items 
         LEFT JOIN users ON users.UserID = items.UserID
         LEFT JOIN (
-            SELECT ItemsID, meddig 
+            SELECT ItemsID, MAX(meddig) as meddig
             FROM foglalas 
             WHERE elvitte = 'nem' 
-            ORDER BY meddig DESC 
-            LIMIT 1
+            GROUP BY ItemsID
         ) AS foglalas ON items.ItemsID = foglalas.ItemsID";
 
 if ($where) $sql .= " WHERE " . implode(" AND ", $where);
@@ -126,6 +125,15 @@ button {
 .car-card:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transform: translateY(-2px);
+}
+.visszaerkezik {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background-color: #ffe5cc;
+    border-left: 4px solid orange;
+    font-weight: bold;
+    color: #cc5500;
+    border-radius: 4px;
 }
 .car-image {
     width: 200px;
@@ -246,8 +254,8 @@ nav {
     color: white;
 }
 #loginBtn {
+    margin-bottom: 20px; 
     padding: 10px 20px;
-    margin-bottom: 20px;
     font-size: 16px;
     background-color: var(--orange);
     color: #fff;
@@ -538,13 +546,11 @@ if ($result && $result->num_rows > 0) {
         $imagesJson = json_encode($images);
         $kiadott = ($row['kiadott'] === 'igen');
         $cardClass = $kiadott ? 'car-card kiadott' : 'car-card';
-
-        // JAVÍTVA: Dátum formázása magyar formátumban
         $kiadva_info = "";
         if ($kiadott) {
             if (!empty($row['kiadva_datum'])) {
                 $datum = date('Y. m. d.', strtotime($row['kiadva_datum']));
-                $kiadva_info = "<strong>KIADOTT</strong><br><small>(Visszaérkezik: {$datum})</small>";
+                $kiadva_info = "<strong>KIADOTT</strong><br>(Visszaérkezik: {$datum})";
             } else {
                 $kiadva_info = "<strong>KIADOTT</strong>";
             }
@@ -581,10 +587,12 @@ if ($result && $result->num_rows > 0) {
                     <div><strong>Súly:</strong> ".intval($row['suly'])." kg</div>
                 </div>
                 <p class='plate'>Rendszám: ".htmlspecialchars($row['R/U'])."</p>
+                " . ($kiadott && !empty($row['kiadva_datum']) ? "<p class='visszaerkezik'>Visszaérkezik: " . date('Y. m. d.', strtotime($row['kiadva_datum'])) . "</p>" : "") . "
+
             </div>
             <div class='car-price'>
                 <p class='owner'>Tulajdonos: ".htmlspecialchars($row['tulaj_nev'] ?? 'Ismeretlen')."</p>
-                <p class='owner'>{$kiadva_info}</p>
+                " . (!$kiadott ? "<p class='owner'>Telefon: ".htmlspecialchars($row['telefon'])."</p>" : "") . "
                 <div class='price'>".intval($row['ar/nap'])." Ft</div>
                 <div class='perday'>/ nap</div>" .
                 (!$kiadott ? "<a href='berles.php?id=".$row['ItemsID']."' class='rent-btn'>Bérlés</a>" : "") ."
