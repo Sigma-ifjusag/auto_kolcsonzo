@@ -91,17 +91,6 @@ function sendRentalConfirmation($cimzett_email, $nev, $car, $mikortol, $meddig, 
                             <p style="margin:10px 0 0 0; font-size:24px; color:#ff8102; font-weight:bold;">VÉGÖSSZEG: ' . number_format($vegosszeg, 0, ',', ' ') . ' Ft</p>
                         </div>
                     </div>
-                    
-                    <div style="background-color:#e7f3fe; border:1px solid #b8daff; padding:15px; border-radius:4px; margin:25px 0;">
-                        <p style="margin:0; color:#004085; font-weight:bold;">Fontos tudnivalók:</p>
-                        <ul style="margin:10px 0 0 0; color:#004085;">
-                            <li style="margin-bottom:5px;">Az autó átvételekor személyazonosító okmány és vezetői engedély szükséges</li>
-                            <li style="margin-bottom:5px;">A bérlés kezdetekor kaució fizetendő</li>
-                            <li style="margin-bottom:5px;">Késedelmes visszahozatal esetén pótdíj felszámításra kerül</li>
-                            <li style="margin-bottom:5px;">Foglalás módosítását vagy lemondását jelezze ügyfélszolgálatunkon</li>
-                        </ul>
-                    </div>
-                    
                     <div style="text-align:center; margin-top:30px;">
                         <a href="http://localhost/auto_kolcsonzo/foglalasok" 
                            style="display:inline-block; background-color:#ff8102; color:#ffffff; padding:12px 30px; 
