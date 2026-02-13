@@ -82,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
             
             $siker = "Sikeres bérlés! Az autó lefoglalva: $mikortol - $meddig";
             if ($email_sikeres) {
-                $siker .= "<br>📧 Foglalási visszaigazolást küldtünk az e-mail címedre!";
+                $siker .= "<br> Foglalási visszaigazolást küldtünk az e-mail címedre!";
             } else {
-                $siker .= "<br>⚠️ A visszaigazoló email küldése nem sikerült, de a foglalás érvényes!";
+                $siker .= "<br> A visszaigazoló email küldése nem sikerült, de a foglalás érvényes!";
             }
             $car['kiadott'] = 'igen'; // Hogy az űrlap eltűnjön az oldalon
             
@@ -113,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
         .hiba { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         input[type="date"] { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
         .email-icon { margin-right: 5px; }
+        #f-v-btn{ font-weight: bold; background: #ff8102; color: white; border: none; padding: 5px; text-decoration: none; cursor: pointer; width: 100%;border-radius: 6px; transition: 0.3s; }
     </style>
 </head>
 <body>
@@ -126,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
 
     <?php if (isset($siker)): ?>
         <div class='msg siker'><?= $siker ?></div>
-        <p><a href="index.php">Vissza a böngészéshez</a> | <a href="foglalasok.php">Saját foglalásaim</a></p>
+        <p><a id="f-v-btn" href="index.php">Vissza a böngészéshez</a> | <a id="f-v-btn" href="foglalasok.php">Saját foglalásaim</a></p>
     <?php elseif (isset($hiba)): ?>
         <div class='msg hiba'><?= $hiba ?></div>
     <?php endif; ?>
@@ -148,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
         </form>
     <?php elseif ($car['kiadott'] == 'igen' && !isset($siker)): ?>
         <div class="msg hiba">Sajnáljuk, ezt az autót már elvitték.</div>
-        <a href="index.php">Keress másik autót</a>
+        <a id="f-v-btn" href="index.php">Keress másik autót</a>
     <?php endif; ?>
 </div>
 
