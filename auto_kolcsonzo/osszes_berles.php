@@ -256,10 +256,6 @@ $result = $conn->query($sql);
             <span class="stat-label">Bérlők száma:</span>
             <span class="stat-value"><?= count($unique_users) ?></span>
         </div>
-        <div class="stat-item">
-            <span class="stat-label">Kiadott autók:</span>
-            <span class="stat-value"><?= count($unique_cars) ?></span>
-        </div>
     </div>
     
     <div class="foglalas-container">
