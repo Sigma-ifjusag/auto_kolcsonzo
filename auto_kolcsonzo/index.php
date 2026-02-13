@@ -363,19 +363,19 @@ nav {
 </head>
 <body>
 <nav>
-    <a href="index.php">
+    <a href="kezdolap">
         <img id="logo" src="images/logo3.png" alt="Logo">
     </a>
     <div class="nav-links">
-        <a href="szemelygepauto.php">Személygépautó</a>
-        <a href="haszonauto.php">Haszonautó</a>
-        <a href="munkagep.php">Munkagép</a>
-        <a href="motorkerekpar.php">Motorkerékpár</a>
-        <a href="egyeb.php">Egyéb</a>
+        <a href="szemelygepauto">Személygépautó</a>
+        <a href="haszonauto">Haszonautó</a>
+        <a href="munkagep">Munkagép</a>
+        <a href="motorkerekpar">Motorkerékpár</a>
+        <a href="egyeb">Egyéb</a>
     </div>
     <?php if (!isset($_SESSION['userid'])): ?>
 
-    <button id="loginBtn" onclick="location.href='login.php'">
+    <button id="loginBtn" onclick="location.href='bejelentkezes'">
         Bejelentkezés
     </button>
 
@@ -385,15 +385,17 @@ nav {
         <img src="<?= htmlspecialchars($profilePic) ?>" class="profile-icon" onclick="toggleDropdown()">
 
         <div id="dropdown" class="dropdown-content">
-    <a href="profile_picture.php">Profilkép változtatása</a>
-    <a href="foglalasok.php">Foglalásaim</a>
-    <?php if ($_SESSION['jogosultsag'] == 1): ?>
-        <a href="add_cars_admin.php">Összes kocsi</a>
-    <?php else: ?>
-        <a href="add_cars_user.php">Autóim</a>
-    <?php endif; ?>
-    <a href="logout.php">Kijelentkezés</a>
-</div>
+            <a href="profil-kep">Profilkép változtatása</a>
+
+            <?php if ($_SESSION['jogosultsag'] == 1): ?>
+                <a href="admin-felulet">Összes kocsi</a>
+            <?php else: ?>
+                <a href="auto-hozzaadas">Autóim</a>
+            <?php endif; ?>
+
+            <a href="kijelentkezes">Kijelentkezés</a> 
+        </div>
+    </div>
 
 <?php endif; ?>
 </nav>

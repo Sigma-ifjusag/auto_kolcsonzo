@@ -103,7 +103,7 @@ function sendRentalConfirmation($cimzett_email, $nev, $car, $mikortol, $meddig, 
                     </div>
                     
                     <div style="text-align:center; margin-top:30px;">
-                        <a href="http://localhost/auto_kolcsonzo/foglalasok.php" 
+                        <a href="http://localhost/auto_kolcsonzo/foglalasok" 
                            style="display:inline-block; background-color:#ff8102; color:#ffffff; padding:12px 30px; 
                                   text-decoration:none; border-radius:4px; font-weight:bold; margin:0 5px;">
                             Saját foglalásaim

@@ -473,10 +473,10 @@ nav {
             <img id="logo" src="images/logo3.png">
         </a>
         <div class="nav-links">
-            <a href="szemelygepauto.php">Személygépautó</a>
-            <a href="haszonauto.php">Haszonautó</a>
-            <a href="munkagep.php">Munkagép</a>
-            <a href="motorkerekpar.php">Motorkerékpár</a>
+            <a href="szemelygepauto">Személygépautó</a>
+            <a href="haszonauto">Haszonautó</a>
+            <a href="munkagep">Munkagép</a>
+            <a href="motorkerekpar">Motorkerékpár</a>
             <a id="activated-btn">Egyéb</a>
         </div>
 

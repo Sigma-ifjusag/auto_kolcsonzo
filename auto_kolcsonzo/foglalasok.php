@@ -3,7 +3,7 @@ session_start();
 include 'config.php';
 
 if (!isset($_SESSION['userid'])) {
-    header("Location: login.php");
+    header("Location: bejelentkezes");
     exit();
 }
 
@@ -183,7 +183,7 @@ $foglalasok = $stmt->get_result();
     </style>
 </head>
 <body>
-    <a href="index.php" class="back-btn">Vissza a főoldalra</a>
+    <a href="kezdolap" class="back-btn">Vissza a főoldalra</a>
     
     <h1>Foglalásaim</h1>
     
@@ -247,7 +247,7 @@ $foglalasok = $stmt->get_result();
                 <p style="font-size: 24px; margin-bottom: 10px;"></p>
                 <h2>Még nincsenek foglalásaid</h2>
                 <p>Böngéssz az autók között és foglald le a számodra legmegfelelőbb járművet!</p>
-                <a href="index.php" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: var(--orange); color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Autók keresése →</a>
+                <a href="kezdolap" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: var(--orange); color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Autók keresése →</a>
             </div>
         <?php endif; ?>
     </div>

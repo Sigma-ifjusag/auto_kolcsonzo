@@ -3,7 +3,7 @@ session_start();
 include 'config.php';
 
 if (!isset($_SESSION['userid']) || $_SESSION['jogosultsag'] != 0) {
-    header("Location: logout.php");
+    header("Location: kijelentkezes");
     exit();
 }
 
@@ -250,7 +250,7 @@ function toggleEdit(id) {
 </head>
 <body>
 
-<a href="index.php" class="back-btn">Vissza a főoldalra</a>
+<a href="kezdolap" class="back-btn">Vissza a főoldalra</a>
 
 <h1>Saját autóim</h1>
 

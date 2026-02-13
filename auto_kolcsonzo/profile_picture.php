@@ -3,7 +3,7 @@ session_start();
 include 'config.php';
 
 if (!isset($_SESSION['userid'])) {
-    header("Location: login.php");
+    header("Location: bejelentkezes");
     exit;
 }
 
@@ -160,7 +160,7 @@ button:hover {
 
     <button type="submit">Feltöltés</button>
 
-    <a href="index.php" class="back-link">Vissza a főoldalra</a>
+    <a href="kezdolap" class="back-link">Vissza a főoldalra</a>
 
 </form>
 

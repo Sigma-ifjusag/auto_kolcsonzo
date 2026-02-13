@@ -4,11 +4,11 @@ include 'config.php';
 require_once 'mail.php'; // vagy a pontos elérési út
 
 if (!isset($_SESSION['userid'])) {
-    header("Location: login.php");
+    header("Location: bejelentkezes");
     exit();
 }
 if (!isset($_GET['id'])) {
-    die("Nincs kiválasztott autó. <a href='index.php'>Vissza a főoldalra</a>");
+    die("Nincs kiválasztott autó. <a href='kezdolap'>Vissza a főoldalra</a>");
 }
 
 $itemsID = intval($_GET['id']);
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
 
     <?php if (isset($siker)): ?>
         <div class='msg siker'><?= $siker ?></div>
-        <p><a id="f-v-btn" href="index.php">Vissza a böngészéshez</a> | <a id="f-v-btn" href="foglalasok.php">Saját foglalásaim</a></p>
+        <p><a id="f-v-btn" href="kezdolap">Vissza a böngészéshez</a> | <a id="f-v-btn" href="foglalasok">Saját foglalásaim</a></p>
     <?php elseif (isset($hiba)): ?>
         <div class='msg hiba'><?= $hiba ?></div>
     <?php endif; ?>
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['berles_inditasa'])) {
         </form>
     <?php elseif ($car['kiadott'] == 'igen' && !isset($siker)): ?>
         <div class="msg hiba">Sajnáljuk, ezt az autót már elvitték.</div>
-        <a id="f-v-btn" href="index.php">Keress másik autót</a>
+        <a id="f-v-btn" href="kezdolap">Keress másik autót</a>
     <?php endif; ?>
 </div>
 

@@ -39,9 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['jogosultsag'] = $user['jogosultsag'];
 
                 if ($user['jogosultsag'] == 1) {
-                    header("Location: add_cars_admin.php");
+                    header("Location: admin-felulet");
                 } else {
-                    header("Location: add_cars_user.php");
+                    header("Location: auto-hozzaadas");
                 }
                 exit;
 
@@ -161,7 +161,7 @@ a:hover {
 </head>
 
 <body>
-<form method="POST" action="login.php">
+<form method="POST" action="bejelentkezes">
 
     <!-- SIKER ÜZENET A CÍM FÖLÖTT -->
     <?php if ($siker): ?>
@@ -182,7 +182,7 @@ a:hover {
 
     <button type="submit">Bejelentkezés</button>
 
-    <p>Nem vagy még tag? <a href="register.php">Regisztráció</a></p>
+    <p>Nem vagy még tag? <a href="regisztracio">Regisztráció</a></p>
 </form>
 </body>
 </html>

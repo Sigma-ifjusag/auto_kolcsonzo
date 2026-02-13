@@ -3,7 +3,7 @@ session_start();
 include 'config.php';
 
 if (!isset($_SESSION['userid']) || $_SESSION['jogosultsag'] != 1) {
-    header("Location: logout.php");
+    header("Location: kijelentkezes");
     exit();
 }
 
@@ -225,7 +225,7 @@ function toggleEdit(id){const form=document.getElementById('edit-'+id);const arr
 </head>
 <body>
 
-<a href="index.php" class="back-btn">Vissza a főoldalra</a>
+<a href="kezdolap" class="back-btn">Vissza a főoldalra</a>
 <h1>Admin – Autók kezelése</h1>
 
 <?php if ($uzenet): ?><div class="success"><?= $uzenet ?></div><?php endif; ?>

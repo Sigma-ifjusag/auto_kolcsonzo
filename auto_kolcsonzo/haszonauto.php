@@ -473,11 +473,11 @@ nav {
             <img id="logo" src="images/logo3.png">
         </a>
         <div class="nav-links">
-            <a href="szemelygepauto.php">Személygépautó</a>
+            <a href="szemelygepauto">Személygépautó</a>
             <a id="activated-btn">Haszonautó</a>
-            <a href="munkagep.php">Munkagép</a>
-            <a href="motorkerekpar.php">Motorkerékpár</a>
-            <a href="egyeb.php">Egyéb</a>
+            <a href="munkagep">Munkagép</a>
+            <a href="motorkerekpar">Motorkerékpár</a>
+            <a href="egyeb">Egyéb</a>
         </div>
 
         <?php if (!isset($_SESSION['userid'])): ?>

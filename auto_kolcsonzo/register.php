@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p>Sikeresen regisztráltál a RideOn Autókölcsönző rendszerébe.</p>
                         <p>Most már bejelentkezhetsz és foglalhatsz autót.</p>
                         <br>
-                        <a href='http://localhost/auto_kolcsonzo/login.php' 
+                        <a href='http://localhost/auto_kolcsonzo/bejelentkezes' 
                            style='background:#2b2b2b; color:white; padding:10px 20px; text-decoration:none; border-radius:5px;'>
                            Bejelentkezés
                         </a>
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Ha email hiba van, a regisztráció akkor is sikeres
                 }
 
-                header("Location: login.php?reg=ok");
+                header("Location: bejelentkezes?reg=ok");
                 exit;
 
             } else {
@@ -198,7 +198,7 @@ a:hover {
 }
     </style>
 <body>
-    <form method="POST" action="register.php">
+    <form method="POST" action="regisztracio">
         <h2>Regisztráció</h2>
         <label>Név:</label>
         <input type="text" name="name" required><br>
@@ -219,7 +219,7 @@ a:hover {
         <input type="password" name="password2" required><br>
         
         <button type="submit">Regisztrálok</button><br><br>
-            <p>Van fiókod? <a href="login.php">Bejelentkezés</a></p>
+            <p>Van fiókod? <a href="bejelentkezes">Bejelentkezés</a></p>
     </form>
     <script>
         document.querySelector('form').addEventListener('submit', function(e) {
