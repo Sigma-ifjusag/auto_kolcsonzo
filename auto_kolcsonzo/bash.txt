@@ -1,0 +1,20 @@
+# 1. Klónozd vagy másold a fájlokat
+# 2. Navigálj a projekt gyökérkönyvtárába
+cd rideon-autokolcsonzo
+
+# 3. Hozd létre a szükséges könyvtárakat
+mkdir -p src/uploads src/images docker/mysql
+
+# 4. Másold a PHP fájlokat a src/ könyvtárba
+# cp /path/to/your/files/*.php src/
+# cp -r /path/to/your/images src/
+# cp -r /path/to/your/uploads src/
+
+# 5. Másold a kocsika.sql tartalmát a docker/mysql/init.sql fájlba
+# cp kocsika.sql docker/mysql/init.sql
+
+# 6. Indítsd el a konténereket
+docker-compose up -d
+
+# 7. Ellenőrizd, hogy futnak-e
+docker-compose ps
